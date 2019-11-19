@@ -1,0 +1,23 @@
+{
+    "name": "@bookstore/server",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/main.js",
+    "scripts": {
+        "test": "jest",
+        "start": "node src/main.js",
+        "dev": "nodemon src/main.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1",
+        "mysql2": "^2.0.0",
+        "body-parser": "^1.19.0",
+        "pretty-error": "^2.1.1",
+        "jest": "^24.9.0",
+        "cors": "^2.8.5",
+        "supertest": "^4.0.2",
+        "nodemon": "^1.19.4"
+    }
+}
