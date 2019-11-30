@@ -4,7 +4,7 @@ import App from "./containers/app";
 import { Provider } from "react-redux";
 import configureStore from "./store";
 
-const store = configureStore();
+const store = configureStore(["auth"]);
 
 ReactDOM.render(
     <Provider store={store}>
