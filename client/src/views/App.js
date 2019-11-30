@@ -10,29 +10,30 @@ import Container from "@material-ui/core/Container";
 import Dashboard from "containers/dashboard";
 import PrivateRoute from "components/PrivateRoute";
 
+const styles = {
+    global: css`
+        html,
+        body,
+        #root,
+        div[role="group"] {
+            width: 100%;
+            height: 100%;
+        }
+    `,
+    container: css`
+        height: calc(100% - 64px);
+        max-width: 100%;
+        padding: 0;
+    `,
+};
+
 export default function App(props) {
     const { logged } = props;
 
     return (
         <CssBaseline>
-            <Global
-                styles={css`
-                    html,
-                    body,
-                    #root,
-                    div[role="group"] {
-                        width: 100%;
-                        height: 100%;
-                    }
-                `}
-            />
-            <Container
-                css={css`
-                    height: calc(100% - 64px);
-                    max-width: 100%;
-                    padding: 0;
-                `}
-            >
+            <Global styles={styles.global} />
+            <Container css={styles.container}>
                 <Router>
                     <Login path="login" />
                     <Register path="register" />

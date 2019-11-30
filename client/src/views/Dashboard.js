@@ -73,7 +73,7 @@ export default function Dashboard(props) {
                     </List>
                 </Drawer>
                 <Router>
-                    <BookList path="books" />
+                    <BookList path="books/*" />
                 </Router>
             </Layout>
         </React.Fragment>

@@ -1,6 +1,6 @@
 /** @jsx jsx */
 
-import { jsx, css } from "@emotion/core";
+import { css, jsx } from "@emotion/core";
 import { Table } from "@material-ui/core";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
@@ -9,39 +9,43 @@ import TableBody from "@material-ui/core/TableBody";
 import Layout from "components/Layout";
 import { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
+import { Link, Router } from "@reach/router";
+import BookProfile from "views/BookProfile";
+import ky from "ky";
 
 const styles = {
     fw600: css`
         font-weight: 600;
     `,
+    layout: css`
+        padding: 24px;
+    `,
+    paper: css`
+        width: 100%;
+    `,
+    tableRow: css`
+        cursor: pointer;
+        text-decoration: none;
+
+        :hover {
+            background: #eeeeee;
+        }
+    `,
 };
 
-export default function BookList() {
+function BookList() {
     const [books, setBooks] = useState([]);
 
     useEffect(() => {
-        fetch(`${process.env.REACT_APP_API}/books`)
-            .then(async response => {
-                if (!response.ok) {
-                    return console.error(response.statusText);
-                }
-                const json = await response.json();
-                setBooks(json);
-            })
+        ky.get(`${process.env.REACT_APP_API}/books`)
+            .then(response => response.json())
+            .then(json => setBooks(json))
             .catch(console.error);
     }, []);
 
     return (
-        <Layout
-            css={css`
-                padding: 24px;
-            `}
-        >
-            <Paper
-                css={css`
-                    width: 100%;
-                `}
-            >
+        <Layout css={styles.layout}>
+            <Paper css={styles.paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
@@ -54,14 +58,10 @@ export default function BookList() {
                     <TableBody>
                         {books.map(book => (
                             <TableRow
-                                css={css`
-                                    cursor: pointer;
-
-                                    :hover {
-                                        background: #eeeeee;
-                                    }
-                                `}
+                                component={Link}
+                                css={styles.tableRow}
                                 key={book.id_book}
+                                to={`${book.id_book}`}
                             >
                                 <TableCell>{book.id_book}</TableCell>
                                 <TableCell>{book.title}</TableCell>
@@ -72,6 +72,11 @@ export default function BookList() {
                     </TableBody>
                 </Table>
             </Paper>
+            <Router>
+                <BookProfile path=":id" />
+            </Router>
         </Layout>
     );
 }
+
+export default BookList;
