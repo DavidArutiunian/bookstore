@@ -1,4 +1,4 @@
-function safe(fn) {
+module.exports = function safe(fn) {
     return async (req, res, next, ...rest) => {
         try {
             await fn(req, res, next, ...rest);
@@ -6,6 +6,4 @@ function safe(fn) {
             next(error);
         }
     };
-}
-
-module.exports = safe;
+};

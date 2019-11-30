@@ -1,6 +1,6 @@
-const app = require("app");
 const request = require("supertest");
-const getConnection = require("db");
+const app = require("../app");
+const getConnection = require("../db");
 
 afterAll(async () => {
     const conn = await getConnection();

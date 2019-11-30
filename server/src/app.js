@@ -1,21 +1,29 @@
 const express = require("express");
-const books = require("routes/books");
 const cors = require("cors");
 const BodyParser = require("body-parser");
 const PrettyError = require("pretty-error");
 
 const app = express();
 
+// CORS setup
 app.use(cors());
+
+// Middleware for parsing HTTP body
 app.use(BodyParser.urlencoded({ extended: true }));
 app.use(BodyParser.json());
 
-app.use("/api/books", books);
+// Book API
+const bookRouter = require("./routes/books");
+const bookRepository = require("./repositories/book");
+const bookService = require("./services/books")(bookRepository);
+app.use("/api/books", bookRouter(bookService));
 
+// Pretty errors
 const pe = new PrettyError();
 pe.skipNodeFiles();
 pe.skipPackage("express");
 
+// Pretty render uncaught errors
 app.use((error, req, res, next) => {
     process.stderr.write(pe.render(error));
     next();
