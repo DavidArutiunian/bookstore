@@ -5,6 +5,6 @@ import bookListReducer from "./containers/book-list/reducer";
 export default function createReducer() {
     return combineReducers({
         auth: authReducer,
-        books: bookListReducer,
+        booksList: bookListReducer,
     });
 }

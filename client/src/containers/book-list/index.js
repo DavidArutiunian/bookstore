@@ -3,9 +3,9 @@ import { doOnBooksFetch } from "./actions";
 import BookList from "views/BookList";
 
 const mapStateToProps = state => ({
-    loading: state.books.loading,
-    error: state.books.error,
-    books: state.books.books,
+    loading: state.booksList.loading,
+    error: state.booksList.error,
+    books: state.booksList.books,
 });
 
 const mapDispatchToProps = dispatch => ({
