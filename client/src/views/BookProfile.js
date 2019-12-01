@@ -42,7 +42,16 @@ const styles = {
 };
 
 export default function BookProfile(props) {
-    const { id, book, editing, fetchBook, loading, startEditing, stopEditing } = props;
+    const {
+        id,
+        book,
+        editing,
+        fetchBook,
+        loading,
+        startEditing,
+        stopEditing,
+        handleChange,
+    } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
 
@@ -60,7 +69,9 @@ export default function BookProfile(props) {
 
     const handleEditClick = () => {
         handleMenuClose();
-        startEditing();
+        if (!editing) {
+            startEditing();
+        }
     };
 
     const handleSave = () => {
@@ -68,6 +79,8 @@ export default function BookProfile(props) {
         handleClose();
         stopEditing();
     };
+
+    const handleFieldChange = name => value => handleChange({ ...book, [name]: value });
 
     return (
         <Dialog
@@ -116,9 +129,24 @@ export default function BookProfile(props) {
                 ) : (
                     <form noValidate autoComplete="off">
                         <Grid container spacing={4}>
-                            <BookField title="Название" defaultValue={book?.title} readOnly />
-                            <BookField title="Год" defaultValue={book?.year} readOnly />
-                            <BookField title="Цена" defaultValue={book?.title} readOnly />
+                            <BookField
+                                title="Название"
+                                value={book?.title}
+                                readOnly={!editing}
+                                onChange={handleFieldChange("title")}
+                            />
+                            <BookField
+                                title="Год"
+                                value={book?.year}
+                                readOnly={!editing}
+                                onChange={handleFieldChange("year")}
+                            />
+                            <BookField
+                                title="Цена"
+                                value={book?.cost}
+                                readOnly={!editing}
+                                onChange={handleFieldChange("cost")}
+                            />
                         </Grid>
                     </form>
                 )}
@@ -165,10 +193,13 @@ BookProfile.propTypes = {
     fetchBook: PropTypes.func.isRequired,
     startEditing: PropTypes.func.isRequired,
     stopEditing: PropTypes.func.isRequired,
+    handleChange: PropTypes.func.isRequired,
 };
 
 function BookField(props) {
-    const { defaultValue, readOnly, title } = props;
+    const { value, readOnly, onChange, title } = props;
+
+    const handleChange = event => onChange(event.target.value);
 
     return (
         <React.Fragment>
@@ -176,11 +207,11 @@ function BookField(props) {
                 <Typography variant="body2">{title}</Typography>
             </Grid>
             <Grid item sm={10}>
-                <TextField
-                    placeholder={title}
-                    defaultValue={defaultValue}
-                    InputProps={{ readOnly }}
-                />
+                {readOnly ? (
+                    <TextField placeholder={title} defaultValue={value} InputProps={{ readOnly }} />
+                ) : (
+                    <TextField placeholder={title} value={value} onChange={handleChange} />
+                )}
             </Grid>
         </React.Fragment>
     );
@@ -188,6 +219,7 @@ function BookField(props) {
 
 BookField.propTypes = {
     title: PropTypes.string.isRequired,
-    defaultValue: PropTypes.oneOf([PropTypes.string, PropTypes.number]),
-    readOnly: PropTypes.bool,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    readOnly: PropTypes.bool.isRequired,
+    onChange: PropTypes.func.isRequired,
 };

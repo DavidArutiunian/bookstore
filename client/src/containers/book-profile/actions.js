@@ -3,6 +3,7 @@ import {
     BOOK_PROFILE_FETCH,
     BOOK_PROFILE_FETCH_FAIL,
     BOOK_PROFILE_FETCH_SUCCESS,
+    BOOK_PROFILE_EDIT,
     BOOK_PROFILE_EDITING_DONE,
     BOOK_PROFILE_EDITING,
 } from "./constants";
@@ -51,13 +52,26 @@ function doOnBookProfileFetchFail(error) {
 export function donOnBookProfileEditing() {
     return {
         type: BOOK_PROFILE_EDITING,
-        editing: true,
+        payload: {
+            editing: true,
+        },
     };
 }
 
 export function doOnBookProfileEditingDone() {
     return {
         type: BOOK_PROFILE_EDITING_DONE,
-        editing: false,
+        payload: {
+            editing: false,
+        },
+    };
+}
+
+export function doOnBookProfileEdit(change) {
+    return {
+        type: BOOK_PROFILE_EDIT,
+        payload: {
+            change,
+        },
     };
 }

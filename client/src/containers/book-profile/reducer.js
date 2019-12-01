@@ -4,6 +4,7 @@ import {
     BOOK_PROFILE_FETCH_SUCCESS,
     BOOK_PROFILE_EDITING,
     BOOK_PROFILE_EDITING_DONE,
+    BOOK_PROFILE_EDIT,
 } from "./constants";
 
 const initialState = {
@@ -37,6 +38,14 @@ export default function bookProfileReducer(state = initialState, action) {
             return {
                 ...state,
                 editing: action.payload.editing,
+            };
+        case BOOK_PROFILE_EDIT:
+            return {
+                ...state,
+                book: {
+                    ...state.book,
+                    ...action.payload.change,
+                },
             };
         default:
             return state;

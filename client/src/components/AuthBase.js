@@ -15,14 +15,11 @@ export default function AuthBase(props) {
     const { children, onSubmit } = props;
     const { handleSubmit, register, errors } = useForm();
 
-    const doOnSubmit = useCallback(
-        values => {
-            if (onSubmit) {
-                onSubmit(values.login, values.password);
-            }
-        },
-        [onSubmit],
-    );
+    const doOnSubmit = values => {
+        if (onSubmit) {
+            onSubmit(values.login, values.password);
+        }
+    };
 
     return (
         <form
