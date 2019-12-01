@@ -17,6 +17,20 @@ import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import { Link, Router } from "@reach/router";
 import BookList from "containers/book-list";
+import Divider from "@material-ui/core/Divider";
+
+const styles = {
+    headerGrid: css`
+        flex-grow: 1;
+        justify-content: flex-end;
+    `,
+    headerChip: css`
+        cursor: pointer;
+    `,
+    drawerList: css`
+        width: 250px;
+    `,
+};
 
 export default function Dashboard(props) {
     const { user } = props;
@@ -37,33 +51,23 @@ export default function Dashboard(props) {
                 <IconButton edge="start" color="inherit" onClick={handleDrawerOpen}>
                     <Menu />
                 </IconButton>
-                <Grid
-                    css={css`
-                        flex-grow: 1;
-                        justify-content: flex-end;
-                    `}
-                />
+                <Grid css={styles.headerGrid} />
                 <Chip
-                    css={css`
-                        cursor: pointer;
-                    `}
+                    css={styles.headerChip}
                     avatar={<Avatar>{user.login.substring(0, 1).toUpperCase()}</Avatar>}
                     label={user.login}
                 />
             </BaseHeader>
             <Layout>
                 <Drawer open={drawerOpen} onClose={handleDrawerClose}>
-                    <List
-                        css={css`
-                            width: 250px;
-                        `}
-                    >
+                    <List css={styles.drawerList}>
                         <ListItem button component={Link} to="/" onClick={handleDrawerClose}>
                             <ListItemIcon>
                                 <ArrowBack />
                             </ListItemIcon>
                             <ListItemText>На главную</ListItemText>
                         </ListItem>
+                        <Divider />
                         <ListItem button component={Link} to="books" onClick={handleDrawerClose}>
                             <ListItemIcon>
                                 <LibraryBooks />
