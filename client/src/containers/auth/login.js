@@ -4,11 +4,13 @@ import Login from "views/Login";
 
 const mapStateToProps = state => ({
     logged: state.auth.user !== null,
+    loading: state.auth.loading,
+    error: state.auth.error,
     user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-    onLogin: (login, password) => dispatch(doOnLogin(login, password)),
+    login: (login, password) => dispatch(doOnLogin(login, password)),
 });
 
 export default connect(

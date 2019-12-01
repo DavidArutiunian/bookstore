@@ -10,7 +10,7 @@ import BaseHeader from "components/BaseHeader";
 import PropTypes from "prop-types";
 
 export default function Login(props) {
-    const { onLogin, logged } = props;
+    const { logged, login } = props;
 
     useEffect(() => {
         if (logged) {
@@ -26,13 +26,16 @@ export default function Login(props) {
                 </Button>
             </BaseHeader>
             <CenteredLayout>
-                <AuthBase onSubmit={onLogin}>Вход</AuthBase>
+                <AuthBase onSubmit={login}>Вход</AuthBase>
             </CenteredLayout>
         </React.Fragment>
     );
 }
 
 Login.propTypes = {
-    onLogin: PropTypes.func,
-    logged: PropTypes.bool,
+    logged: PropTypes.bool.isRequired,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+    user: PropTypes.object.isRequired,
+    loading: PropTypes.bool.isRequired,
+    login: PropTypes.func.isRequired,
 };

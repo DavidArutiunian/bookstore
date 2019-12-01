@@ -4,11 +4,13 @@ import Register from "views/Register";
 
 const mapStateToProps = state => ({
     logged: state.auth.user !== null,
+    loading: state.auth.loading,
+    error: state.auth.error,
     user: state.auth.user,
 });
 
 const mapDispatchToProps = dispatch => ({
-    onRegister: (login, password) => dispatch(doOnRegister(login, password)),
+    register: (login, password) => dispatch(doOnRegister(login, password)),
 });
 
 export default connect(

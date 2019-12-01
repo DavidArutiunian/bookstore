@@ -17,20 +17,25 @@ export default function authReducer(state = initialState, action) {
     switch (action.type) {
         case LOGIN:
         case REGISTER:
-            return { ...state, loading: action.loading };
+            return {
+                ...state,
+                loading: action.payload.loading,
+            };
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                loading: action.loading,
-                user: { login: action.login },
+                loading: action.payload.loading,
+                user: {
+                    login: action.payload.login,
+                },
             };
         case LOGIN_FAILURE:
         case REGISTER_FAILURE:
             return {
                 ...state,
-                error: action.error,
-                loading: action.loading,
+                error: action.payload.error,
+                loading: action.payload.loading,
             };
         default:
             return state;

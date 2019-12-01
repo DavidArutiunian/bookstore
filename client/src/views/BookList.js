@@ -41,7 +41,9 @@ const styles = {
 export default function BookList(props) {
     const { fetchBooks, books, loading } = props;
 
-    useEffect(() => fetchBooks(), [fetchBooks]);
+    useEffect(() => {
+        fetchBooks();
+    }, [fetchBooks]);
 
     return (
         <Layout css={styles.layout}>
@@ -87,7 +89,7 @@ export default function BookList(props) {
 
 BookList.propTypes = {
     loading: PropTypes.bool.isRequired,
-    error: PropTypes.oneOf([PropTypes.bool, PropTypes.object]).isRequired,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     books: PropTypes.array.isRequired,
     fetchBooks: PropTypes.func.isRequired,
 };

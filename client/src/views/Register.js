@@ -10,7 +10,7 @@ import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
 
 export default function Register(props) {
-    const { onRegister, logged } = props;
+    const { logged, register } = props;
 
     useEffect(() => {
         if (logged) {
@@ -26,13 +26,16 @@ export default function Register(props) {
                 </Button>
             </BaseHeader>
             <CenteredLayout>
-                <AuthBase onSubmit={onRegister}>Регистрация</AuthBase>
+                <AuthBase onSubmit={register}>Регистрация</AuthBase>
             </CenteredLayout>
         </React.Fragment>
     );
 }
 
 Register.propTypes = {
-    onRegister: PropTypes.func,
-    logged: PropTypes.bool,
+    logged: PropTypes.bool.isRequired,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+    register: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
 };
