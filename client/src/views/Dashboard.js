@@ -16,7 +16,7 @@ import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import { Link, Router } from "@reach/router";
-import BookList from "views/BookList";
+import BookList from "containers/book-list";
 
 export default function Dashboard(props) {
     const { user } = props;
