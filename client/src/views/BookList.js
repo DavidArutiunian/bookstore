@@ -10,7 +10,7 @@ import Layout from "components/Layout";
 import { useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { Link, Router } from "@reach/router";
-import BookProfile from "views/BookProfile";
+import BookProfile from "containers/book-profile";
 import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 

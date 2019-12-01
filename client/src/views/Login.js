@@ -37,5 +37,5 @@ Login.propTypes = {
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     user: PropTypes.object.isRequired,
     loading: PropTypes.bool.isRequired,
-    login: PropTypes.func.isRequired,
+    login: PropTypes.func,
 };

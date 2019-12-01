@@ -4,7 +4,6 @@ import { css, Global, jsx } from "@emotion/core";
 import React, { useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
-import ky from "ky";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -43,19 +42,13 @@ const styles = {
 };
 
 export default function BookProfile(props) {
-    const { id } = props;
-
-    const [book, setBook] = useState(null);
-    const [editing, setEditing] = useState(false);
+    const { id, book, editing, fetchBook, loading, startEditing, stopEditing } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
-        ky.get(`${process.env.REACT_APP_API}/books/${id}`)
-            .then(response => response.json())
-            .then(json => setBook(json))
-            .catch(console.error);
-    }, [id]);
+        fetchBook(id);
+    }, [fetchBook, id]);
 
     const handleMenuClick = event => setAnchorEl(event.currentTarget);
 
@@ -67,13 +60,13 @@ export default function BookProfile(props) {
 
     const handleEditClick = () => {
         handleMenuClose();
-        setEditing(true);
+        startEditing();
     };
 
     const handleSave = () => {
         handleMenuClose();
         handleClose();
-        setEditing(false);
+        stopEditing();
     };
 
     return (
@@ -87,14 +80,14 @@ export default function BookProfile(props) {
             <Global styles={styles.global} />
             <AppBar position="static">
                 <Toolbar>
-                    {book ? (
-                        <Typography variant="h6" css={styles.flex1}>
-                            Книга №{book.id_book}
-                        </Typography>
-                    ) : (
+                    {loading ? (
                         <Grid css={styles.flex1}>
                             <Skeleton variant="rect" width={220} height={32} />
                         </Grid>
+                    ) : (
+                        <Typography variant="h6" css={styles.flex1}>
+                            Книга №{book?.id_book}
+                        </Typography>
                     )}
                     <IconButton color="inherit" onClick={handleMenuClick}>
                         <MoreVertIcon />
@@ -105,7 +98,7 @@ export default function BookProfile(props) {
                 </Toolbar>
             </AppBar>
             <DialogContent dividers={true} css={styles.dialog}>
-                {!book && (
+                {loading ? (
                     <Grid container spacing={2}>
                         <Grid item>
                             <Skeleton variant="rect" width={440} height={32} />
@@ -120,8 +113,7 @@ export default function BookProfile(props) {
                             <Skeleton variant="rect" width={440} height={32} />
                         </Grid>
                     </Grid>
-                )}
-                {book && (
+                ) : (
                     <form noValidate autoComplete="off">
                         <Grid container spacing={4}>
                             <BookField title="Название" defaultValue={book?.title} readOnly />
@@ -159,6 +151,21 @@ export default function BookProfile(props) {
         </Dialog>
     );
 }
+
+BookProfile.propTypes = {
+    loading: PropTypes.bool.isRequired,
+    editing: PropTypes.bool.isRequired,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+    book: PropTypes.shape({
+        id_book: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        cost: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired,
+    }),
+    fetchBook: PropTypes.func.isRequired,
+    startEditing: PropTypes.func.isRequired,
+    stopEditing: PropTypes.func.isRequired,
+};
 
 function BookField(props) {
     const { defaultValue, readOnly, title } = props;

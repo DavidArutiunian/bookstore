@@ -37,5 +37,5 @@ Register.propTypes = {
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     register: PropTypes.func.isRequired,
     loading: PropTypes.bool.isRequired,
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
 };
