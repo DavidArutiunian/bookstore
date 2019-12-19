@@ -11,5 +11,9 @@ module.exports = bookService => {
 
     router.get("/:id", safe(books.findById(bookService)));
 
+    router.put("/:id", safe(books.update(bookService)));
+
+    router.delete("/:id", safe(books.deleteById(bookService)));
+
     return router;
 };

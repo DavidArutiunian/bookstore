@@ -27,7 +27,20 @@ Accept: application/json
 
 ###
 
-GET http://localhost:9000/api/books/5
+GET http://localhost:9000/api/books/10
 Accept: application/json
+
+###
+
+PUT http://localhost:9000/api/books/1
+Content-Type: application/json
+
+{
+    "cost": 5000
+}
+
+###
+
+DELETE http://localhost:9000/api/books/1
 
 ###

@@ -89,4 +89,64 @@ describe("books", () => {
                 });
             });
     });
+
+    describe("update book suite", () => {
+        let id;
+
+        beforeAll(async () => {
+            const response = await request(app)
+                .post("/api/books")
+                .send({ title: "title", year: 2010, cost: 1500 })
+                .expect(200);
+            id = response.body.id;
+        });
+
+        afterAll(async () => request(app).delete(`/api/books/${id}`));
+
+        test("update book", async () => {
+            return request(app)
+                .put(`/api/books/${id}`)
+                .send({ year: 2008, cost: 1000 })
+                .expect(200);
+        });
+
+        test("ensure book updated", async () => {
+            const response = await request(app)
+                .get(`/api/books/${id}`)
+                .expect(200);
+            const { year, cost } = response.body;
+            expect(year).toBe(2008);
+            expect(cost).toBe("1000.00");
+        });
+    });
+
+    describe("delete book suite", () => {
+        let id;
+
+        beforeAll(async () => {
+            const response = await request(app)
+                .post("/api/books")
+                .send({ title: "title", year: 2010, cost: 1500 })
+                .expect(200);
+            id = response.body.id;
+        });
+
+        test("delete book", async () => {
+            return request(app)
+                .delete(`/api/books/${id}`)
+                .expect(200);
+        });
+
+        test("ensure book deleted", async () => {
+            const response = await request(app)
+                .get(`/api/books/${id}`)
+                .expect(404);
+            const error = response.body;
+            expect(error).toStrictEqual({
+                status: "Not Found",
+                message: `Book with id ${id} not found`,
+                statusCode: 404,
+            });
+        });
+    });
 });
