@@ -2,6 +2,7 @@ import { connect } from "react-redux";
 import { doOnBooksFetch, doOnBookProfileDelete } from "./actions";
 import BookList from "views/BookList";
 import { hot } from "react-hot-loader/root";
+import { donOnBookProfileEditing } from "containers/book-profile/actions";
 
 const mapStateToProps = state => ({
     loading: state.booksList.loading,
@@ -12,6 +13,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     fetchBooks: () => dispatch(doOnBooksFetch()),
     deleteBook: id => dispatch(doOnBookProfileDelete(id)),
+    startEditing: () => dispatch(donOnBookProfileEditing()),
 });
 
 export default hot(

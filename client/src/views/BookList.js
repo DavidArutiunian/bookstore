@@ -5,7 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Layout from "components/Layout";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import { Link, Router } from "@reach/router";
 import BookProfile from "containers/book-profile";
@@ -13,8 +13,11 @@ import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
-import { Delete as DeleteIcon } from "@material-ui/icons";
+import { LibraryAdd as AddIcon, Delete as DeleteIcon } from "@material-ui/icons";
 import IconButton from "@material-ui/core/IconButton";
+import SpeedDial from "@material-ui/lab/SpeedDial";
+import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
+import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
 
 const styles = {
     layout: css`
@@ -24,7 +27,7 @@ const styles = {
         height: max-content;
         width: 100%;
     `,
-    row: css`
+    tableRow: css`
         cursor: pointer;
         text-decoration: none;
 
@@ -32,10 +35,17 @@ const styles = {
             background: #eeeeee;
         }
     `,
+    speedDial: css`
+        right: 24px;
+        bottom: 24px;
+        position: fixed;
+    `,
 };
 
 function BookList(props) {
-    const { fetchBooks, books, loading, deleteBook } = props;
+    const { fetchBooks, books, loading, deleteBook, startEditing } = props;
+
+    const [speedDialOpen, setSpeedDialOpen] = useState(false);
 
     useEffect(() => {
         fetchBooks();
@@ -45,6 +55,19 @@ function BookList(props) {
         event.preventDefault();
         event.stopPropagation();
         deleteBook(id);
+    };
+
+    const handleSpeedDialOpen = () => {
+        setSpeedDialOpen(true);
+    };
+
+    const handleSpeedDialClose = () => {
+        setSpeedDialOpen(false);
+    };
+
+    const handleAddBook = () => {
+        handleSpeedDialClose();
+        startEditing();
     };
 
     return (
@@ -69,7 +92,7 @@ function BookList(props) {
                             {books.map(book => (
                                 <TableRow
                                     component={Link}
-                                    css={styles.row}
+                                    css={styles.tableRow}
                                     key={book.id_book}
                                     to={`${book.id_book}`}
                                 >
@@ -89,8 +112,33 @@ function BookList(props) {
                 </Paper>
             )}
             <Router>
+                <BookProfile
+                    customTitle="Новая книга"
+                    shouldFetchBook={false}
+                    showTitle={false}
+                    showOptions={false}
+                    shouldCreate={true}
+                    path="new"
+                />
                 <BookProfile path=":id" />
             </Router>
+            <SpeedDial
+                css={styles.speedDial}
+                ariaLabel="create_book"
+                direction="up"
+                icon={<SpeedDialIcon />}
+                open={speedDialOpen}
+                onOpen={handleSpeedDialOpen}
+                onClose={handleSpeedDialClose}
+            >
+                <SpeedDialAction
+                    component={Link}
+                    to="new"
+                    tooltipTitle="Добавить книгу"
+                    icon={<AddIcon />}
+                    onClick={handleAddBook}
+                />
+            </SpeedDial>
         </Layout>
     );
 }
@@ -101,6 +149,7 @@ BookList.propTypes = {
     books: PropTypes.array.isRequired,
     fetchBooks: PropTypes.func.isRequired,
     deleteBook: PropTypes.func.isRequired,
+    startEditing: PropTypes.func.isRequired,
 };
 
 export default hot(BookList);

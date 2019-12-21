@@ -7,6 +7,9 @@ import {
     BOOK_PROFILE_SAVE,
     BOOK_PROFILE_SAVE_FAIL,
     BOOK_PROFILE_SAVE_SUCCESS,
+    BOOK_PROFILE_CREATE_FAIL,
+    BOOK_PROFILE_CREATE,
+    BOOK_PROFILE_CREATE_SUCCESS,
 } from "./constants";
 
 const initialState = {
@@ -48,14 +51,23 @@ export default function bookProfileReducer(state = initialState, action) {
                     ...action.payload.change,
                 },
             };
-        case BOOK_PROFILE_SAVE_SUCCESS:
         case BOOK_PROFILE_SAVE:
+        case BOOK_PROFILE_CREATE:
             return {
                 ...state,
                 editing: action.payload.editing,
                 loading: action.payload.loading,
             };
+        case BOOK_PROFILE_SAVE_SUCCESS:
+        case BOOK_PROFILE_CREATE_SUCCESS:
+            return {
+                ...state,
+                editing: action.payload.editing,
+                loading: action.payload.loading,
+                book: action.payload.book,
+            };
         case BOOK_PROFILE_SAVE_FAIL:
+        case BOOK_PROFILE_CREATE_FAIL:
             return {
                 ...state,
                 editing: action.payload.editing,

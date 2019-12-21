@@ -8,6 +8,9 @@ import {
     BOOK_PROFILE_SAVE,
     BOOK_PROFILE_SAVE_FAIL,
     BOOK_PROFILE_SAVE_SUCCESS,
+    BOOK_PROFILE_CREATE,
+    BOOK_PROFILE_CREATE_FAIL,
+    BOOK_PROFILE_CREATE_SUCCESS,
 } from "./constants";
 import { doOnBooksFetch } from "containers/book-list/actions";
 
@@ -74,12 +77,13 @@ export function doOnBookProfileSave(id, change) {
     };
 }
 
-function doOnBookProfileSaveSuccess() {
+export function doOnBookProfileSaveSuccess() {
     return {
         type: BOOK_PROFILE_SAVE_SUCCESS,
         payload: {
             editing: false,
             loading: false,
+            book: null,
         },
     };
 }
@@ -110,6 +114,51 @@ export function doOnBookProfileEdit(change) {
         type: BOOK_PROFILE_EDIT,
         payload: {
             change,
+        },
+    };
+}
+
+export function doOnBookProfileCreate(book) {
+    return async dispatch => {
+        try {
+            dispatch(doOnBookProfileCreateStart());
+            await ky.post(`${process.env.REACT_APP_API}/books`, { json: book });
+            dispatch(doOnBookProfileCreateSuccess());
+            dispatch(doOnBooksFetch());
+        } catch (error) {
+            dispatch(doOnBookProfileCreateFail(error));
+        }
+    };
+}
+
+function doOnBookProfileCreateSuccess() {
+    return {
+        type: BOOK_PROFILE_CREATE_SUCCESS,
+        payload: {
+            editing: false,
+            loading: false,
+            book: null,
+        },
+    };
+}
+
+function doOnBookProfileCreateStart() {
+    return {
+        type: BOOK_PROFILE_CREATE,
+        payload: {
+            editing: false,
+            loading: true,
+        },
+    };
+}
+
+function doOnBookProfileCreateFail(error) {
+    return {
+        type: BOOK_PROFILE_CREATE_FAIL,
+        payload: {
+            editing: false,
+            error,
+            loading: false,
         },
     };
 }

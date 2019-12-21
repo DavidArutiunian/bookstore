@@ -4,6 +4,8 @@ import {
     doOnBookProfileEdit,
     doOnBookProfileSave,
     doOnBookProfileFetch,
+    doOnBookProfileCreate,
+    doOnBookProfileSaveSuccess,
 } from "./actions";
 import BookProfile from "views/BookProfile";
 import { hot } from "react-hot-loader/root";
@@ -19,6 +21,8 @@ const mapDispatchToProps = dispatch => ({
     fetchBook: id => dispatch(doOnBookProfileFetch(id)),
     startEditing: () => dispatch(donOnBookProfileEditing()),
     stopEditingAndSave: (id, change) => dispatch(doOnBookProfileSave(id, change)),
+    stopEditingAndCreate: book => dispatch(doOnBookProfileCreate(book)),
+    justStopEditing: () => dispatch(doOnBookProfileSaveSuccess()),
     handleChange: change => dispatch(doOnBookProfileEdit(change)),
 });
 

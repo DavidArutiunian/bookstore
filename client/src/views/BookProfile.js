@@ -40,19 +40,30 @@ function BookProfile(props) {
         startEditing,
         stopEditingAndSave,
         handleChange,
+        customTitle,
+        shouldFetchBook = true,
+        showOptions = true,
+        stopEditingAndCreate,
+        shouldCreate = false,
+        justStopEditing,
     } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
 
     useEffect(() => {
-        fetchBook(id);
-    }, [fetchBook, id]);
+        if (shouldFetchBook) {
+            fetchBook(id);
+        }
+    }, [fetchBook, id, shouldFetchBook]);
 
     const handleMenuClick = event => setAnchorEl(event.currentTarget);
 
     const handleMenuClose = () => setAnchorEl(null);
 
-    const handleClose = () => window.history.back();
+    const handleClose = () => {
+        window.history.back();
+        justStopEditing();
+    };
 
     const handleEntering = () => window.scrollTo(0, 0);
 
@@ -67,7 +78,11 @@ function BookProfile(props) {
         handleMenuClose();
         handleClose();
         const { title, year, cost } = book;
-        stopEditingAndSave(id, { title, year, cost });
+        if (shouldCreate) {
+            stopEditingAndCreate({ title, year, cost });
+        } else {
+            stopEditingAndSave(id, { title, year, cost });
+        }
     };
 
     const handleFieldChange = name => value => handleChange({ ...book, [name]: value });
@@ -88,11 +103,23 @@ function BookProfile(props) {
                             <Skeleton variant="rect" width={220} height={32} />
                         </SkeletonLayout>
                     ) : (
-                        <BookTitle variant="h6">Книга №{book?.id_book}</BookTitle>
+                        <BookTitle variant="h6">
+                            {customTitle ? (
+                                typeof customTitle === "function" ? (
+                                    customTitle()
+                                ) : (
+                                    customTitle
+                                )
+                            ) : (
+                                <>Книга №{book?.id_book}</>
+                            )}
+                        </BookTitle>
                     )}
-                    <IconButton color="inherit" onClick={handleMenuClick}>
-                        <MoreVertIcon />
-                    </IconButton>
+                    {showOptions && (
+                        <IconButton color="inherit" onClick={handleMenuClick}>
+                            <MoreVertIcon />
+                        </IconButton>
+                    )}
                     <IconButton edge="end" color="inherit" onClick={handleClose}>
                         <CloseIcon />
                     </IconButton>
@@ -146,29 +173,35 @@ function BookProfile(props) {
                     </Button>
                 </DialogActions>
             )}
-            <Menu
-                getContentAnchorEl={null}
-                anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-                transformOrigin={{ vertical: "top", horizontal: "center" }}
-                anchorEl={anchorEl}
-                keepMounted
-                open={Boolean(anchorEl)}
-                onClose={handleMenuClose}
-            >
-                <MenuItem onClick={handleEditClick}>
-                    <ListItemIcon fontSize="small">
-                        <Edit />
-                    </ListItemIcon>
-                    <Typography variant="inherit" noWrap>
-                        Редактировать
-                    </Typography>
-                </MenuItem>
-            </Menu>
+            {showOptions && (
+                <Menu
+                    getContentAnchorEl={null}
+                    anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+                    transformOrigin={{ vertical: "top", horizontal: "center" }}
+                    anchorEl={anchorEl}
+                    keepMounted
+                    open={Boolean(anchorEl)}
+                    onClose={handleMenuClose}
+                >
+                    <MenuItem onClick={handleEditClick}>
+                        <ListItemIcon fontSize="small">
+                            <Edit />
+                        </ListItemIcon>
+                        <Typography variant="inherit" noWrap>
+                            Редактировать
+                        </Typography>
+                    </MenuItem>
+                </Menu>
+            )}
         </Dialog>
     );
 }
 
 BookProfile.propTypes = {
+    shouldCreate: PropTypes.bool,
+    customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    showOptions: PropTypes.bool,
+    shouldFetchBook: PropTypes.bool,
     loading: PropTypes.bool.isRequired,
     editing: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
@@ -181,6 +214,8 @@ BookProfile.propTypes = {
     fetchBook: PropTypes.func.isRequired,
     startEditing: PropTypes.func.isRequired,
     stopEditingAndSave: PropTypes.func.isRequired,
+    stopEditingAndCreate: PropTypes.func.isRequired,
+    justStopEditing: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
 };
 
