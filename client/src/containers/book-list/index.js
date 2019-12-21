@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
-import { doOnBooksFetch } from "./actions";
+import { doOnBooksFetch, doOnBookProfileDelete } from "./actions";
 import BookList from "views/BookList";
+import { hot } from "react-hot-loader/root";
 
 const mapStateToProps = state => ({
     loading: state.booksList.loading,
@@ -10,9 +11,12 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchBooks: () => dispatch(doOnBooksFetch()),
+    deleteBook: id => dispatch(doOnBookProfileDelete(id)),
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(BookList);
+export default hot(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(BookList),
+);

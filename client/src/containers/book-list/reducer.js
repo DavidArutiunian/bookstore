@@ -1,4 +1,11 @@
-import { BOOK_LIST_FETCH_SUCCESS, BOOK_LIST_FETCH, BOOK_LIST_FETCH_FAIL } from "./constants";
+import {
+    BOOK_LIST_FETCH_SUCCESS,
+    BOOK_LIST_FETCH,
+    BOOK_LIST_FETCH_FAIL,
+    BOOK_PROFILE_DELETE_FAIL,
+    BOOK_PROFILE_DELETE_SUCCESS,
+    BOOK_PROFILE_DELETE,
+} from "./constants";
 
 const initialState = {
     loading: false,
@@ -8,6 +15,8 @@ const initialState = {
 
 export default function bookListReducer(state = initialState, action) {
     switch (action.type) {
+        case BOOK_PROFILE_DELETE:
+        case BOOK_PROFILE_DELETE_SUCCESS:
         case BOOK_LIST_FETCH:
             return {
                 ...state,
@@ -19,6 +28,7 @@ export default function bookListReducer(state = initialState, action) {
                 loading: action.payload.loading,
                 books: action.payload.books,
             };
+        case BOOK_PROFILE_DELETE_FAIL:
         case BOOK_LIST_FETCH_FAIL:
             return {
                 ...state,

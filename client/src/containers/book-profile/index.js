@@ -6,6 +6,7 @@ import {
     doOnBookProfileFetch,
 } from "./actions";
 import BookProfile from "views/BookProfile";
+import { hot } from "react-hot-loader/root";
 
 const mapStateToProps = state => ({
     loading: state.bookProfile.loading,
@@ -21,7 +22,9 @@ const mapDispatchToProps = dispatch => ({
     handleChange: change => dispatch(doOnBookProfileEdit(change)),
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(BookProfile);
+export default hot(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(BookProfile),
+);

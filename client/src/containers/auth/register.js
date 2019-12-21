@@ -1,6 +1,7 @@
 import { doOnRegister } from "./actions";
 import { connect } from "react-redux";
 import Register from "views/Register";
+import { hot } from "react-hot-loader/root";
 
 const mapStateToProps = state => ({
     logged: state.auth.user !== null,
@@ -13,7 +14,9 @@ const mapDispatchToProps = dispatch => ({
     register: (login, password) => dispatch(doOnRegister(login, password)),
 });
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(Register);
+export default hot(
+    connect(
+        mapStateToProps,
+        mapDispatchToProps,
+    )(Register),
+);

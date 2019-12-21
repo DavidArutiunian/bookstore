@@ -64,17 +64,17 @@ export function donOnBookProfileEditing() {
 export function doOnBookProfileSave(id, change) {
     return async dispatch => {
         try {
-            dispatch(doOnProfileSaveStart());
+            dispatch(doOnBookProfileSaveStart());
             await ky.put(`${process.env.REACT_APP_API}/books/${id}`, { json: change });
-            dispatch(doOnProfileSaveSuccess());
+            dispatch(doOnBookProfileSaveSuccess());
             dispatch(doOnBooksFetch());
         } catch (error) {
-            dispatch(doOnProfileSaveFail(error));
+            dispatch(doOnBookProfileSaveFail(error));
         }
     };
 }
 
-export function doOnProfileSaveSuccess() {
+function doOnBookProfileSaveSuccess() {
     return {
         type: BOOK_PROFILE_SAVE_SUCCESS,
         payload: {
@@ -84,7 +84,7 @@ export function doOnProfileSaveSuccess() {
     };
 }
 
-export function doOnProfileSaveStart() {
+function doOnBookProfileSaveStart() {
     return {
         type: BOOK_PROFILE_SAVE,
         payload: {
@@ -94,7 +94,7 @@ export function doOnProfileSaveStart() {
     };
 }
 
-export function doOnProfileSaveFail(error) {
+function doOnBookProfileSaveFail(error) {
     return {
         type: BOOK_PROFILE_SAVE_FAIL,
         payload: {

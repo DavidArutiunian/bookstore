@@ -13,6 +13,8 @@ import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
+import { Delete as DeleteIcon } from "@material-ui/icons";
+import IconButton from "@material-ui/core/IconButton";
 
 const styles = {
     layout: css`
@@ -33,11 +35,17 @@ const styles = {
 };
 
 function BookList(props) {
-    const { fetchBooks, books, loading } = props;
+    const { fetchBooks, books, loading, deleteBook } = props;
 
     useEffect(() => {
         fetchBooks();
     }, [fetchBooks]);
+
+    const handleDeleteClick = id => event => {
+        event.preventDefault();
+        event.stopPropagation();
+        deleteBook(id);
+    };
 
     return (
         <Layout css={styles.layout}>
@@ -54,6 +62,7 @@ function BookList(props) {
                                 <HeaderTableCell>Название</HeaderTableCell>
                                 <HeaderTableCell>Год</HeaderTableCell>
                                 <HeaderTableCell>Цена</HeaderTableCell>
+                                <HeaderTableCell />
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -68,6 +77,11 @@ function BookList(props) {
                                     <TableCell>{book.title}</TableCell>
                                     <TableCell>{book.year}</TableCell>
                                     <TableCell>{book.cost}</TableCell>
+                                    <DeleteTableCell>
+                                        <IconButton onClick={handleDeleteClick(book.id_book)}>
+                                            <DeleteIcon />
+                                        </IconButton>
+                                    </DeleteTableCell>
                                 </TableRow>
                             ))}
                         </TableBody>
@@ -86,6 +100,7 @@ BookList.propTypes = {
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     books: PropTypes.array.isRequired,
     fetchBooks: PropTypes.func.isRequired,
+    deleteBook: PropTypes.func.isRequired,
 };
 
 export default hot(BookList);
@@ -97,4 +112,8 @@ const HeaderTableCell = styled(TableCell)`
 const ProgressLayout = styled(Layout)`
     justify-content: center;
     align-items: center;
+`;
+
+const DeleteTableCell = styled(TableCell)`
+    padding: 0;
 `;

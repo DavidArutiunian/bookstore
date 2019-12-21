@@ -66,7 +66,8 @@ function BookProfile(props) {
     const handleSave = () => {
         handleMenuClose();
         handleClose();
-        stopEditingAndSave(id, book);
+        const { title, year, cost } = book;
+        stopEditingAndSave(id, { title, year, cost });
     };
 
     const handleFieldChange = name => value => handleChange({ ...book, [name]: value });
