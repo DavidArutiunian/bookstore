@@ -19,6 +19,7 @@ const styles = {
         padding: 24px;
     `,
     paper: css`
+        height: max-content;
         width: 100%;
     `,
     row: css`
