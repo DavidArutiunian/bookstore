@@ -1,6 +1,3 @@
-/** @jsx jsx */
-
-import { jsx } from "@emotion/core";
 import styled from "@emotion/styled";
 import useForm from "react-hook-form";
 import Input from "./Input";
@@ -10,8 +7,10 @@ import { InputLabel } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputError from "./InputError";
 import PropTypes from "prop-types";
+import React from "react";
+import { hot } from "react-hot-loader/root";
 
-export default function AuthBase(props) {
+function AuthBase(props) {
     const { children, onSubmit } = props;
     const { handleSubmit, register, errors } = useForm();
 
@@ -81,6 +80,8 @@ export default function AuthBase(props) {
 AuthBase.propTypes = {
     onSubmit: PropTypes.func,
 };
+
+export default hot(AuthBase);
 
 const ButtonWrapper = styled(Grid)`
     display: flex;

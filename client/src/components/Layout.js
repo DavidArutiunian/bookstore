@@ -1,21 +1,21 @@
-/** @jsx jsx */
-
-import { css, jsx } from "@emotion/core";
 import Grid from "@material-ui/core/Grid";
+import { hot } from "react-hot-loader/root";
+import styled from "@emotion/styled";
+import React from "react";
 
-export default function Layout(props) {
+function Layout(props) {
     const { children, ...rest } = props;
 
     return (
-        <Grid
-            container
-            {...rest}
-            css={css`
-                width: 100%;
-                height: 100%;
-            `}
-        >
+        <FullWidthContainer container {...rest}>
             {children}
-        </Grid>
+        </FullWidthContainer>
     );
 }
+
+export default hot(Layout);
+
+const FullWidthContainer = styled(Grid)`
+    width: 100%;
+    height: 100%;
+`;

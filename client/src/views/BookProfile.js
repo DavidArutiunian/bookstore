@@ -1,6 +1,4 @@
-/** @jsx jsx */
-
-import { css, Global, jsx } from "@emotion/core";
+import { css, Global } from "@emotion/core";
 import React, { useEffect, useState } from "react";
 import Dialog from "@material-ui/core/Dialog";
 import DialogContent from "@material-ui/core/DialogContent";
@@ -18,30 +16,21 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import * as PropTypes from "prop-types";
 import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
+import { hot } from "react-hot-loader/root";
+import styled from "@emotion/styled";
 
 const styles = {
-    flex1: css`
-        flex: 1;
-    `,
     global: css`
         body {
             padding-right: 0 !important;
         }
-    `,
-    loader: css`
-        justify-content: center;
-        align-items: center;
-    `,
-    fieldTitle: css`
-        display: flex;
-        align-items: center;
     `,
     dialog: css`
         padding: 48px;
     `,
 };
 
-export default function BookProfile(props) {
+function BookProfile(props) {
     const {
         id,
         book,
@@ -94,13 +83,11 @@ export default function BookProfile(props) {
             <AppBar position="static">
                 <Toolbar>
                     {loading ? (
-                        <Grid css={styles.flex1}>
+                        <SkeletonLayout>
                             <Skeleton variant="rect" width={220} height={32} />
-                        </Grid>
+                        </SkeletonLayout>
                     ) : (
-                        <Typography variant="h6" css={styles.flex1}>
-                            Книга №{book?.id_book}
-                        </Typography>
+                        <BookTitle variant="h6">Книга №{book?.id_book}</BookTitle>
                     )}
                     <IconButton color="inherit" onClick={handleMenuClick}>
                         <MoreVertIcon />
@@ -203,9 +190,9 @@ function BookField(props) {
 
     return (
         <React.Fragment>
-            <Grid item sm={2} css={styles.fieldTitle}>
+            <BookFieldTitle item sm={2}>
                 <Typography variant="body2">{title}</Typography>
-            </Grid>
+            </BookFieldTitle>
             <Grid item sm={10}>
                 {readOnly ? (
                     <TextField placeholder={title} defaultValue={value} InputProps={{ readOnly }} />
@@ -223,3 +210,18 @@ BookField.propTypes = {
     readOnly: PropTypes.bool.isRequired,
     onChange: PropTypes.func.isRequired,
 };
+
+export default hot(BookProfile);
+
+const SkeletonLayout = styled(Grid)`
+    flex: 1;
+`;
+
+const BookTitle = styled(Typography)`
+    flex: 1;
+`;
+
+const BookFieldTitle = styled(Grid)`
+    display: flex;
+    align-items: center;
+`;

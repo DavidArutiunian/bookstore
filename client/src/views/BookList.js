@@ -1,30 +1,27 @@
-/** @jsx jsx */
-
-import { css, jsx } from "@emotion/core";
+import { css } from "@emotion/core";
 import { Table } from "@material-ui/core";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Layout from "components/Layout";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import Paper from "@material-ui/core/Paper";
 import { Link, Router } from "@reach/router";
 import BookProfile from "containers/book-profile";
 import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import { hot } from "react-hot-loader/root";
+import styled from "@emotion/styled";
 
 const styles = {
-    fw600: css`
-        font-weight: 600;
-    `,
     layout: css`
         padding: 24px;
     `,
     paper: css`
         width: 100%;
     `,
-    tableRow: css`
+    row: css`
         cursor: pointer;
         text-decoration: none;
 
@@ -32,13 +29,9 @@ const styles = {
             background: #eeeeee;
         }
     `,
-    progressLayout: css`
-        justify-content: center;
-        align-items: center;
-    `,
 };
 
-export default function BookList(props) {
+function BookList(props) {
     const { fetchBooks, books, loading } = props;
 
     useEffect(() => {
@@ -48,25 +41,25 @@ export default function BookList(props) {
     return (
         <Layout css={styles.layout}>
             {loading ? (
-                <Layout css={styles.progressLayout}>
+                <ProgressLayout>
                     <CircularProgress />
-                </Layout>
+                </ProgressLayout>
             ) : (
                 <Paper css={styles.paper}>
                     <Table>
                         <TableHead>
                             <TableRow>
-                                <TableCell css={styles.fw600}>Номер</TableCell>
-                                <TableCell css={styles.fw600}>Название</TableCell>
-                                <TableCell css={styles.fw600}>Год</TableCell>
-                                <TableCell css={styles.fw600}>Цена</TableCell>
+                                <HeaderTableCell>Номер</HeaderTableCell>
+                                <HeaderTableCell>Название</HeaderTableCell>
+                                <HeaderTableCell>Год</HeaderTableCell>
+                                <HeaderTableCell>Цена</HeaderTableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
                             {books.map(book => (
                                 <TableRow
                                     component={Link}
-                                    css={styles.tableRow}
+                                    css={styles.row}
                                     key={book.id_book}
                                     to={`${book.id_book}`}
                                 >
@@ -93,3 +86,14 @@ BookList.propTypes = {
     books: PropTypes.array.isRequired,
     fetchBooks: PropTypes.func.isRequired,
 };
+
+export default hot(BookList);
+
+const HeaderTableCell = styled(TableCell)`
+    font-weight: 600;
+`;
+
+const ProgressLayout = styled(Layout)`
+    justify-content: center;
+    align-items: center;
+`;

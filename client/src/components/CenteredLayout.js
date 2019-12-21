@@ -1,9 +1,8 @@
-/** @jsx jsx */
-
-import { jsx } from "@emotion/core";
 import Layout from "./Layout";
+import React from "react";
+import { hot } from "react-hot-loader/root";
 
-export default function CenteredLayout(props) {
+function CenteredLayout(props) {
     const { children } = props;
 
     return (
@@ -12,3 +11,5 @@ export default function CenteredLayout(props) {
         </Layout>
     );
 }
+
+export default hot(CenteredLayout);

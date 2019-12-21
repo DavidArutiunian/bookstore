@@ -8,8 +8,9 @@ import CenteredLayout from "components/CenteredLayout";
 import BaseHeader from "components/BaseHeader";
 import Button from "@material-ui/core/Button";
 import PropTypes from "prop-types";
+import { hot } from "react-hot-loader/root";
 
-export default function Register(props) {
+function Register(props) {
     const { logged, register } = props;
 
     useEffect(() => {
@@ -39,3 +40,5 @@ Register.propTypes = {
     loading: PropTypes.bool.isRequired,
     user: PropTypes.object,
 };
+
+export default hot(Register);

@@ -1,19 +1,14 @@
-/** @jsx jsx */
-
 import Typography from "@material-ui/core/Typography";
-import { css, jsx } from "@emotion/core";
+import React from "react";
+import { hot } from "react-hot-loader/root";
+import styled from "@emotion/styled";
 
 function InputError(props) {
-    return (
-        <Typography
-            variant="caption"
-            css={css`
-                color: red;
-            `}
-        >
-            {props.message}
-        </Typography>
-    );
+    return <Message variant="caption">{props.message}</Message>;
 }
 
-export default InputError;
+export default hot(InputError);
+
+const Message = styled(Typography)`
+    color: red;
+`;

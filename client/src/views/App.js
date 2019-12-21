@@ -1,14 +1,15 @@
-/** @jsx jsx */
-
 import Register from "containers/auth/register";
 import { CssBaseline } from "@material-ui/core";
-import { css, Global, jsx } from "@emotion/core";
+import { css, Global } from "@emotion/core";
 import { Router } from "@reach/router";
 import Login from "containers/auth/login";
 import PropTypes from "prop-types";
 import Container from "@material-ui/core/Container";
 import Dashboard from "containers/dashboard";
 import PrivateRoute from "components/PrivateRoute";
+import { hot } from "react-hot-loader/root";
+import React from "react";
+import styled from "@emotion/styled";
 
 const styles = {
     global: css`
@@ -20,20 +21,15 @@ const styles = {
             height: 100%;
         }
     `,
-    container: css`
-        height: calc(100% - 64px);
-        max-width: 100%;
-        padding: 0;
-    `,
 };
 
-export default function App(props) {
+function App(props) {
     const { logged } = props;
 
     return (
         <CssBaseline>
             <Global styles={styles.global} />
-            <Container css={styles.container}>
+            <AppContainer>
                 <Router>
                     <Login path="login" />
                     <Register path="register" />
@@ -43,7 +39,7 @@ export default function App(props) {
                         render={props => <Dashboard {...props} />}
                     />
                 </Router>
-            </Container>
+            </AppContainer>
         </CssBaseline>
     );
 }
@@ -51,3 +47,11 @@ export default function App(props) {
 App.propTypes = {
     logged: PropTypes.bool,
 };
+
+export default hot(App);
+
+const AppContainer = styled(Container)`
+    height: calc(100% - 64px);
+    max-width: 100%;
+    padding: 0;
+`;

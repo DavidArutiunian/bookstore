@@ -1,7 +1,5 @@
-/** @jsx jsx */
-
 import React, { useState } from "react";
-import { css, jsx } from "@emotion/core";
+import { css } from "@emotion/core";
 import Layout from "components/Layout";
 import BaseHeader from "components/BaseHeader";
 import IconButton from "@material-ui/core/IconButton";
@@ -18,21 +16,23 @@ import Grid from "@material-ui/core/Grid";
 import { Link, Router } from "@reach/router";
 import BookList from "containers/book-list";
 import Divider from "@material-ui/core/Divider";
+import { hot } from "react-hot-loader/root";
+import styled from "@emotion/styled";
 
 const styles = {
     headerGrid: css`
         flex-grow: 1;
         justify-content: flex-end;
     `,
-    headerChip: css`
+    chip: css`
         cursor: pointer;
     `,
-    drawerList: css`
+    drawer: css`
         width: 250px;
     `,
 };
 
-export default function Dashboard(props) {
+function Dashboard(props) {
     const { user } = props;
 
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -51,16 +51,16 @@ export default function Dashboard(props) {
                 <IconButton edge="start" color="inherit" onClick={handleDrawerOpen}>
                     <Menu />
                 </IconButton>
-                <Grid css={styles.headerGrid} />
+                <HeaderWhitespace />
                 <Chip
-                    css={styles.headerChip}
+                    css={styles.chip}
                     avatar={<Avatar>{user.login.substring(0, 1).toUpperCase()}</Avatar>}
                     label={user.login}
                 />
             </BaseHeader>
             <Layout>
                 <Drawer open={drawerOpen} onClose={handleDrawerClose}>
-                    <List css={styles.drawerList}>
+                    <List css={styles.drawer}>
                         <ListItem button component={Link} to="/" onClick={handleDrawerClose}>
                             <ListItemIcon>
                                 <ArrowBack />
@@ -89,3 +89,10 @@ Dashboard.propTypes = {
         login: PropTypes.string.isRequired,
     }).isRequired,
 };
+
+const HeaderWhitespace = styled(Grid)`
+    flex-grow: 1;
+    justify-content: flex-end;
+`;
+
+export default hot(Dashboard);

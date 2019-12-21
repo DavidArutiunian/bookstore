@@ -1,6 +1,3 @@
-/** @jsx jsx */
-
-import { jsx } from "@emotion/core";
 import { Redirect } from "@reach/router";
 import React from "react";
 import PropTypes from "prop-types";
