@@ -1,6 +1,7 @@
 /** @jsx jsx */
 
-import { css, jsx } from "@emotion/core";
+import { jsx } from "@emotion/core";
+import styled from "@emotion/styled";
 import useForm from "react-hook-form";
 import Input from "./Input";
 import Grid from "@material-ui/core/Grid";
@@ -21,15 +22,7 @@ export default function AuthBase(props) {
     };
 
     return (
-        <form
-            css={css`
-                width: 200px;
-                height: 200px;
-                align-content: center;
-            `}
-            autoComplete="off"
-            onSubmit={handleSubmit(doOnSubmit)}
-        >
+        <Form autoComplete="off" onSubmit={handleSubmit(doOnSubmit)}>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     <FormControl>
@@ -75,25 +68,29 @@ export default function AuthBase(props) {
                         )}
                     </FormControl>
                 </Grid>
-                <Grid
-                    css={css`
-                        display: flex;
-                        justify-content: center;
-                        align-items: center;
-                        margin-top: 24px;
-                    `}
-                    item
-                    xs={12}
-                >
+                <ButtonWrapper item xs={12}>
                     <Button variant="contained" color="primary" type="submit">
                         {children}
                     </Button>
-                </Grid>
+                </ButtonWrapper>
             </Grid>
-        </form>
+        </Form>
     );
 }
 
 AuthBase.propTypes = {
     onSubmit: PropTypes.func,
 };
+
+const ButtonWrapper = styled(Grid)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 24px;
+`;
+
+const Form = styled.form`
+    width: 200px;
+    height: 200px;
+    align-content: center;
+`;

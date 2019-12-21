@@ -35,7 +35,7 @@ export default function Login(props) {
 Login.propTypes = {
     logged: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
-    user: PropTypes.object.isRequired,
+    user: PropTypes.object,
     loading: PropTypes.bool.isRequired,
     login: PropTypes.func,
 };
