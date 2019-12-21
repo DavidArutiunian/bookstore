@@ -49,7 +49,7 @@ export default function BookProfile(props) {
         fetchBook,
         loading,
         startEditing,
-        stopEditing,
+        stopEditingAndSave,
         handleChange,
     } = props;
 
@@ -77,7 +77,7 @@ export default function BookProfile(props) {
     const handleSave = () => {
         handleMenuClose();
         handleClose();
-        stopEditing();
+        stopEditingAndSave(id, book);
     };
 
     const handleFieldChange = name => value => handleChange({ ...book, [name]: value });
@@ -192,7 +192,7 @@ BookProfile.propTypes = {
     }),
     fetchBook: PropTypes.func.isRequired,
     startEditing: PropTypes.func.isRequired,
-    stopEditing: PropTypes.func.isRequired,
+    stopEditingAndSave: PropTypes.func.isRequired,
     handleChange: PropTypes.func.isRequired,
 };
 

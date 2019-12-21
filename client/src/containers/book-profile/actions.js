@@ -1,12 +1,15 @@
 import ky from "ky";
 import {
+    BOOK_PROFILE_EDIT,
+    BOOK_PROFILE_EDITING,
     BOOK_PROFILE_FETCH,
     BOOK_PROFILE_FETCH_FAIL,
     BOOK_PROFILE_FETCH_SUCCESS,
-    BOOK_PROFILE_EDIT,
-    BOOK_PROFILE_EDITING_DONE,
-    BOOK_PROFILE_EDITING,
+    BOOK_PROFILE_SAVE,
+    BOOK_PROFILE_SAVE_FAIL,
+    BOOK_PROFILE_SAVE_SUCCESS,
 } from "./constants";
+import { doOnBooksFetch } from "containers/book-list/actions";
 
 export function doOnBookProfileFetch(id) {
     return async dispatch => {
@@ -58,11 +61,46 @@ export function donOnBookProfileEditing() {
     };
 }
 
-export function doOnBookProfileEditingDone() {
+export function doOnBookProfileSave(id, change) {
+    return async dispatch => {
+        try {
+            dispatch(doOnProfileSaveStart());
+            await ky.put(`${process.env.REACT_APP_API}/books/${id}`, { json: change });
+            dispatch(doOnProfileSaveSuccess());
+            dispatch(doOnBooksFetch());
+        } catch (error) {
+            dispatch(doOnProfileSaveFail(error));
+        }
+    };
+}
+
+export function doOnProfileSaveSuccess() {
     return {
-        type: BOOK_PROFILE_EDITING_DONE,
+        type: BOOK_PROFILE_SAVE_SUCCESS,
         payload: {
             editing: false,
+            loading: false,
+        },
+    };
+}
+
+export function doOnProfileSaveStart() {
+    return {
+        type: BOOK_PROFILE_SAVE,
+        payload: {
+            editing: false,
+            loading: true,
+        },
+    };
+}
+
+export function doOnProfileSaveFail(error) {
+    return {
+        type: BOOK_PROFILE_SAVE_FAIL,
+        payload: {
+            editing: false,
+            error,
+            loading: false,
         },
     };
 }

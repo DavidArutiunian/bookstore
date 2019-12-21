@@ -8,7 +8,6 @@ import Button from "@material-ui/core/Button";
 import { InputLabel } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputError from "./InputError";
-import { useCallback } from "react";
 import PropTypes from "prop-types";
 
 export default function AuthBase(props) {

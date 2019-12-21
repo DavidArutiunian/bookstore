@@ -3,8 +3,10 @@ import {
     BOOK_PROFILE_FETCH,
     BOOK_PROFILE_FETCH_SUCCESS,
     BOOK_PROFILE_EDITING,
-    BOOK_PROFILE_EDITING_DONE,
     BOOK_PROFILE_EDIT,
+    BOOK_PROFILE_SAVE,
+    BOOK_PROFILE_SAVE_SUCCESS,
+    BOOK_PROFILE_SAVE_FAIL,
 } from "./constants";
 
 const initialState = {
@@ -33,7 +35,6 @@ export default function bookProfileReducer(state = initialState, action) {
                 loading: action.payload.loading,
                 error: action.payload.error,
             };
-        case BOOK_PROFILE_EDITING_DONE:
         case BOOK_PROFILE_EDITING:
             return {
                 ...state,
@@ -46,6 +47,20 @@ export default function bookProfileReducer(state = initialState, action) {
                     ...state.book,
                     ...action.payload.change,
                 },
+            };
+        case BOOK_PROFILE_SAVE_SUCCESS:
+        case BOOK_PROFILE_SAVE:
+            return {
+                ...state,
+                editing: action.payload.editing,
+                loading: action.payload.loading,
+            };
+        case BOOK_PROFILE_SAVE_FAIL:
+            return {
+                ...state,
+                editing: action.payload.editing,
+                loading: action.payload.loading,
+                error: action.payload.error,
             };
         default:
             return state;

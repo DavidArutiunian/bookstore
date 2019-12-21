@@ -2,7 +2,7 @@ import { connect } from "react-redux";
 import {
     donOnBookProfileEditing,
     doOnBookProfileEdit,
-    doOnBookProfileEditingDone,
+    doOnBookProfileSave,
     doOnBookProfileFetch,
 } from "./actions";
 import BookProfile from "views/BookProfile";
@@ -17,7 +17,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
     fetchBook: id => dispatch(doOnBookProfileFetch(id)),
     startEditing: () => dispatch(donOnBookProfileEditing()),
-    stopEditing: () => dispatch(doOnBookProfileEditingDone()),
+    stopEditingAndSave: (id, change) => dispatch(doOnBookProfileSave(id, change)),
     handleChange: change => dispatch(doOnBookProfileEdit(change)),
 });
 
