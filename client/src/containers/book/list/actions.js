@@ -8,84 +8,68 @@ import {
     BOOK_PROFILE_DELETE,
 } from "containers/book/list/constants";
 
-export function doOnBooksFetch() {
-    return async dispatch => {
-        try {
-            dispatch(doOnBooksFetchStart());
-            const books = await ky.get(`${process.env.REACT_APP_API}/books`).json();
-            dispatch(doOnBooksFetchSuccess(books));
-        } catch (error) {
-            donOnBooksFetchFail(error);
-        }
-    };
-}
+export const fetchBooks = () => async dispatch => {
+    try {
+        dispatch(doOnBooksFetchStart());
+        const books = await ky.get(`${process.env.REACT_APP_API}/books`).json();
+        dispatch(doOnBooksFetchSuccess(books));
+    } catch (error) {
+        dispatch(donOnBooksFetchFail(error));
+    }
+};
 
-function doOnBooksFetchStart() {
-    return {
-        type: BOOK_LIST_FETCH,
-        payload: {
-            loading: true,
-        },
-    };
-}
+const doOnBooksFetchStart = () => ({
+    type: BOOK_LIST_FETCH,
+    payload: {
+        loading: true,
+    },
+});
 
-function doOnBooksFetchSuccess(books) {
-    return {
-        type: BOOK_LIST_FETCH_SUCCESS,
-        payload: {
-            books,
-            loading: false,
-        },
-    };
-}
+const doOnBooksFetchSuccess = books => ({
+    type: BOOK_LIST_FETCH_SUCCESS,
+    payload: {
+        books,
+        loading: false,
+    },
+});
 
-function donOnBooksFetchFail(error) {
-    return {
-        type: BOOK_LIST_FETCH_FAIL,
-        payload: {
-            loading: false,
-            error,
-        },
-    };
-}
+const donOnBooksFetchFail = error => ({
+    type: BOOK_LIST_FETCH_FAIL,
+    payload: {
+        loading: false,
+        error,
+    },
+});
 
-export function doOnBookProfileDelete(id) {
-    return async dispatch => {
-        try {
-            dispatch(doOnBookProfileDeleteStart());
-            await ky.delete(`${process.env.REACT_APP_API}/books/${id}`);
-            dispatch(doOnBookProfileDeleteSuccess());
-            dispatch(doOnBooksFetch());
-        } catch (error) {
-            doOnProfileDeleteFail(error);
-        }
-    };
-}
+export const deleteBook = id => async dispatch => {
+    try {
+        dispatch(doOnBookProfileDeleteStart());
+        await ky.delete(`${process.env.REACT_APP_API}/books/${id}`);
+        dispatch(doOnBookProfileDeleteSuccess());
+        dispatch(fetchBooks());
+    } catch (error) {
+        dispatch(doOnProfileDeleteFail(error));
+    }
+};
 
-function doOnBookProfileDeleteStart() {
-    return {
-        type: BOOK_PROFILE_DELETE,
-        payload: {
-            loading: true,
-        },
-    };
-}
+const doOnBookProfileDeleteStart = () => ({
+    type: BOOK_PROFILE_DELETE,
+    payload: {
+        loading: true,
+    },
+});
 
-function doOnBookProfileDeleteSuccess() {
-    return {
-        type: BOOK_PROFILE_DELETE_SUCCESS,
-        payload: {
-            loading: false,
-        },
-    };
-}
+const doOnBookProfileDeleteSuccess = () => ({
+    type: BOOK_PROFILE_DELETE_SUCCESS,
+    payload: {
+        loading: false,
+    },
+});
 
-export function doOnProfileDeleteFail(error) {
-    return {
-        type: BOOK_PROFILE_DELETE_FAIL,
-        payload: {
-            loading: false,
-            error,
-        },
-    };
-}
+const doOnProfileDeleteFail = error => ({
+    type: BOOK_PROFILE_DELETE_FAIL,
+    payload: {
+        loading: false,
+        error,
+    },
+});

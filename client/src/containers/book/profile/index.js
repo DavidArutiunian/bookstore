@@ -1,29 +1,29 @@
 import { connect } from "react-redux";
 import {
-    donOnBookProfileEditing,
-    doOnBookProfileEdit,
-    doOnBookProfileSave,
-    doOnBookProfileFetch,
-    doOnBookProfileCreate,
-    doOnBookProfileSaveSuccess,
+    editBook,
+    changeBook,
+    saveBook,
+    fetchBook,
+    createBook,
+    saveBookSuccess,
 } from "containers/book/profile/actions";
 import BookProfile from "views/BookProfile";
 import { hot } from "react-hot-loader/root";
 
-const mapStateToProps = state => ({
-    loading: state.bookProfile.loading,
-    error: state.bookProfile.error,
-    editing: state.bookProfile.editing,
-    book: state.bookProfile.book,
+const mapStateToProps = ({ bookProfile }) => ({
+    loading: bookProfile.loading,
+    error: bookProfile.error,
+    editing: bookProfile.editing,
+    book: bookProfile.book,
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchBook: id => dispatch(doOnBookProfileFetch(id)),
-    startEditing: () => dispatch(donOnBookProfileEditing()),
-    stopEditingAndSave: (id, change) => dispatch(doOnBookProfileSave(id, change)),
-    stopEditingAndCreate: book => dispatch(doOnBookProfileCreate(book)),
-    justStopEditing: () => dispatch(doOnBookProfileSaveSuccess()),
-    handleChange: change => dispatch(doOnBookProfileEdit(change)),
+    fetchBook: id => dispatch(fetchBook(id)),
+    startEditing: () => dispatch(editBook()),
+    stopEditingAndSave: (id, change) => dispatch(saveBook(id, change)),
+    stopEditingAndCreate: book => dispatch(createBook(book)),
+    justStopEditing: () => dispatch(saveBookSuccess()),
+    handleChange: change => dispatch(changeBook(change)),
 });
 
 export default hot(

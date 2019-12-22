@@ -13,31 +13,31 @@ const initialState = {
     user: null,
 };
 
-export default function authReducer(state = initialState, action) {
-    switch (action.type) {
+export default (state = initialState, { type, payload }) => {
+    switch (type) {
         case LOGIN:
         case REGISTER:
             return {
                 ...state,
-                loading: action.payload.loading,
+                loading: payload.loading,
             };
         case LOGIN_SUCCESS:
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                loading: action.payload.loading,
+                loading: payload.loading,
                 user: {
-                    login: action.payload.login,
+                    login: payload.login,
                 },
             };
         case LOGIN_FAILURE:
         case REGISTER_FAILURE:
             return {
                 ...state,
-                error: action.payload.error,
-                loading: action.payload.loading,
+                error: payload.error,
+                loading: payload.loading,
             };
         default:
             return state;
     }
-}
+};

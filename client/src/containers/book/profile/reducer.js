@@ -19,62 +19,62 @@ const initialState = {
     book: null,
 };
 
-export default function bookProfileReducer(state = initialState, action) {
-    switch (action.type) {
+export default (state = initialState, { type, payload }) => {
+    switch (type) {
         case BOOK_PROFILE_FETCH:
             return {
                 ...state,
-                loading: action.payload.loading,
+                loading: payload.loading,
             };
         case BOOK_PROFILE_FETCH_SUCCESS:
             return {
                 ...state,
-                loading: action.payload.loading,
-                book: action.payload.book,
+                loading: payload.loading,
+                book: payload.book,
             };
         case BOOK_PROFILE_FETCH_FAIL:
             return {
                 ...state,
-                loading: action.payload.loading,
-                error: action.payload.error,
+                loading: payload.loading,
+                error: payload.error,
             };
         case BOOK_PROFILE_EDITING:
             return {
                 ...state,
-                editing: action.payload.editing,
+                editing: payload.editing,
             };
         case BOOK_PROFILE_EDIT:
             return {
                 ...state,
                 book: {
                     ...state.book,
-                    ...action.payload.change,
+                    ...payload.change,
                 },
             };
         case BOOK_PROFILE_SAVE:
         case BOOK_PROFILE_CREATE:
             return {
                 ...state,
-                editing: action.payload.editing,
-                loading: action.payload.loading,
+                editing: payload.editing,
+                loading: payload.loading,
             };
         case BOOK_PROFILE_SAVE_SUCCESS:
         case BOOK_PROFILE_CREATE_SUCCESS:
             return {
                 ...state,
-                editing: action.payload.editing,
-                loading: action.payload.loading,
-                book: action.payload.book,
+                editing: payload.editing,
+                loading: payload.loading,
+                book: payload.book,
             };
         case BOOK_PROFILE_SAVE_FAIL:
         case BOOK_PROFILE_CREATE_FAIL:
             return {
                 ...state,
-                editing: action.payload.editing,
-                loading: action.payload.loading,
-                error: action.payload.error,
+                editing: payload.editing,
+                loading: payload.loading,
+                error: payload.error,
             };
         default:
             return state;
     }
-}
+};

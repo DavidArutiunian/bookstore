@@ -9,7 +9,7 @@ export default function createReducer() {
         // auth
         auth: authReducer,
         // book
-        booksList: bookListReducer,
+        bookList: bookListReducer,
         bookProfile: bookProfileReducer,
         // publishing office
         publishingOfficeList: publishingOfficeListReducer,

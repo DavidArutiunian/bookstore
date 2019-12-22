@@ -13,7 +13,7 @@ const initialState = {
     offices: [],
 };
 
-export default function publishingOfficeListReducer(state = initialState, { type, payload }) {
+export default (state = initialState, { type, payload }) => {
     switch (type) {
         case PUBLISHING_OFFICE_LIST_DELETE:
         case PUBLISHING_OFFICE_LIST_DELETE_SUCCESS:
@@ -38,4 +38,4 @@ export default function publishingOfficeListReducer(state = initialState, { type
         default:
             return state;
     }
-}
+};

@@ -12,153 +12,125 @@ import {
     BOOK_PROFILE_CREATE_FAIL,
     BOOK_PROFILE_CREATE_SUCCESS,
 } from "containers/book/profile/constants";
-import { doOnBooksFetch } from "containers/book/list/actions";
+import { fetchBooks } from "containers/book/list/actions";
 
-export function doOnBookProfileFetch(id) {
-    return async dispatch => {
-        try {
-            dispatch(doOnBookProfileFetchStart());
-            const book = await ky.get(`${process.env.REACT_APP_API}/books/${id}`).json();
-            dispatch(doOnBookProfileFetchSuccess(book));
-        } catch (error) {
-            dispatch(doOnBookProfileFetchFail(error));
-        }
-    };
-}
+export const fetchBook = id => async dispatch => {
+    try {
+        dispatch(fetchBookStart());
+        const book = await ky.get(`${process.env.REACT_APP_API}/books/${id}`).json();
+        dispatch(fetchBookSuccess(book));
+    } catch (error) {
+        dispatch(fetchBookFail(error));
+    }
+};
 
-function doOnBookProfileFetchStart() {
-    return {
-        type: BOOK_PROFILE_FETCH,
-        payload: {
-            loading: true,
-        },
-    };
-}
+const fetchBookStart = () => ({
+    type: BOOK_PROFILE_FETCH,
+    payload: {
+        loading: true,
+    },
+});
 
-function doOnBookProfileFetchSuccess(book) {
-    return {
-        type: BOOK_PROFILE_FETCH_SUCCESS,
-        payload: {
-            loading: false,
-            book,
-        },
-    };
-}
+const fetchBookSuccess = book => ({
+    type: BOOK_PROFILE_FETCH_SUCCESS,
+    payload: {
+        loading: false,
+        book,
+    },
+});
 
-function doOnBookProfileFetchFail(error) {
-    return {
-        type: BOOK_PROFILE_FETCH_FAIL,
-        payload: {
-            loading: false,
-            error,
-        },
-    };
-}
+const fetchBookFail = error => ({
+    type: BOOK_PROFILE_FETCH_FAIL,
+    payload: {
+        loading: false,
+        error,
+    },
+});
 
-export function donOnBookProfileEditing() {
-    return {
-        type: BOOK_PROFILE_EDITING,
-        payload: {
-            editing: true,
-        },
-    };
-}
+export const editBook = () => ({
+    type: BOOK_PROFILE_EDITING,
+    payload: {
+        editing: true,
+    },
+});
 
-export function doOnBookProfileSave(id, change) {
-    return async dispatch => {
-        try {
-            dispatch(doOnBookProfileSaveStart());
-            await ky.put(`${process.env.REACT_APP_API}/books/${id}`, { json: change });
-            dispatch(doOnBookProfileSaveSuccess());
-            dispatch(doOnBooksFetch());
-        } catch (error) {
-            dispatch(doOnBookProfileSaveFail(error));
-        }
-    };
-}
+export const saveBook = (id, change) => async dispatch => {
+    try {
+        dispatch(saveBookStart());
+        await ky.put(`${process.env.REACT_APP_API}/books/${id}`, { json: change });
+        dispatch(saveBookSuccess());
+        dispatch(fetchBooks());
+    } catch (error) {
+        dispatch(saveBookFail(error));
+    }
+};
 
-export function doOnBookProfileSaveSuccess() {
-    return {
-        type: BOOK_PROFILE_SAVE_SUCCESS,
-        payload: {
-            editing: false,
-            loading: false,
-            book: null,
-        },
-    };
-}
+export const saveBookSuccess = () => ({
+    type: BOOK_PROFILE_SAVE_SUCCESS,
+    payload: {
+        editing: false,
+        loading: false,
+        book: null,
+    },
+});
 
-function doOnBookProfileSaveStart() {
-    return {
-        type: BOOK_PROFILE_SAVE,
-        payload: {
-            editing: false,
-            loading: true,
-        },
-    };
-}
+const saveBookStart = () => ({
+    type: BOOK_PROFILE_SAVE,
+    payload: {
+        editing: false,
+        loading: true,
+    },
+});
 
-function doOnBookProfileSaveFail(error) {
-    return {
-        type: BOOK_PROFILE_SAVE_FAIL,
-        payload: {
-            editing: false,
-            error,
-            loading: false,
-        },
-    };
-}
+const saveBookFail = error => ({
+    type: BOOK_PROFILE_SAVE_FAIL,
+    payload: {
+        editing: false,
+        error,
+        loading: false,
+    },
+});
 
-export function doOnBookProfileEdit(change) {
-    return {
-        type: BOOK_PROFILE_EDIT,
-        payload: {
-            change,
-        },
-    };
-}
+export const changeBook = change => ({
+    type: BOOK_PROFILE_EDIT,
+    payload: {
+        change,
+    },
+});
 
-export function doOnBookProfileCreate(book) {
-    return async dispatch => {
-        try {
-            dispatch(doOnBookProfileCreateStart());
-            await ky.post(`${process.env.REACT_APP_API}/books`, { json: book });
-            dispatch(doOnBookProfileCreateSuccess());
-            dispatch(doOnBooksFetch());
-        } catch (error) {
-            dispatch(doOnBookProfileCreateFail(error));
-        }
-    };
-}
+export const createBook = book => async dispatch => {
+    try {
+        dispatch(createBookStart());
+        await ky.post(`${process.env.REACT_APP_API}/books`, { json: book });
+        dispatch(createBookSuccess());
+        dispatch(fetchBooks());
+    } catch (error) {
+        dispatch(createBookFail(error));
+    }
+};
 
-function doOnBookProfileCreateSuccess() {
-    return {
-        type: BOOK_PROFILE_CREATE_SUCCESS,
-        payload: {
-            editing: false,
-            loading: false,
-            book: null,
-        },
-    };
-}
+const createBookSuccess = () => ({
+    type: BOOK_PROFILE_CREATE_SUCCESS,
+    payload: {
+        editing: false,
+        loading: false,
+        book: null,
+    },
+});
 
-function doOnBookProfileCreateStart() {
-    return {
-        type: BOOK_PROFILE_CREATE,
-        payload: {
-            editing: false,
-            loading: true,
-        },
-    };
-}
+const createBookStart = () => ({
+    type: BOOK_PROFILE_CREATE,
+    payload: {
+        editing: false,
+        loading: true,
+    },
+});
 
-function doOnBookProfileCreateFail(error) {
-    return {
-        type: BOOK_PROFILE_CREATE_FAIL,
-        payload: {
-            editing: false,
-            error,
-            loading: false,
-        },
-    };
-}
+const createBookFail = error => ({
+    type: BOOK_PROFILE_CREATE_FAIL,
+    payload: {
+        editing: false,
+        error,
+        loading: false,
+    },
+});

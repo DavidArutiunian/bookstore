@@ -6,10 +6,10 @@ import PublishingOfficeList from "views/PublishingOfficeList";
 import { connect } from "react-redux";
 import { hot } from "react-hot-loader/root";
 
-const mapStateToProps = state => ({
-    loading: state.publishingOfficeList.loading,
-    error: state.publishingOfficeList.error,
-    offices: state.publishingOfficeList.offices,
+const mapStateToProps = ({ publishingOfficeList }) => ({
+    loading: publishingOfficeList.loading,
+    error: publishingOfficeList.error,
+    offices: publishingOfficeList.offices,
 });
 
 const mapDispatchToProps = dispatch => ({

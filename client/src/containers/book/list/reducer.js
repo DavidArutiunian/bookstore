@@ -13,29 +13,29 @@ const initialState = {
     books: [],
 };
 
-export default function bookListReducer(state = initialState, action) {
-    switch (action.type) {
+export default (state = initialState, { payload, type }) => {
+    switch (type) {
         case BOOK_PROFILE_DELETE:
         case BOOK_PROFILE_DELETE_SUCCESS:
         case BOOK_LIST_FETCH:
             return {
                 ...state,
-                loading: action.payload.loading,
+                loading: payload.loading,
             };
         case BOOK_LIST_FETCH_SUCCESS:
             return {
                 ...state,
-                loading: action.payload.loading,
-                books: action.payload.books,
+                loading: payload.loading,
+                books: payload.books,
             };
         case BOOK_PROFILE_DELETE_FAIL:
         case BOOK_LIST_FETCH_FAIL:
             return {
                 ...state,
-                loading: action.payload.loading,
-                error: action.payload.error,
+                loading: payload.loading,
+                error: payload.error,
             };
         default:
             return state;
     }
-}
+};

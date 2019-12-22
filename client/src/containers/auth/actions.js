@@ -7,82 +7,68 @@ import {
     LOGIN_SUCCESS,
 } from "./constants";
 
-export function doOnRegister(login, _password) {
-    return dispatch => {
-        try {
-            dispatch(doOnRegisterStart());
-            dispatch(doOnRegisterSuccess(login));
-        } catch (error) {
-            dispatch(doOnRegisterFail(error));
-        }
-    };
-}
+export const register = (login, password) => async dispatch => {
+    void password;
+    try {
+        dispatch(registerStart());
+        dispatch(registerSuccess(login));
+    } catch (error) {
+        dispatch(registerFail(error));
+    }
+};
 
-function doOnRegisterStart() {
-    return {
-        type: REGISTER,
-        payload: {
-            loading: true,
-        },
-    };
-}
+const registerStart = () => ({
+    type: REGISTER,
+    payload: {
+        loading: true,
+    },
+});
 
-function doOnRegisterSuccess(login) {
-    return {
-        type: REGISTER_SUCCESS,
-        payload: {
-            loading: false,
-            login,
-        },
-    };
-}
+const registerSuccess = login => ({
+    type: REGISTER_SUCCESS,
+    payload: {
+        loading: false,
+        login,
+    },
+});
 
-function doOnRegisterFail(error) {
-    return {
-        type: REGISTER_FAILURE,
-        payload: {
-            loading: false,
-            error,
-        },
-    };
-}
+const registerFail = error => ({
+    type: REGISTER_FAILURE,
+    payload: {
+        loading: false,
+        error,
+    },
+});
 
-export function doOnLogin(login, _password) {
-    return dispatch => {
-        try {
-            dispatch(doOnLoginStart());
-            dispatch(doOnLoginSuccess(login));
-        } catch (error) {
-            dispatch(doOnLoginFailure(error));
-        }
-    };
-}
+export const login = (login, password) => async dispatch => {
+    void password;
+    try {
+        dispatch(loginStart());
+        dispatch(loginSuccess(login));
+    } catch (error) {
+        dispatch(loginFail(error));
+    }
+};
 
-function doOnLoginStart() {
-    return {
-        type: LOGIN,
-        payload: {
-            loading: true,
-        },
-    };
-}
+const loginStart = () => ({
+    type: LOGIN,
+    payload: {
+        loading: true,
+    },
+});
 
-function doOnLoginSuccess(login) {
-    return {
-        type: LOGIN_SUCCESS,
-        payload: {
-            loading: false,
-            login,
-        },
-    };
-}
+const loginSuccess = login => ({
+    type: LOGIN_SUCCESS,
+    payload: {
+        loading: false,
+        login,
+    },
+});
 
-function doOnLoginFailure(error) {
-    return {
-        type: LOGIN_FAILURE,
-        payload: {
-            loading: false,
-            error,
-        },
-    };
-}
+const loginFail = error => ({
+    type: LOGIN_FAILURE,
+    payload: {
+        loading: false,
+        error,
+    },
+});
