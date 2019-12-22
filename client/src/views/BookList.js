@@ -2,7 +2,7 @@ import { css } from "@emotion/core";
 import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import React from "react";
-import { Link, Router } from "@reach/router";
+import { Link, navigate, Router } from "@reach/router";
 import BookProfile from "containers/book-profile";
 import PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
@@ -50,10 +50,9 @@ function BookList(props) {
             )}
             renderTableRow={({ item: book, onDelete }) => (
                 <TableRow
-                    component={Link}
                     css={styles.tableRow}
                     key={book.id_book}
-                    to={`${book.id_book}`}
+                    onClick={() => navigate(`books/${book.id_book}`)}
                 >
                     <TableCell>{book.id_book}</TableCell>
                     <TableCell>{book.title}</TableCell>
@@ -73,6 +72,7 @@ function BookList(props) {
                     tooltipTitle="Добавить книгу"
                     icon={<AddIcon />}
                     onClick={onAdd}
+                    title="Добавить книгу"
                 />
             )}
         />
