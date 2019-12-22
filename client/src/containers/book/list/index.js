@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { fetchBooks, deleteBook } from "containers/book/list/actions";
+import { fetchBooks, deleteBook } from "./actions";
 import BookList from "views/BookList";
 import { hot } from "react-hot-loader/root";
 import { editBook } from "containers/book/profile/actions";

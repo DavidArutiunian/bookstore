@@ -4,9 +4,12 @@ import {
     PUBLISHING_OFFICE_PROFILE_FETCH_FAIL,
     PUBLISHING_OFFICE_PROFILE_FETCH_SUCCESS,
     PUBLISHING_OFFICE_PROFILE_EDIT,
-    PUBLISHING_OFFICE_SAVE,
-    PUBLISHING_OFFICE_SAVE_FAIL,
-    PUBLISHING_OFFICE_SAVE_SUCCESS,
+    PUBLISHING_OFFICE_PROFILE_SAVE,
+    PUBLISHING_OFFICE_PROFILE_SAVE_FAIL,
+    PUBLISHING_OFFICE_PROFILE_SAVE_SUCCESS,
+    PUBLISHING_OFFICE_PROFILE_CREATE,
+    PUBLISHING_OFFICE_PROFILE_CREATE_FAIL,
+    PUBLISHING_OFFICE_PROFILE_CREATE_SUCCESS,
 } from "./constants";
 import ky from "ky";
 import { fetchPublishingOfficeList } from "containers/publishing_office/list/actions";
@@ -58,27 +61,27 @@ export const editPublishingOffice = () => ({
     },
 });
 
-export const savePublishingProfile = (id, change) => async dispatch => {
+export const savePublishingOffice = (id, change) => async dispatch => {
     try {
-        dispatch(savePublishingProfileStart());
+        dispatch(savePublishingOfficeStart());
         await ky.put(`${process.env.REACT_APP_API}/publishing_office/${id}`, { json: change });
-        dispatch(savePublishingProfileSuccess());
+        dispatch(savePublishingOfficeSuccess());
         dispatch(fetchPublishingOfficeList());
     } catch (error) {
-        dispatch(savePublishingProfileFail(error));
+        dispatch(savePublishingOfficeFail(error));
     }
 };
 
-const savePublishingProfileStart = () => ({
-    type: PUBLISHING_OFFICE_SAVE,
+const savePublishingOfficeStart = () => ({
+    type: PUBLISHING_OFFICE_PROFILE_SAVE,
     payload: {
         editing: false,
         loading: true,
     },
 });
 
-const savePublishingProfileSuccess = () => ({
-    type: PUBLISHING_OFFICE_SAVE_SUCCESS,
+export const savePublishingOfficeSuccess = () => ({
+    type: PUBLISHING_OFFICE_PROFILE_SAVE_SUCCESS,
     payload: {
         editing: false,
         loading: false,
@@ -86,8 +89,45 @@ const savePublishingProfileSuccess = () => ({
     },
 });
 
-const savePublishingProfileFail = error => ({
-    type: PUBLISHING_OFFICE_SAVE_FAIL,
+const savePublishingOfficeFail = error => ({
+    type: PUBLISHING_OFFICE_PROFILE_SAVE_FAIL,
+    payload: {
+        editing: false,
+        error,
+        loading: false,
+    },
+});
+
+export const createPublishingOffice = office => async dispatch => {
+    try {
+        dispatch(createPublishingOfficeStart());
+        await ky.post(`${process.env.REACT_APP_API}/publishing_office`, { json: office });
+        dispatch(createPublishingOfficeSuccess());
+        dispatch(fetchPublishingOfficeList());
+    } catch (error) {
+        dispatch(createPublishingOfficeFail(error));
+    }
+};
+
+const createPublishingOfficeStart = () => ({
+    type: PUBLISHING_OFFICE_PROFILE_CREATE,
+    payload: {
+        editing: false,
+        loading: true,
+    },
+});
+
+const createPublishingOfficeSuccess = () => ({
+    type: PUBLISHING_OFFICE_PROFILE_CREATE_SUCCESS,
+    payload: {
+        editing: false,
+        loading: false,
+        office: null,
+    },
+});
+
+const createPublishingOfficeFail = error => ({
+    type: PUBLISHING_OFFICE_PROFILE_CREATE_FAIL,
     payload: {
         editing: false,
         error,

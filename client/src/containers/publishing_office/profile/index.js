@@ -1,9 +1,11 @@
 import {
     changePublishingOffice,
+    createPublishingOffice,
     editPublishingOffice,
     fetchPublishingOffice,
-    savePublishingProfile,
-} from "containers/publishing_office/profile/actions";
+    savePublishingOffice,
+    savePublishingOfficeSuccess,
+} from "./actions";
 import PublishingOfficeProfile from "views/PublishingOfficeProfile";
 import { connect } from "react-redux";
 import { hot } from "react-hot-loader/root";
@@ -18,9 +20,9 @@ const mapStateToProps = ({ publishingOfficeProfile }) => ({
 const mapDispatchToProps = dispatch => ({
     fetchOffice: id => dispatch(fetchPublishingOffice(id)),
     startEditing: () => dispatch(editPublishingOffice()),
-    stopEditingAndSave: (id, change) => dispatch(savePublishingProfile(id, change)),
-    stopEditingAndCreate: book => void book,
-    justStopEditing: () => void 0,
+    stopEditingAndSave: (id, change) => dispatch(savePublishingOffice(id, change)),
+    stopEditingAndCreate: office => dispatch(createPublishingOffice(office)),
+    justStopEditing: () => dispatch(savePublishingOfficeSuccess()),
     handleChange: change => dispatch(changePublishingOffice(change)),
 });
 

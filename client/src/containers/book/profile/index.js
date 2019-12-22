@@ -1,12 +1,5 @@
 import { connect } from "react-redux";
-import {
-    editBook,
-    changeBook,
-    saveBook,
-    fetchBook,
-    createBook,
-    saveBookSuccess,
-} from "containers/book/profile/actions";
+import { editBook, changeBook, saveBook, fetchBook, createBook, saveBookSuccess } from "./actions";
 import BookProfile from "views/BookProfile";
 import { hot } from "react-hot-loader/root";
 

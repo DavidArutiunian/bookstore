@@ -1,10 +1,8 @@
-import {
-    deletePublishingOffice,
-    fetchPublishingOfficeList,
-} from "containers/publishing_office/list/actions";
+import { deletePublishingOffice, fetchPublishingOfficeList } from "./actions";
 import PublishingOfficeList from "views/PublishingOfficeList";
 import { connect } from "react-redux";
 import { hot } from "react-hot-loader/root";
+import { editPublishingOffice } from "containers/publishing_office/profile/actions";
 
 const mapStateToProps = ({ publishingOfficeList }) => ({
     loading: publishingOfficeList.loading,
@@ -15,7 +13,7 @@ const mapStateToProps = ({ publishingOfficeList }) => ({
 const mapDispatchToProps = dispatch => ({
     fetchOffices: () => dispatch(fetchPublishingOfficeList()),
     deleteOffice: id => dispatch(deletePublishingOffice(id)),
-    startEditing: () => void 0,
+    startEditing: () => dispatch(editPublishingOffice()),
 });
 
 export default hot(
