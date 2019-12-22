@@ -42,7 +42,7 @@ function Dashboard(props) {
     }
 
     return (
-        <React.Fragment>
+        <>
             <BaseHeader>
                 <IconButton edge="start" color="inherit" onClick={handleDrawerOpen}>
                     <Menu />
@@ -87,7 +87,7 @@ function Dashboard(props) {
                     <BookList path="books/*" />
                 </Router>
             </Layout>
-        </React.Fragment>
+        </>
     );
 }
 

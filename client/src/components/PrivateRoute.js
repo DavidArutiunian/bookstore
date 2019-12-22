@@ -12,7 +12,7 @@ export default function PrivateRoute(props) {
             return <Redirect to={to} noThrow />;
         }
     } else {
-        return <React.Fragment>{render(rest)}</React.Fragment>;
+        return <>{render(rest)}</>;
     }
 }
 

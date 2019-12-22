@@ -17,7 +17,7 @@ function Login(props) {
     }, [logged]);
 
     return (
-        <React.Fragment>
+        <>
             <BaseHeader>
                 <Button color="inherit" component={Link} to="/register">
                     На регистрацию
@@ -26,7 +26,7 @@ function Login(props) {
             <CenteredLayout>
                 <AuthBase onSubmit={login}>Вход</AuthBase>
             </CenteredLayout>
-        </React.Fragment>
+        </>
     );
 }
 

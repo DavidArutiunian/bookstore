@@ -1,8 +1,5 @@
-/** @jsx jsx */
-
 import React, { useEffect } from "react";
 import AuthBase from "components/AuthBase";
-import { jsx } from "@emotion/core";
 import { Link, navigate } from "@reach/router";
 import CenteredLayout from "components/CenteredLayout";
 import BaseHeader from "components/BaseHeader";
@@ -20,7 +17,7 @@ function Register(props) {
     }, [logged]);
 
     return (
-        <React.Fragment>
+        <>
             <BaseHeader>
                 <Button color="inherit" component={Link} to="/login">
                     На вход
@@ -29,7 +26,7 @@ function Register(props) {
             <CenteredLayout>
                 <AuthBase onSubmit={register}>Регистрация</AuthBase>
             </CenteredLayout>
-        </React.Fragment>
+        </>
     );
 }
 
