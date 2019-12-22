@@ -2,6 +2,7 @@ import {
     changePublishingOffice,
     editPublishingOffice,
     fetchPublishingOffice,
+    savePublishingProfile,
 } from "containers/publishing_office/profile/actions";
 import PublishingOfficeProfile from "views/PublishingOfficeProfile";
 import { connect } from "react-redux";
@@ -17,7 +18,7 @@ const mapStateToProps = ({ publishingOfficeProfile }) => ({
 const mapDispatchToProps = dispatch => ({
     fetchOffice: id => dispatch(fetchPublishingOffice(id)),
     startEditing: () => dispatch(editPublishingOffice()),
-    stopEditingAndSave: (id, change) => void { id, change },
+    stopEditingAndSave: (id, change) => dispatch(savePublishingProfile(id, change)),
     stopEditingAndCreate: book => void book,
     justStopEditing: () => void 0,
     handleChange: change => dispatch(changePublishingOffice(change)),
