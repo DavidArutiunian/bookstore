@@ -1,4 +1,8 @@
-import { fetchPublishingOffice } from "containers/publishing_office/profile/actions";
+import {
+    changePublishingOffice,
+    editPublishingOffice,
+    fetchPublishingOffice,
+} from "containers/publishing_office/profile/actions";
 import PublishingOfficeProfile from "views/PublishingOfficeProfile";
 import { connect } from "react-redux";
 import { hot } from "react-hot-loader/root";
@@ -12,11 +16,11 @@ const mapStateToProps = ({ publishingOfficeProfile }) => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchOffice: id => dispatch(fetchPublishingOffice(id)),
-    startEditing: () => void 0,
+    startEditing: () => dispatch(editPublishingOffice()),
     stopEditingAndSave: (id, change) => void { id, change },
     stopEditingAndCreate: book => void book,
     justStopEditing: () => void 0,
-    handleChange: change => void change,
+    handleChange: change => dispatch(changePublishingOffice(change)),
 });
 
 export default hot(

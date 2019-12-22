@@ -1,7 +1,9 @@
 import {
-    BOOK_PROFILE_FETCH_FAIL,
-    BOOK_PROFILE_FETCH_SUCCESS,
-    BOOK_PROFILE_FETCH,
+    PUBLISHING_OFFICE_PROFILE_CHANGE,
+    PUBLISHING_OFFICE_PROFILE_FETCH,
+    PUBLISHING_OFFICE_PROFILE_FETCH_FAIL,
+    PUBLISHING_OFFICE_PROFILE_FETCH_SUCCESS,
+    PUBLISHING_OFFICE_PROFILE_EDIT,
 } from "./constants";
 import ky from "ky";
 
@@ -16,14 +18,14 @@ export const fetchPublishingOffice = id => async dispatch => {
 };
 
 const fetchPublishingOfficeStart = () => ({
-    type: BOOK_PROFILE_FETCH,
+    type: PUBLISHING_OFFICE_PROFILE_FETCH,
     payload: {
         loading: true,
     },
 });
 
 const fetchPublishingOfficeSuccess = office => ({
-    type: BOOK_PROFILE_FETCH_SUCCESS,
+    type: PUBLISHING_OFFICE_PROFILE_FETCH_SUCCESS,
     payload: {
         loading: false,
         office,
@@ -31,9 +33,23 @@ const fetchPublishingOfficeSuccess = office => ({
 });
 
 const fetchPublishingOfficeFail = error => ({
-    type: BOOK_PROFILE_FETCH_FAIL,
+    type: PUBLISHING_OFFICE_PROFILE_FETCH_FAIL,
     payload: {
         loading: false,
         error,
+    },
+});
+
+export const changePublishingOffice = change => ({
+    type: PUBLISHING_OFFICE_PROFILE_CHANGE,
+    payload: {
+        change,
+    },
+});
+
+export const editPublishingOffice = () => ({
+    type: PUBLISHING_OFFICE_PROFILE_EDIT,
+    payload: {
+        editing: true,
     },
 });

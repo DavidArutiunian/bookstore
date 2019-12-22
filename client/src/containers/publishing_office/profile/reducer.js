@@ -1,7 +1,9 @@
 import {
-    BOOK_PROFILE_FETCH_FAIL,
-    BOOK_PROFILE_FETCH,
-    BOOK_PROFILE_FETCH_SUCCESS,
+    PUBLISHING_OFFICE_PROFILE_FETCH_SUCCESS,
+    PUBLISHING_OFFICE_PROFILE_FETCH_FAIL,
+    PUBLISHING_OFFICE_PROFILE_FETCH,
+    PUBLISHING_OFFICE_PROFILE_CHANGE,
+    PUBLISHING_OFFICE_PROFILE_EDIT,
 } from "./constants";
 
 const initialState = {
@@ -13,22 +15,35 @@ const initialState = {
 
 export default (state = initialState, { type, payload }) => {
     switch (type) {
-        case BOOK_PROFILE_FETCH:
+        case PUBLISHING_OFFICE_PROFILE_FETCH:
             return {
                 ...state,
                 loading: payload.loading,
             };
-        case BOOK_PROFILE_FETCH_SUCCESS:
+        case PUBLISHING_OFFICE_PROFILE_FETCH_SUCCESS:
             return {
                 ...state,
                 loading: payload.loading,
                 office: payload.office,
             };
-        case BOOK_PROFILE_FETCH_FAIL:
+        case PUBLISHING_OFFICE_PROFILE_FETCH_FAIL:
             return {
                 ...state,
                 loading: payload.loading,
                 error: payload.error,
+            };
+        case PUBLISHING_OFFICE_PROFILE_CHANGE:
+            return {
+                ...state,
+                office: {
+                    ...state.office,
+                    ...payload.change,
+                },
+            };
+        case PUBLISHING_OFFICE_PROFILE_EDIT:
+            return {
+                ...state,
+                editing: payload.editing,
             };
         default:
             return state;
