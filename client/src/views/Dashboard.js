@@ -64,7 +64,7 @@ function Dashboard(props) {
                             <ListItemText>На главную</ListItemText>
                         </ListItem>
                         <Divider />
-                        <ListItem button component={Link} to="books" onClick={handleDrawerClose}>
+                        <ListItem button component={Link} to="book" onClick={handleDrawerClose}>
                             <ListItemIcon>
                                 <LibraryBooks />
                             </ListItemIcon>
@@ -84,7 +84,7 @@ function Dashboard(props) {
                     </List>
                 </Drawer>
                 <Router>
-                    <BookList path="books/*" />
+                    <BookList path="book/*" />
                 </Router>
             </Layout>
         </>
