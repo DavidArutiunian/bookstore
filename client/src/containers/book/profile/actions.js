@@ -1,7 +1,7 @@
 import ky from "ky";
 import {
+    BOOK_PROFILE_CHANGE,
     BOOK_PROFILE_EDIT,
-    BOOK_PROFILE_EDITING,
     BOOK_PROFILE_FETCH,
     BOOK_PROFILE_FETCH_FAIL,
     BOOK_PROFILE_FETCH_SUCCESS,
@@ -48,7 +48,7 @@ const fetchBookFail = error => ({
 });
 
 export const editBook = () => ({
-    type: BOOK_PROFILE_EDITING,
+    type: BOOK_PROFILE_EDIT,
     payload: {
         editing: true,
     },
@@ -92,7 +92,7 @@ const saveBookFail = error => ({
 });
 
 export const changeBook = change => ({
-    type: BOOK_PROFILE_EDIT,
+    type: BOOK_PROFILE_CHANGE,
     payload: {
         change,
     },

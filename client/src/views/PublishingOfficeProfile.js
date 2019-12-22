@@ -3,18 +3,18 @@ import * as PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
 import BaseProfile from "components/BaseProfile";
 
-function BookProfile(props) {
+function PublishingOfficeProfile(props) {
     const {
         id,
-        book,
+        office,
         editing,
-        fetchBook,
+        fetchOffice,
         loading,
         startEditing,
         stopEditingAndSave,
         handleChange,
         customTitle,
-        shouldFetchBook = true,
+        shouldFetchOffice = true,
         showOptions = true,
         stopEditingAndCreate,
         shouldCreate = false,
@@ -27,35 +27,27 @@ function BookProfile(props) {
             fields={[
                 {
                     rules: { required: "Обязательно для заполнения" },
-                    name: "title",
+                    name: "name",
                     title: "Название",
-                    value: book?.title,
+                    value: office?.name,
                 },
                 {
-                    rules: {
-                        required: "Обязательно для заполнения",
-                        pattern: /^\d{4}$/,
-                    },
-                    name: "year",
-                    title: "Год",
-                    type: "number",
-                    value: book?.year,
+                    rules: { required: "Обязательно для заполнения" },
+                    name: "address",
+                    title: "Адрес",
+                    value: office?.address,
                 },
                 {
-                    rules: {
-                        required: "Обязательно для заполнения",
-                        pattern: /^[0-9]+(\.[0-9]{1,2})?$/,
-                    },
-                    name: "cost",
-                    title: "Цена",
-                    type: "number",
-                    value: book?.cost,
+                    rules: { required: "Обязательно для заполнения" },
+                    name: "email",
+                    title: "Эл. почта",
+                    value: office?.email,
                 },
             ]}
             id={id}
-            item={book}
+            item={office}
             editing={editing}
-            fetchItem={fetchBook}
+            fetchItem={fetchOffice}
             loading={loading}
             startEditing={startEditing}
             stopEditingAndSave={stopEditingAndSave}
@@ -68,10 +60,10 @@ function BookProfile(props) {
                         customTitle
                     )
                 ) : (
-                    <>Книга №{book?.id_book}</>
+                    <>Издательский дом №{office?.id_publishing_office}</>
                 )
             }
-            shouldFetchItem={shouldFetchBook}
+            shouldFetchItem={shouldFetchOffice}
             showOptions={showOptions}
             stopEditingAndCreate={stopEditingAndCreate}
             shouldCreate={shouldCreate}
@@ -81,22 +73,22 @@ function BookProfile(props) {
     );
 }
 
-BookProfile.propTypes = {
+PublishingOfficeProfile.propTypes = {
     id: PropTypes.string,
-    book: PropTypes.shape({
-        id_book: PropTypes.number,
-        title: PropTypes.string,
-        cost: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    office: PropTypes.shape({
+        id_publishing_office: PropTypes.number,
+        name: PropTypes.string,
+        address: PropTypes.string,
+        email: PropTypes.string,
     }),
     shouldCreate: PropTypes.bool,
     customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     showOptions: PropTypes.bool,
-    shouldFetchBook: PropTypes.bool,
+    shouldFetchOffice: PropTypes.bool,
     loading: PropTypes.bool.isRequired,
     editing: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
-    fetchBook: PropTypes.func.isRequired,
+    fetchOffice: PropTypes.func.isRequired,
     startEditing: PropTypes.func.isRequired,
     stopEditingAndSave: PropTypes.func.isRequired,
     stopEditingAndCreate: PropTypes.func.isRequired,
@@ -104,4 +96,4 @@ BookProfile.propTypes = {
     handleChange: PropTypes.func.isRequired,
 };
 
-export default hot(BookProfile);
+export default hot(PublishingOfficeProfile);

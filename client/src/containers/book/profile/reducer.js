@@ -1,6 +1,6 @@
 import {
+    BOOK_PROFILE_CHANGE,
     BOOK_PROFILE_EDIT,
-    BOOK_PROFILE_EDITING,
     BOOK_PROFILE_FETCH,
     BOOK_PROFILE_FETCH_FAIL,
     BOOK_PROFILE_FETCH_SUCCESS,
@@ -38,12 +38,12 @@ export default (state = initialState, { type, payload }) => {
                 loading: payload.loading,
                 error: payload.error,
             };
-        case BOOK_PROFILE_EDITING:
+        case BOOK_PROFILE_EDIT:
             return {
                 ...state,
                 editing: payload.editing,
             };
-        case BOOK_PROFILE_EDIT:
+        case BOOK_PROFILE_CHANGE:
             return {
                 ...state,
                 book: {

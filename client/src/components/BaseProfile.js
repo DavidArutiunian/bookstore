@@ -121,18 +121,11 @@ function BaseProfile(props) {
             <DialogContent dividers={true} css={styles.dialog}>
                 {loading ? (
                     <Grid container spacing={2}>
-                        <Grid item>
-                            <Skeleton variant="rect" width={440} height={32} />
-                        </Grid>
-                        <Grid item>
-                            <Skeleton variant="rect" width={440} height={32} />
-                        </Grid>
-                        <Grid item>
-                            <Skeleton variant="rect" width={440} height={32} />
-                        </Grid>
-                        <Grid item>
-                            <Skeleton variant="rect" width={440} height={32} />
-                        </Grid>
+                        {fields.map(field => (
+                            <Grid key={field.name} item>
+                                <Skeleton variant="rect" width={440} height={32} />
+                            </Grid>
+                        ))}
                     </Grid>
                 ) : (
                     <form noValidate autoComplete="off">

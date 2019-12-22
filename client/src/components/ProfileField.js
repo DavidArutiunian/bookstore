@@ -26,10 +26,10 @@ const ProfileField = props => {
 
     return (
         <>
-            <ProfileFieldTitle item sm={2}>
+            <ProfileFieldTitle item sm={3}>
                 <Typography variant="body2">{title}</Typography>
             </ProfileFieldTitle>
-            <Grid item sm={10}>
+            <Grid item sm={9}>
                 <Grid container>
                     <Grid item sm={12}>
                         {readOnly ? (

@@ -26,12 +26,12 @@ function BookList(props) {
             renderRouter={() => (
                 <Router>
                     <BookProfile
+                        path="new"
                         customTitle="Новая книга"
                         shouldFetchBook={false}
                         showTitle={false}
                         showOptions={false}
                         shouldCreate={true}
-                        path="new"
                     />
                     <BookProfile path=":id" />
                 </Router>

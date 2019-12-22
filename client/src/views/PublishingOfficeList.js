@@ -1,7 +1,6 @@
 import TableCell from "@material-ui/core/TableCell";
 import React from "react";
 import { Link, navigate, Router } from "@reach/router";
-import BookProfile from "containers/book/profile";
 import PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
 import { Delete as DeleteIcon, LibraryAdd as AddIcon } from "@material-ui/icons";
@@ -10,6 +9,7 @@ import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import BaseList from "components/BaseList";
 import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
+import PublishingOfficeProfile from "containers/publishing_office/profile";
 
 function PublishingOfficeList(props) {
     const { fetchOffices, offices, loading, deleteOffice, startEditing, error } = props;
@@ -25,15 +25,15 @@ function PublishingOfficeList(props) {
             startEditing={startEditing}
             renderRouter={() => (
                 <Router>
-                    <BookProfile
+                    <PublishingOfficeProfile
+                        path="new"
                         customTitle="Новый изадетльский дом"
-                        shouldFetchBook={false}
+                        shouldFetchOffice={false}
                         showTitle={false}
                         showOptions={false}
                         shouldCreate={true}
-                        path="new"
                     />
-                    <BookProfile path=":id" />
+                    <PublishingOfficeProfile path=":id" />
                 </Router>
             )}
             renderTableRow={({ item: office, onDelete }) => (
