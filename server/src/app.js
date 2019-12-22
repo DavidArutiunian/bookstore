@@ -18,6 +18,12 @@ const bookRepository = require("./repositories/book");
 const bookService = require("./services/books")(bookRepository);
 app.use("/api/books", bookRouter(bookService));
 
+// Publishing Office API
+const publishingOfficeRouter = require("./routes/publishing_office");
+const publishingOfficeRepository = require("./repositories/publishing_office");
+const publishingOfficeService = require("./services/publishing_office")(publishingOfficeRepository);
+app.use("/api/publishing_office", publishingOfficeRouter(publishingOfficeService));
+
 // Pretty errors
 const pe = new PrettyError();
 pe.skipNodeFiles();

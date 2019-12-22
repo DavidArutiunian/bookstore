@@ -2,6 +2,12 @@ const request = require("supertest");
 const app = require("../app");
 const getConnection = require("../db");
 
+beforeAll(async () => {
+    const conn = await getConnection();
+    await conn.execute("DELETE FROM book");
+    await conn.execute("ALTER TABLE book AUTO_INCREMENT = 1");
+});
+
 afterAll(async () => {
     const conn = await getConnection();
     await conn.execute("DELETE FROM book");
