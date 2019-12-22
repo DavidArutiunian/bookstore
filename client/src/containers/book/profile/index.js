@@ -6,7 +6,7 @@ import {
     doOnBookProfileFetch,
     doOnBookProfileCreate,
     doOnBookProfileSaveSuccess,
-} from "./actions";
+} from "containers/book/profile/actions";
 import BookProfile from "views/BookProfile";
 import { hot } from "react-hot-loader/root";
 

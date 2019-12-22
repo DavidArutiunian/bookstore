@@ -11,8 +11,8 @@ import {
     BOOK_PROFILE_CREATE,
     BOOK_PROFILE_CREATE_FAIL,
     BOOK_PROFILE_CREATE_SUCCESS,
-} from "./constants";
-import { doOnBooksFetch } from "containers/book-list/actions";
+} from "containers/book/profile/constants";
+import { doOnBooksFetch } from "containers/book/list/actions";
 
 export function doOnBookProfileFetch(id) {
     return async dispatch => {

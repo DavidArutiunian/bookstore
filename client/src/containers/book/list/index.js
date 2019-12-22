@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
-import { doOnBooksFetch, doOnBookProfileDelete } from "./actions";
+import { doOnBooksFetch, doOnBookProfileDelete } from "containers/book/list/actions";
 import BookList from "views/BookList";
 import { hot } from "react-hot-loader/root";
-import { donOnBookProfileEditing } from "containers/book-profile/actions";
+import { donOnBookProfileEditing } from "containers/book/profile/actions";
 
 const mapStateToProps = state => ({
     loading: state.booksList.loading,

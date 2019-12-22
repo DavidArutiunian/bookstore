@@ -14,7 +14,8 @@ import Chip from "@material-ui/core/Chip";
 import Avatar from "@material-ui/core/Avatar";
 import Grid from "@material-ui/core/Grid";
 import { Link, Router } from "@reach/router";
-import BookList from "containers/book-list";
+import BookList from "containers/book/list";
+import PublishingOfficeList from "containers/publishing_office/list";
 import Divider from "@material-ui/core/Divider";
 import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
@@ -85,6 +86,7 @@ function Dashboard(props) {
                 </Drawer>
                 <Router>
                     <BookList path="book/*" />
+                    <PublishingOfficeList path="publishing_office/*" />
                 </Router>
             </Layout>
         </>

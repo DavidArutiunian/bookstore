@@ -10,7 +10,7 @@ import {
     BOOK_PROFILE_CREATE_FAIL,
     BOOK_PROFILE_CREATE,
     BOOK_PROFILE_CREATE_SUCCESS,
-} from "./constants";
+} from "containers/book/profile/constants";
 
 const initialState = {
     loading: false,

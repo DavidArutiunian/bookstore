@@ -6,7 +6,7 @@ import {
     BOOK_PROFILE_DELETE_SUCCESS,
     BOOK_PROFILE_DELETE_FAIL,
     BOOK_PROFILE_DELETE,
-} from "./constants";
+} from "containers/book/list/constants";
 
 export function doOnBooksFetch() {
     return async dispatch => {
