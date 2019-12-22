@@ -263,8 +263,6 @@ const BookField = props => {
 
     const handleChange = event => onChange(event.target.value);
 
-    console.log(errors);
-
     return (
         <React.Fragment>
             <BookFieldTitle item sm={2}>

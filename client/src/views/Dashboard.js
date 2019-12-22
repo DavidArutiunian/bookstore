@@ -3,7 +3,7 @@ import { css } from "@emotion/core";
 import Layout from "components/Layout";
 import BaseHeader from "components/BaseHeader";
 import IconButton from "@material-ui/core/IconButton";
-import { ArrowBack, LibraryBooks, Menu } from "@material-ui/icons";
+import { ArrowBack, Business, LibraryBooks, Menu } from "@material-ui/icons";
 import Drawer from "@material-ui/core/Drawer";
 import PropTypes from "prop-types";
 import List from "@material-ui/core/List";
@@ -20,10 +20,6 @@ import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
 
 const styles = {
-    headerGrid: css`
-        flex-grow: 1;
-        justify-content: flex-end;
-    `,
     chip: css`
         cursor: pointer;
     `,
@@ -73,6 +69,17 @@ function Dashboard(props) {
                                 <LibraryBooks />
                             </ListItemIcon>
                             <ListItemText>Все книги</ListItemText>
+                        </ListItem>
+                        <ListItem
+                            button
+                            component={Link}
+                            to="publishing_office"
+                            onClick={handleDrawerClose}
+                        >
+                            <ListItemIcon>
+                                <Business />
+                            </ListItemIcon>
+                            <ListItemText>Издательские дома</ListItemText>
                         </ListItem>
                     </List>
                 </Drawer>
