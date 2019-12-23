@@ -35,6 +35,7 @@ export const deleteAuthor = id => async dispatch => {
         dispatch(deleteAuthorStart());
         await ky.delete(`${process.env.REACT_APP_API}/author/${id}`);
         dispatch(deleteAuthorSuccess());
+        dispatch(fetchAuthors());
     } catch (error) {
         console.error(error);
         dispatch(deleteAuthorError({ error }));

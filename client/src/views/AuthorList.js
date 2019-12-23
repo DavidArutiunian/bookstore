@@ -1,6 +1,6 @@
 import TableCell from "@material-ui/core/TableCell";
 import React from "react";
-import { Link, navigate, Router } from "@reach/router";
+import { Link, navigate } from "@reach/router";
 import PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
 import { Delete as DeleteIcon, LibraryAdd as AddIcon } from "@material-ui/icons";
@@ -22,7 +22,7 @@ function AuthorList(props) {
             deleteItem={deleteAuthor}
             fetchList={fetchAuthors}
             startEditing={startEditing}
-            renderRouter={() => <Router />}
+            renderRouter={() => null}
             renderTableRow={({ item: author, onDelete }) => (
                 <TableRow
                     key={author.id_author}

@@ -24,6 +24,12 @@ const publishingOfficeRepository = require("./repositories/publishing_office");
 const publishingOfficeService = require("./services/publishing_office")(publishingOfficeRepository);
 app.use("/api/publishing_office", publishingOfficeRouter(publishingOfficeService));
 
+// Author API
+const authorRouter = require("./routes/author");
+const authorRepository = require("./repositories/author");
+const authorService = require("./services/author")(authorRepository);
+app.use("/api/author", authorRouter(authorService));
+
 // Pretty errors
 const pe = new PrettyError();
 pe.skipNodeFiles();

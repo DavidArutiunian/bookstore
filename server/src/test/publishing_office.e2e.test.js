@@ -2,20 +2,20 @@ const request = require("supertest");
 const app = require("../app");
 const getConnection = require("../db");
 
-beforeAll(async () => {
-    const conn = await getConnection();
-    await conn.execute("DELETE FROM publishing_office");
-    await conn.execute("ALTER TABLE publishing_office AUTO_INCREMENT = 1");
-});
-
-afterAll(async () => {
-    const conn = await getConnection();
-    await conn.execute("DELETE FROM publishing_office");
-    await conn.execute("ALTER TABLE publishing_office AUTO_INCREMENT = 1");
-    await conn.close();
-});
-
 describe("publishing office", () => {
+    beforeAll(async () => {
+        const conn = await getConnection();
+        await conn.query("DELETE FROM publishing_office");
+        await conn.query("ALTER TABLE publishing_office AUTO_INCREMENT = 1");
+    });
+
+    afterAll(async () => {
+        const conn = await getConnection();
+        await conn.query("DELETE FROM publishing_office");
+        await conn.query("ALTER TABLE publishing_office AUTO_INCREMENT = 1");
+        await conn.close();
+    });
+
     test("create publishing office", () => {
         return request(app)
             .post("/api/publishing_office")

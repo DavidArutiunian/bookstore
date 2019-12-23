@@ -2,20 +2,20 @@ const request = require("supertest");
 const app = require("../app");
 const getConnection = require("../db");
 
-beforeAll(async () => {
-    const conn = await getConnection();
-    await conn.execute("DELETE FROM book");
-    await conn.execute("ALTER TABLE book AUTO_INCREMENT = 1");
-});
-
-afterAll(async () => {
-    const conn = await getConnection();
-    await conn.execute("DELETE FROM book");
-    await conn.execute("ALTER TABLE book AUTO_INCREMENT = 1");
-    await conn.close();
-});
-
 describe("books", () => {
+    beforeAll(async () => {
+        const conn = await getConnection();
+        await conn.query("DELETE FROM book");
+        await conn.query("ALTER TABLE book AUTO_INCREMENT = 1");
+    });
+
+    afterAll(async () => {
+        const conn = await getConnection();
+        await conn.query("DELETE FROM book");
+        await conn.query("ALTER TABLE book AUTO_INCREMENT = 1");
+        await conn.close();
+    });
+
     test("create book", () => {
         return request(app)
             .post("/api/books")
