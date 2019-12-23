@@ -37,7 +37,7 @@ function BookList(props) {
                 </Router>
             )}
             renderTableRow={({ item: book, onDelete }) => (
-                <TableRow key={book.id_book} onClick={() => navigate(`book/${book.id_book}`)}>
+                <TableRow key={book.id_book} onClick={() => navigate(`/book/${book.id_book}`)}>
                     <TableCell>{book.id_book}</TableCell>
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.year}</TableCell>

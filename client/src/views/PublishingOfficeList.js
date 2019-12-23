@@ -39,7 +39,7 @@ function PublishingOfficeList(props) {
             renderTableRow={({ item: office, onDelete }) => (
                 <TableRow
                     key={office.id_publishing_office}
-                    onClick={() => navigate(`publishing_office/${office.id_publishing_office}`)}
+                    onClick={() => navigate(`/publishing_office/${office.id_publishing_office}`)}
                 >
                     <TableCell>{office.id_publishing_office}</TableCell>
                     <TableCell>{office.name}</TableCell>

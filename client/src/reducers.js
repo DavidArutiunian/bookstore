@@ -4,6 +4,7 @@ import bookListReducer from "./containers/book/list/reducer";
 import bookProfileReducer from "containers/book/profile/reducer";
 import publishingOfficeListReducer from "containers/publishing_office/list/reducer";
 import publishingOfficeProfileReducer from "containers/publishing_office/profile/reducer";
+import authorListSlice from "containers/author/list/slice";
 
 export default function createReducer() {
     return combineReducers({
@@ -15,5 +16,7 @@ export default function createReducer() {
         // publishing office
         publishingOfficeList: publishingOfficeListReducer,
         publishingOfficeProfile: publishingOfficeProfileReducer,
+        // author
+        authorList: authorListSlice.reducer,
     });
 }

@@ -3,7 +3,7 @@ import { css } from "@emotion/core";
 import Layout from "components/Layout";
 import BaseHeader from "components/BaseHeader";
 import IconButton from "@material-ui/core/IconButton";
-import { ArrowBack, Business, LibraryBooks, Menu } from "@material-ui/icons";
+import { ArrowBack, Business, LibraryBooks, LocalLibrary, Menu } from "@material-ui/icons";
 import Drawer from "@material-ui/core/Drawer";
 import PropTypes from "prop-types";
 import List from "@material-ui/core/List";
@@ -19,6 +19,7 @@ import PublishingOfficeList from "containers/publishing_office/list";
 import Divider from "@material-ui/core/Divider";
 import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
+import AuthorList from "containers/author/list";
 
 const styles = {
     chip: css`
@@ -82,11 +83,18 @@ function Dashboard(props) {
                             </ListItemIcon>
                             <ListItemText>Издательские дома</ListItemText>
                         </ListItem>
+                        <ListItem button component={Link} to="author" onClick={handleDrawerClose}>
+                            <ListItemIcon>
+                                <LocalLibrary />
+                            </ListItemIcon>
+                            <ListItemText>Авторы</ListItemText>
+                        </ListItem>
                     </List>
                 </Drawer>
                 <Router>
                     <BookList path="book/*" />
                     <PublishingOfficeList path="publishing_office/*" />
+                    <AuthorList path="author/*" />
                 </Router>
             </Layout>
         </>
