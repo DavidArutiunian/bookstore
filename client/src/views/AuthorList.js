@@ -1,6 +1,6 @@
 import TableCell from "@material-ui/core/TableCell";
 import React from "react";
-import { Link, navigate } from "@reach/router";
+import { Link, navigate, Router } from "@reach/router";
 import PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
 import { Delete as DeleteIcon, LibraryAdd as AddIcon } from "@material-ui/icons";
@@ -9,6 +9,7 @@ import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import BaseList from "components/BaseList";
 import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
+import AuthorProfile from "containers/author/profile";
 
 function AuthorList(props) {
     const { fetchAuthors, authors, loading, deleteAuthor, startEditing, error } = props;
@@ -22,7 +23,19 @@ function AuthorList(props) {
             deleteItem={deleteAuthor}
             fetchList={fetchAuthors}
             startEditing={startEditing}
-            renderRouter={() => null}
+            renderRouter={() => (
+                <Router>
+                    <AuthorProfile
+                        path="new"
+                        customTitle="Новый автор"
+                        shouldFetchAuthor={false}
+                        showTitle={false}
+                        showOptions={false}
+                        shouldCreate={true}
+                    />
+                    <AuthorProfile path=":id" />
+                </Router>
+            )}
             renderTableRow={({ item: author, onDelete }) => (
                 <TableRow
                     key={author.id_author}
