@@ -1,6 +1,6 @@
 {
     "hooks": {
         "pre-commit": "pretty-quick --staged && git add . && david",
-        "pre-push": "CI=true yarn test"
+        "pre-push": "cross-env CI=true yarn test --passWithNoTests"
     }
 }
