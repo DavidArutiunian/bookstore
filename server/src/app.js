@@ -3,12 +3,17 @@ const cors = require("cors");
 const helmet = require("helmet");
 const BodyParser = require("body-parser");
 const PrettyError = require("pretty-error");
+const pino = require("pino")({ prettyPrint: true });
+const logger = require('express-pino-logger')({ logger: pino });
 
 const app = express();
 
 // CORS & helmet setup
 app.use(cors());
 app.use(helmet());
+
+// Logger setup
+app.use(logger);
 
 // Middleware for parsing HTTP body
 app.use(BodyParser.urlencoded({ extended: true }));
@@ -44,3 +49,4 @@ app.use((error, req, res, next) => {
 });
 
 module.exports = app;
+module.exports.logger = pino;
