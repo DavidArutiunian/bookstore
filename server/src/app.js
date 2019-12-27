@@ -1,12 +1,14 @@
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
 const BodyParser = require("body-parser");
 const PrettyError = require("pretty-error");
 
 const app = express();
 
-// CORS setup
+// CORS & helmet setup
 app.use(cors());
+app.use(helmet());
 
 // Middleware for parsing HTTP body
 app.use(BodyParser.urlencoded({ extended: true }));
