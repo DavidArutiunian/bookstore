@@ -3,7 +3,7 @@
     "version": "0.1.0",
     "private": true,
     "scripts": {
-        "build": "react-app-rewired build --analyze",
+        "build": "react-app-rewired build",
         "eject": "react-scripts eject",
         "start": "react-app-rewired start",
         "test": "react-app-rewired test"

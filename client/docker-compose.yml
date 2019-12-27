@@ -1,0 +1,16 @@
+version: "3.7"
+
+services:
+    frontend:
+        build: .
+        restart: always
+        healthcheck:
+            test: curl -f http://localhost:80 || exit 1
+            interval: 1m
+            timeout: 10s
+            retries: 5
+            start_period: 10s
+        ports:
+            - ${APP_PORT}:80
+        environment:
+            - REACT_APP_API=${API_URL}
