@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import useForm from "react-hook-form";
+import { useForm } from "react-hook-form";
 import Input from "./Input";
 import Grid from "@material-ui/core/Grid";
 import Button from "@material-ui/core/Button";

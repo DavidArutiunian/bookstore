@@ -17,7 +17,7 @@ import DialogActions from "@material-ui/core/DialogActions";
 import Button from "@material-ui/core/Button";
 import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
-import useForm from "react-hook-form";
+import { useForm } from "react-hook-form";
 import ProfileField from "./ProfileField";
 
 const styles = {
