@@ -2,6 +2,7 @@ import React from "react";
 import * as PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
 import BaseProfile from "components/BaseProfile";
+import ProfileFieldFactory from "factory/ProfileFieldFactory";
 
 function AuthorProfile(props) {
     const {
@@ -24,26 +25,32 @@ function AuthorProfile(props) {
 
     return (
         <BaseProfile
-            fields={[
-                {
-                    rules: { required: "Обязательно для заполнения" },
-                    name: "name",
-                    title: "Имя",
-                    value: author?.name,
-                },
-                {
-                    rules: { required: "Обязательно для заполнения" },
-                    name: "surname",
-                    title: "Фамилия",
-                    value: author?.surname,
-                },
-                {
-                    rules: { required: "Обязательно для заполнения" },
-                    name: "date_of_birth",
-                    title: "Дата рождения",
-                    value: author?.date_of_birth,
-                },
-            ]}
+            renderFields={props => (
+                <>
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "name",
+                        title: "Имя",
+                        value: author?.name,
+                    })}
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "surname",
+                        title: "Фамилия",
+                        value: author?.surname,
+                    })}
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "date_of_birth",
+                        title: "Дата рождения",
+                        value: author?.date_of_birth,
+                    })}
+                </>
+            )}
+            skeleton={["name", "surname", "date_of_birth"]}
             id={id}
             item={author}
             editing={editing}

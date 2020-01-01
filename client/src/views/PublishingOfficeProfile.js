@@ -2,6 +2,7 @@ import React from "react";
 import * as PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
 import BaseProfile from "components/BaseProfile";
+import ProfileFieldFactory from "factory/ProfileFieldFactory";
 
 function PublishingOfficeProfile(props) {
     const {
@@ -24,26 +25,32 @@ function PublishingOfficeProfile(props) {
 
     return (
         <BaseProfile
-            fields={[
-                {
-                    rules: { required: "Обязательно для заполнения" },
-                    name: "name",
-                    title: "Название",
-                    value: office?.name,
-                },
-                {
-                    rules: { required: "Обязательно для заполнения" },
-                    name: "address",
-                    title: "Адрес",
-                    value: office?.address,
-                },
-                {
-                    rules: { required: "Обязательно для заполнения" },
-                    name: "email",
-                    title: "Эл. почта",
-                    value: office?.email,
-                },
-            ]}
+            renderFields={props => (
+                <>
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "name",
+                        title: "Название",
+                        value: office?.name,
+                    })}
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "address",
+                        title: "Адрес",
+                        value: office?.address,
+                    })}
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "email",
+                        title: "Эл. почта",
+                        value: office?.email,
+                    })}
+                </>
+            )}
+            skeleton={["name", "address", "email"]}
             id={id}
             item={office}
             editing={editing}

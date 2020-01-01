@@ -18,7 +18,6 @@ import Button from "@material-ui/core/Button";
 import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
-import ProfileField from "./ProfileField";
 
 const styles = {
     global: css`
@@ -47,7 +46,8 @@ function BaseProfile(props) {
         stopEditingAndCreate,
         shouldCreate = false,
         justStopEditing,
-        fields,
+        renderFields,
+        skeleton,
     } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
@@ -121,8 +121,8 @@ function BaseProfile(props) {
             <DialogContent dividers={true} css={styles.dialog}>
                 {loading ? (
                     <Grid container spacing={2}>
-                        {fields.map(field => (
-                            <Grid key={field.name} item>
+                        {skeleton.map(field => (
+                            <Grid key={field} item>
                                 <Skeleton variant="rect" width={440} height={32} />
                             </Grid>
                         ))}
@@ -130,20 +130,13 @@ function BaseProfile(props) {
                 ) : (
                     <form noValidate autoComplete="off">
                         <Grid container spacing={4}>
-                            {fields.map(field => (
-                                <ProfileField
-                                    key={field.name}
-                                    rules={field.rules}
-                                    register={register}
-                                    setValue={setValue}
-                                    errors={errors}
-                                    name={field.name}
-                                    title={field.title}
-                                    value={field.value}
-                                    readOnly={!editing}
-                                    onChange={handleFieldChange(field.name)}
-                                />
-                            ))}
+                            {renderFields({
+                                register,
+                                setValue,
+                                errors,
+                                editing,
+                                handleFieldChange,
+                            })}
                         </Grid>
                     </form>
                 )}
@@ -182,15 +175,8 @@ function BaseProfile(props) {
 BaseProfile.propTypes = {
     item: PropTypes.object,
     id: PropTypes.string,
-    fields: PropTypes.arrayOf(
-        PropTypes.shape({
-            name: PropTypes.string.isRequired,
-            title: PropTypes.string.isRequired,
-            rules: PropTypes.object,
-            type: PropTypes.string,
-            value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        }),
-    ).isRequired,
+    skeleton: PropTypes.arrayOf(PropTypes.string).isRequired,
+    renderFields: PropTypes.func.isRequired,
     shouldCreate: PropTypes.bool,
     renderTitle: PropTypes.func.isRequired,
     showOptions: PropTypes.bool,

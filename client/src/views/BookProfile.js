@@ -2,6 +2,7 @@ import React from "react";
 import * as PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
 import BaseProfile from "components/BaseProfile";
+import ProfileFieldFactory from "factory/ProfileFieldFactory";
 
 function BookProfile(props) {
     const {
@@ -24,34 +25,35 @@ function BookProfile(props) {
 
     return (
         <BaseProfile
-            fields={[
-                {
-                    rules: { required: "Обязательно для заполнения" },
-                    name: "title",
-                    title: "Название",
-                    value: book?.title,
-                },
-                {
-                    rules: {
-                        required: "Обязательно для заполнения",
-                        pattern: /^\d{4}$/,
-                    },
-                    name: "year",
-                    title: "Год",
-                    type: "number",
-                    value: book?.year,
-                },
-                {
-                    rules: {
-                        required: "Обязательно для заполнения",
-                        pattern: /^[0-9]+(\.[0-9]{1,2})?$/,
-                    },
-                    name: "cost",
-                    title: "Цена",
-                    type: "number",
-                    value: book?.cost,
-                },
-            ]}
+            renderFields={props => (
+                <>
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "title",
+                        title: "Название",
+                    })}
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: {
+                            required: "Обязательно для заполнения",
+                            pattern: /^\d{4}$/,
+                        },
+                        name: "year",
+                        title: "Год",
+                    })}
+                    {ProfileFieldFactory.create({
+                        ...props,
+                        rules: {
+                            required: "Обязательно для заполнения",
+                            pattern: /^\d{4}$/,
+                        },
+                        name: "cost",
+                        title: "Цена",
+                    })}
+                </>
+            )}
+            skeleton={["title", "year", "cost"]}
             id={id}
             item={book}
             editing={editing}
