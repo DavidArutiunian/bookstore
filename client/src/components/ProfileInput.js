@@ -3,10 +3,10 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { RHFInput } from "react-hook-form-input";
 import Input from "components/Input";
-import InputError from "components/InputError";
 import * as PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import { hot } from "react-hot-loader/root";
+import InputErrorFactory from "factory/InputErrorFactory";
 
 const ProfileInput = props => {
     const {
@@ -54,19 +54,7 @@ const ProfileInput = props => {
                         )}
                     </Grid>
                     <Grid item sm={12}>
-                        {errors[name] && (
-                            <InputError
-                                message={
-                                    errors[name].type === "minLength"
-                                        ? "Недостаточно символов"
-                                        : errors[name].type === "maxLength"
-                                        ? "Превышено максимальное количество символов"
-                                        : errors[name].type === "pattern"
-                                        ? "Неверный формат поля"
-                                        : errors[name].message
-                                }
-                            />
-                        )}
+                        {InputErrorFactory.create(errors, name)}{" "}
                     </Grid>
                 </Grid>
             </Grid>

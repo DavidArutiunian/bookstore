@@ -8,7 +8,7 @@ import { Select } from "@material-ui/core";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
-import InputError from "components/InputError";
+import InputErrorFactory from "factory/InputErrorFactory";
 
 const ProfileSelect = props => {
     const { value, options, onChange, errors, title, name, register, rules, setValue } = props;
@@ -42,19 +42,7 @@ const ProfileSelect = props => {
                         </FullWidthFormControl>
                     </Grid>
                     <Grid item sm={12}>
-                        {errors[name] && (
-                            <InputError
-                                message={
-                                    errors[name].type === "minLength"
-                                        ? "Недостаточно символов"
-                                        : errors[name].type === "maxLength"
-                                        ? "Превышено максимальное количество символов"
-                                        : errors[name].type === "pattern"
-                                        ? "Неверный формат поля"
-                                        : errors[name].message
-                                }
-                            />
-                        )}
+                        {InputErrorFactory.create(errors, name)}
                     </Grid>
                 </Grid>
             </Grid>
