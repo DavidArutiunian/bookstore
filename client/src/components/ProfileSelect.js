@@ -1,57 +1,45 @@
 import React from "react";
-import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import { RHFInput } from "react-hook-form-input";
-import Input from "components/Input";
-import InputError from "components/InputError";
 import * as PropTypes from "prop-types";
 import styled from "@emotion/styled";
 import { hot } from "react-hot-loader/root";
+import { Select } from "@material-ui/core";
+import FormControl from "@material-ui/core/FormControl";
+import InputLabel from "@material-ui/core/InputLabel";
+import MenuItem from "@material-ui/core/MenuItem";
+import InputError from "components/InputError";
 
-const ProfileField = props => {
-    const {
-        value,
-        readOnly,
-        onChange,
-        title,
-        name,
-        errors = {},
-        type,
-        register,
-        rules,
-        setValue,
-    } = props;
+const ProfileSelect = props => {
+    const { value, options, onChange, errors, title, name, register, rules, setValue } = props;
 
     const handleChange = event => onChange(event.target.value);
 
     return (
         <>
-            <ProfileFieldTitle item sm={3}>
-                <Typography variant="body2">{title}</Typography>
-            </ProfileFieldTitle>
-            <Grid item sm={9}>
+            <Grid item sm={12}>
                 <Grid container>
                     <Grid item sm={12}>
-                        {readOnly ? (
+                        <FullWidthFormControl>
+                            <InputLabel id={`label-${name}`}>{title}</InputLabel>
                             <RHFInput
                                 name={name}
+                                value={`${value}`}
                                 register={register}
-                                defaultValue={value}
-                                as={<Input type={type} placeholder={title} readOnly={readOnly} />}
-                                rules={rules}
-                                setValue={setValue}
-                            />
-                        ) : (
-                            <RHFInput
-                                name={name}
-                                value={value}
-                                register={register}
-                                as={<Input type={type} placeholder={title} />}
+                                as={
+                                    <Select labelId={`label-${name}`}>
+                                        {options.map(({ label, value }) => (
+                                            <MenuItem key={label} value={value}>
+                                                {label}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                }
                                 rules={rules}
                                 setValue={setValue}
                                 onChange={handleChange}
                             />
-                        )}
+                        </FullWidthFormControl>
                     </Grid>
                     <Grid item sm={12}>
                         {errors[name] && (
@@ -74,22 +62,25 @@ const ProfileField = props => {
     );
 };
 
-ProfileField.propTypes = {
+ProfileSelect.propTypes = {
     errors: PropTypes.object,
     rules: PropTypes.object,
     register: PropTypes.func.isRequired,
-    type: PropTypes.string,
     title: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    readOnly: PropTypes.bool.isRequired,
+    options: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.any.isRequired,
+        }),
+    ).isRequired,
     onChange: PropTypes.func.isRequired,
     setValue: PropTypes.func.isRequired,
 };
 
-export default hot(ProfileField);
+export default hot(ProfileSelect);
 
-const ProfileFieldTitle = styled(Grid)`
-    display: flex;
-    align-items: center;
+const FullWidthFormControl = styled(FormControl)`
+    width: 100%;
 `;

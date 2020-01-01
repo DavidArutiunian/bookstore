@@ -135,7 +135,7 @@ function BaseProfile(props) {
                                 setValue,
                                 errors,
                                 editing,
-                                handleFieldChange,
+                                handleChange: handleFieldChange,
                             })}
                         </Grid>
                     </form>
