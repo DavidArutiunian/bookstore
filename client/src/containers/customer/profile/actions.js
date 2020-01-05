@@ -16,10 +16,13 @@ const {
     createCustomerFail,
 } = slice.actions;
 
-export const fetchCustomer = id => async dispatch => {
+export const fetchCustomer = id => async (dispatch, getState) => {
     try {
         dispatch(fetchCustomerStart());
-        const customer = await ky.get(`${process.env.REACT_APP_API}/customer/${id}`).json();
+        const headers = { authorization: getState().auth.token };
+        const customer = await ky
+            .get(`${process.env.REACT_APP_API}/customer/${id}`, { headers })
+            .json();
         dispatch(
             fetchCustomerSuccess({
                 customer: {
@@ -36,10 +39,11 @@ export const fetchCustomer = id => async dispatch => {
     }
 };
 
-export const saveCustomer = (id, change) => async dispatch => {
+export const saveCustomer = (id, change) => async (dispatch, getState) => {
     try {
         dispatch(saveCustomerStart());
-        await ky.put(`${process.env.REACT_APP_API}/customer/${id}`, { json: change });
+        const headers = { authorization: getState().auth.token };
+        await ky.put(`${process.env.REACT_APP_API}/customer/${id}`, { json: change, headers });
         dispatch(saveCustomerSuccess());
         dispatch(fetchCustomers());
     } catch (error) {
@@ -48,10 +52,11 @@ export const saveCustomer = (id, change) => async dispatch => {
     }
 };
 
-export const createCustomer = customer => async dispatch => {
+export const createCustomer = customer => async (dispatch, getState) => {
     try {
         dispatch(createCustomerStart());
-        await ky.post(`${process.env.REACT_APP_API}/customer`, { json: customer });
+        const headers = { authorization: getState().auth.token };
+        await ky.post(`${process.env.REACT_APP_API}/customer`, { json: customer, headers });
         dispatch(createCustomerSuccess());
         dispatch(fetchCustomers());
     } catch (error) {

@@ -8,12 +8,14 @@ import {
     BOOK_PROFILE_DELETE,
 } from "containers/book/list/constants";
 
-export const fetchBooks = () => async dispatch => {
+export const fetchBooks = () => async (dispatch, getState) => {
     try {
         dispatch(doOnBooksFetchStart());
-        const books = await ky.get(`${process.env.REACT_APP_API}/book`).json();
+        const headers = { authorization: getState().auth.token };
+        const books = await ky.get(`${process.env.REACT_APP_API}/book`, { headers }).json();
         dispatch(doOnBooksFetchSuccess(books));
     } catch (error) {
+        console.error(error);
         dispatch(donOnBooksFetchFail(error));
     }
 };
@@ -41,13 +43,15 @@ const donOnBooksFetchFail = error => ({
     },
 });
 
-export const deleteBook = id => async dispatch => {
+export const deleteBook = id => async (dispatch, getState) => {
     try {
         dispatch(doOnBookProfileDeleteStart());
-        await ky.delete(`${process.env.REACT_APP_API}/book/${id}`);
+        const headers = { authorization: getState().auth.token };
+        await ky.delete(`${process.env.REACT_APP_API}/book/${id}`, { headers });
         dispatch(doOnBookProfileDeleteSuccess());
         dispatch(fetchBooks());
     } catch (error) {
+        console.error(error);
         dispatch(doOnProfileDeleteFail(error));
     }
 };

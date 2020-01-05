@@ -1,74 +1,26 @@
-import {
-    REGISTER,
-    REGISTER_FAILURE,
-    REGISTER_SUCCESS,
-    LOGIN,
-    LOGIN_FAILURE,
-    LOGIN_SUCCESS,
-} from "./constants";
+import slice from "./slice";
+import ky from "ky";
 
-export const register = (login, password) => async dispatch => {
-    void password;
+const { loadingUserFail, loginUserStart, loginUserSuccess } = slice.actions;
+
+export const loginUser = (login, password) => async dispatch => {
     try {
-        dispatch(registerStart());
-        dispatch(registerSuccess(login));
+        dispatch(loginUserStart());
+        const credentials = {
+            login,
+            password,
+        };
+        const response = await ky
+            .post(`${process.env.REACT_APP_API}/employee/login`, { json: credentials })
+            .json();
+        dispatch(
+            loginUserSuccess({
+                user: credentials,
+                token: response.token,
+            }),
+        );
     } catch (error) {
-        dispatch(registerFail(error));
+        console.error(error);
+        dispatch(loadingUserFail({ error }));
     }
 };
-
-const registerStart = () => ({
-    type: REGISTER,
-    payload: {
-        loading: true,
-    },
-});
-
-const registerSuccess = login => ({
-    type: REGISTER_SUCCESS,
-    payload: {
-        loading: false,
-        login,
-    },
-});
-
-const registerFail = error => ({
-    type: REGISTER_FAILURE,
-    payload: {
-        loading: false,
-        error,
-    },
-});
-
-export const login = (login, password) => async dispatch => {
-    void password;
-    try {
-        dispatch(loginStart());
-        dispatch(loginSuccess(login));
-    } catch (error) {
-        dispatch(loginFail(error));
-    }
-};
-
-const loginStart = () => ({
-    type: LOGIN,
-    payload: {
-        loading: true,
-    },
-});
-
-const loginSuccess = login => ({
-    type: LOGIN_SUCCESS,
-    payload: {
-        loading: false,
-        login,
-    },
-});
-
-const loginFail = error => ({
-    type: LOGIN_FAILURE,
-    payload: {
-        loading: false,
-        error,
-    },
-});

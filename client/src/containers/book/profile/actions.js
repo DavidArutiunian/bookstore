@@ -14,12 +14,14 @@ import {
 } from "containers/book/profile/constants";
 import { fetchBooks } from "containers/book/list/actions";
 
-export const fetchBook = id => async dispatch => {
+export const fetchBook = id => async (dispatch, getState) => {
     try {
         dispatch(fetchBookStart());
-        const book = await ky.get(`${process.env.REACT_APP_API}/books/${id}`).json();
+        const headers = { authorization: getState().auth.token };
+        const book = await ky.get(`${process.env.REACT_APP_API}/books/${id}`, { headers }).json();
         dispatch(fetchBookSuccess(book));
     } catch (error) {
+        console.error(error);
         dispatch(fetchBookFail(error));
     }
 };
@@ -54,13 +56,15 @@ export const editBook = () => ({
     },
 });
 
-export const saveBook = (id, change) => async dispatch => {
+export const saveBook = (id, change) => async (dispatch, getState) => {
     try {
         dispatch(saveBookStart());
-        await ky.put(`${process.env.REACT_APP_API}/books/${id}`, { json: change });
+        const headers = { authorization: getState().auth.token };
+        await ky.put(`${process.env.REACT_APP_API}/books/${id}`, { json: change, headers });
         dispatch(saveBookSuccess());
         dispatch(fetchBooks());
     } catch (error) {
+        console.error(error);
         dispatch(saveBookFail(error));
     }
 };
@@ -98,13 +102,15 @@ export const changeBook = change => ({
     },
 });
 
-export const createBook = book => async dispatch => {
+export const createBook = book => async (dispatch, getState) => {
     try {
         dispatch(createBookStart());
-        await ky.post(`${process.env.REACT_APP_API}/books`, { json: book });
+        const headers = { authorization: getState().auth.token };
+        await ky.post(`${process.env.REACT_APP_API}/books`, { json: book, headers });
         dispatch(createBookSuccess());
         dispatch(fetchBooks());
     } catch (error) {
+        console.error(error);
         dispatch(createBookFail(error));
     }
 };

@@ -52,6 +52,7 @@
         "@emotion/babel-preset-css-prop": "^10.0.27",
         "babel-plugin-emotion": "^10.0.27",
         "customize-cra": "^0.9.1",
+        "hard-source-webpack-plugin": "^0.13.1",
         "react-app-rewired": "^2.1.5",
         "webpack-bundle-analyzer": "^3.6.0"
     }

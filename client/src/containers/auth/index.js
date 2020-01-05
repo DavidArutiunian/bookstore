@@ -1,4 +1,4 @@
-import { login } from "./actions";
+import { loginUser } from "./actions";
 import { connect } from "react-redux";
 import Login from "views/Login";
 import { hot } from "react-hot-loader/root";
@@ -11,7 +11,7 @@ const mapStateToProps = ({ auth }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    login: (username, password) => dispatch(login(username, password)),
+    login: (login, password) => dispatch(loginUser(login, password)),
 });
 
 export default hot(

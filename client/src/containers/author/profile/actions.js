@@ -16,10 +16,13 @@ const {
     createAuthorFail,
 } = slice.actions;
 
-export const fetchAuthor = id => async dispatch => {
+export const fetchAuthor = id => async (dispatch, getState) => {
     try {
         dispatch(fetchAuthorStart());
-        const author = await ky.get(`${process.env.REACT_APP_API}/author/${id}`).json();
+        const headers = { authorization: getState().auth.token };
+        const author = await ky
+            .get(`${process.env.REACT_APP_API}/author/${id}`, { headers })
+            .json();
         dispatch(
             fetchAuthorSuccess({
                 author: {

@@ -12,10 +12,11 @@ const {
     deleteAuthorSuccess,
 } = slice.actions;
 
-export const fetchAuthors = () => async dispatch => {
+export const fetchAuthors = () => async (dispatch, getState) => {
     try {
         dispatch(fetchAuthorsStart());
-        const authors = await ky.get(`${process.env.REACT_APP_API}/author`).json();
+        const headers = { authorization: getState().auth.token };
+        const authors = await ky.get(`${process.env.REACT_APP_API}/author`, { headers }).json();
         const transformed = authors.rows.map(row => ({
             ...row,
             date_of_birth: format(parseISO(row.date_of_birth), "dd MMMM yyyy", { locale: ru }),
