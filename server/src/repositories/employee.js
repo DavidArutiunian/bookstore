@@ -6,19 +6,30 @@ module.exports = {
         const conn = await getConnection();
         const result = await conn.execute(
             `
-            SELECT
-                id_employee,
-                name,
-                login,
-                password,
-                date_of_beginning_of_work,
-                date_of_birth,
-                address,
-                isAdministration
-            FROM employee
-            WHERE id_employee = ?
+                SELECT
+                    id_employee,
+                    name,
+                    login,
+                    date_of_birth,
+                    address,
+                    is_admin
+                FROM employee
+                WHERE id_employee = ?
             `,
             [id],
+        );
+        return result[0][0];
+    },
+
+    findByLogin: async (login = MissingArgument("Missing Employee login")) => {
+        const conn = await getConnection();
+        const result = await conn.execute(
+            `
+                SELECT password
+                FROM employee
+                WHERE login = ?
+            `,
+            [login],
         );
         return result[0][0];
     },
@@ -31,11 +42,9 @@ module.exports = {
                 id_employee,
                 name,
                 login,
-                password,
-                date_of_beginning_of_work,
                 date_of_birth,
                 address,
-                isAdministration
+                is_admin
             FROM employee
             WHERE 1 = 1
         `;
@@ -56,10 +65,10 @@ module.exports = {
         const conn = await getConnection();
         const result = await conn.execute(
             `
-                INSERT INTO employee(name, login, password, date_of_beginning_of_work, date_of_birth, address, isAdministration)
+                INSERT INTO employee(name, login, password, date_of_birth, address)
                 VALUES(?, ?, ?, ?, ?, ?, ?)
             `,
-            [values.name, values.login, values.password, values.date_of_beginning_of_work, values.date_of_birth, values.address, values.isAdministration],
+            [values.name, values.login, values.password, values.date_of_birth, values.address],
         );
         return result[0].insertId;
     },
@@ -72,29 +81,13 @@ module.exports = {
             sql += " name = ? ";
             params.push(change.name);
         }
-        if (change.login) {
-            sql += " login = ? ";
-            params.push(change.login);
-        }
-        if (change.name) {
-            sql += " name = ? ";
-            params.push(change.name);
-        }
-        if (change.name) {
-            sql += " name = ? ";
-            params.push(change.name);
-        }
-        if (change.name) {
-            sql += " name = ? ";
-            params.push(change.name);
-        }
         if (change.address) {
-            sql += " date_of_birth = ? ";
+            sql += " address = ? ";
             params.push(change.address);
         }
-        if (change.email) {
-            sql += " email = ? ";
-            params.push(change.email);
+        if (change.date_of_birth) {
+            sql += " date_of_birth = ? ";
+            params.push(change.date_of_birth);
         }
         sql += " WHERE id_employee = ?";
         params.push(id);

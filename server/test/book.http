@@ -8,6 +8,7 @@
 
 POST http://localhost:9000/api/book
 Content-Type: application/json
+Authorization: {{auth_token}}
 
 {
     "title": "title",
@@ -19,21 +20,25 @@ Content-Type: application/json
 
 GET http://localhost:9000/api/book
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 GET http://localhost:9000/api/book?scroll=5&limit=2
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 GET http://localhost:9000/api/book/10
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 PUT http://localhost:9000/api/book/1
 Content-Type: application/json
+Authorization: {{auth_token}}
 
 {
     "cost": 5000
@@ -42,5 +47,6 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:9000/api/book/1
+Authorization: {{auth_token}}
 
 ###

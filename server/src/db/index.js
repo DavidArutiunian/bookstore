@@ -31,7 +31,7 @@ module.exports = async () => {
         }
     }
     if (!initialized) {
-        const password = process.env.ADMIN_PASSWORD || "password";
+        const password = process.env.ADMIN_PASSWORD || "admin";
         try {
             const hash = await argon2.hash(password);
             await connection.execute(

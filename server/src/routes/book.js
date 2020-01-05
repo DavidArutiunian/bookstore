@@ -2,18 +2,18 @@ const express = require("express");
 const book = require("../controllers/book");
 const safe = require("../utils/safe");
 
-module.exports = bookService => {
+module.exports = (bookService, ...middleware) => {
     const router = new express.Router();
 
-    router.post("/", safe(book.create(bookService)));
+    router.post("/", ...middleware, safe(book.create(bookService)));
 
-    router.get("/", safe(book.findAll(bookService)));
+    router.get("/", ...middleware, safe(book.findAll(bookService)));
 
-    router.get("/:id", safe(book.findById(bookService)));
+    router.get("/:id", ...middleware, safe(book.findById(bookService)));
 
-    router.put("/:id", safe(book.update(bookService)));
+    router.put("/:id", ...middleware, safe(book.update(bookService)));
 
-    router.delete("/:id", safe(book.deleteById(bookService)));
+    router.delete("/:id", ...middleware, safe(book.deleteById(bookService)));
 
     return router;
 };

@@ -8,6 +8,7 @@
 
 POST http://localhost:9000/api/author
 Content-Type: application/json
+Authorization: {{auth_token}}
 
 {
     "name": "name",
@@ -20,21 +21,25 @@ Content-Type: application/json
 
 GET http://localhost:9000/api/author
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 GET http://localhost:9000/api/author?scroll=5&limit=2
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 GET http://localhost:9000/api/author/10
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 PUT http://localhost:9000/api/author/1
 Content-Type: application/json
+Authorization: {{auth_token}}
 
 {
     "name": "new_name"
@@ -43,5 +48,6 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:9000/api/author/1
+Authorization: {{auth_token}}
 
 ###

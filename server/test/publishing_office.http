@@ -8,6 +8,7 @@
 
 POST http://localhost:9000/api/publishing_office
 Content-Type: application/json
+Authorization: {{auth_token}}
 
 {
     "name": "name",
@@ -19,21 +20,25 @@ Content-Type: application/json
 
 GET http://localhost:9000/api/publishing_office
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 GET http://localhost:9000/api/publishing_office?scroll=5&limit=2
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 GET http://localhost:9000/api/publishing_office/10
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 PUT http://localhost:9000/api/publishing_office/1
 Content-Type: application/json
+Authorization: {{auth_token}}
 
 {
     "email": "new@email.com"
@@ -42,5 +47,6 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:9000/api/publishing_office/1
+Authorization: {{auth_token}}
 
 ###

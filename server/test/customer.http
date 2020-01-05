@@ -8,6 +8,7 @@
 
 POST http://localhost:9000/api/customer
 Content-Type: application/json
+Authorization: {{auth_token}}
 
 {
     "name": "name",
@@ -19,11 +20,13 @@ Content-Type: application/json
 
 GET http://localhost:9000/api/customer
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
 GET http://localhost:9000/api/customer?scroll=5&limit=2
 Accept: application/json
+Authorization: {{auth_token}}
 
 ###
 
@@ -34,6 +37,7 @@ Accept: application/json
 
 PUT http://localhost:9000/api/customer/1
 Content-Type: application/json
+Authorization: {{auth_token}}
 
 {
     "email": "new@email.com"
@@ -42,5 +46,6 @@ Content-Type: application/json
 ###
 
 DELETE http://localhost:9000/api/customer/1
+Authorization: {{auth_token}}
 
 ###

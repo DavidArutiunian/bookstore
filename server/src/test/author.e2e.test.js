@@ -3,6 +3,8 @@ const app = require("../app");
 const getConnection = require("../db");
 
 describe("author", () => {
+    let token;
+
     beforeAll(async () => {
         const conn = await getConnection();
         await conn.query("DELETE FROM author");
@@ -16,6 +18,14 @@ describe("author", () => {
             `,
             ["name", "address", "email@email.com"],
         );
+
+        const response = await request(app)
+            .post("/api/employee/login")
+            .send({
+                login: process.env.ADMIN_USERNAME,
+                password: process.env.ADMIN_PASSWORD,
+            });
+        token = response.body.token;
     });
 
     afterAll(async () => {
@@ -30,6 +40,7 @@ describe("author", () => {
     test("create author", () => {
         return request(app)
             .post("/api/author")
+            .set("authorization", token)
             .send({
                 name: "name",
                 surname: "surname",
@@ -49,6 +60,7 @@ describe("author", () => {
     test("get list of authors", () => {
         return request(app)
             .get("/api/author")
+            .set("authorization", token)
             .expect(200)
             .then(response => {
                 expect(response.body.rows.length).toEqual(1);
@@ -67,6 +79,7 @@ describe("author", () => {
             [1, 2, 3].map(async i => {
                 return request(app)
                     .post("/api/author")
+                    .set("authorization", token)
                     .send({
                         name: `name ${i + 1}`,
                         surname: "surname",
@@ -78,6 +91,7 @@ describe("author", () => {
         );
         return request(app)
             .get("/api/author?scroll=2&limit=2")
+            .set("authorization", token)
             .expect(200)
             .then(response => {
                 expect(response.body.rows.length).toEqual(2);
@@ -101,6 +115,7 @@ describe("author", () => {
     test("get author by id = 1", () => {
         return request(app)
             .get("/api/author/1")
+            .set("authorization", token)
             .expect(200)
             .then(response => {
                 expect(response.body.row).toEqual({
@@ -125,6 +140,7 @@ describe("author", () => {
         beforeAll(async () => {
             const response = await request(app)
                 .post("/api/author")
+                .set("authorization", token)
                 .send({
                     name: "name",
                     surname: "surname",
@@ -140,6 +156,7 @@ describe("author", () => {
         test("update author", async () => {
             return request(app)
                 .put(`/api/author/${id}`)
+                .set("authorization", token)
                 .send({ name: "new_name", surname: "new_surname" })
                 .expect(200);
         });
@@ -147,6 +164,7 @@ describe("author", () => {
         test("ensure author updated", async () => {
             const response = await request(app)
                 .get(`/api/author/${id}`)
+                .set("authorization", token)
                 .expect(200);
             const { name, surname } = response.body.row;
             expect(name).toBe("new_name");
@@ -160,6 +178,7 @@ describe("author", () => {
         beforeAll(async () => {
             const response = await request(app)
                 .post("/api/author")
+                .set("authorization", token)
                 .send({
                     name: "name",
                     surname: "surname",
@@ -173,12 +192,14 @@ describe("author", () => {
         test("delete author", async () => {
             return request(app)
                 .delete(`/api/author/${id}`)
+                .set("authorization", token)
                 .expect(200);
         });
 
         test("ensure author deleted", async () => {
             const response = await request(app)
                 .get(`/api/author/${id}`)
+                .set("authorization", token)
                 .expect(404);
             const error = response.body;
             expect(error).toStrictEqual({

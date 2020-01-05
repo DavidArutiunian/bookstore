@@ -1,19 +1,19 @@
 const express = require("express");
-const offices = require("../controllers/publishing_office");
+const office = require("../controllers/publishing_office");
 const safe = require("../utils/safe");
 
-module.exports = publishingOfficeService => {
+module.exports = (publishingOfficeService, ...middleware) => {
     const router = new express.Router();
 
-    router.post("/", safe(offices.create(publishingOfficeService)));
+    router.post("/", ...middleware, safe(office.create(publishingOfficeService)));
 
-    router.get("/", safe(offices.findAll(publishingOfficeService)));
+    router.get("/", ...middleware, safe(office.findAll(publishingOfficeService)));
 
-    router.get("/:id", safe(offices.findById(publishingOfficeService)));
+    router.get("/:id", ...middleware, safe(office.findById(publishingOfficeService)));
 
-    router.put("/:id", safe(offices.update(publishingOfficeService)));
+    router.put("/:id", ...middleware, safe(office.update(publishingOfficeService)));
 
-    router.delete("/:id", safe(offices.deleteById(publishingOfficeService)));
+    router.delete("/:id", ...middleware, safe(office.deleteById(publishingOfficeService)));
 
     return router;
 };

@@ -3,7 +3,12 @@ module.exports = function safe(fn) {
         try {
             await fn(req, res, next, ...rest);
         } catch (error) {
-            next(error);
+            res.status(500);
+            res.send({
+                status: "Internal Server Error",
+                message: "Unknown error occurred",
+                statusCode: 500,
+            });
         }
     };
 };

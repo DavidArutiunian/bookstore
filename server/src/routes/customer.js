@@ -1,19 +1,19 @@
 const express = require("express");
-const offices = require("../controllers/customer");
+const customer = require("../controllers/customer");
 const safe = require("../utils/safe");
 
-module.exports = customerService => {
+module.exports = (customerService, ...middleware) => {
     const router = new express.Router();
 
-    router.post("/", safe(offices.create(customerService)));
+    router.post("/", ...middleware, safe(customer.create(customerService)));
 
-    router.get("/", safe(offices.findAll(customerService)));
+    router.get("/", ...middleware, safe(customer.findAll(customerService)));
 
-    router.get("/:id", safe(offices.findById(customerService)));
+    router.get("/:id", ...middleware, safe(customer.findById(customerService)));
 
-    router.put("/:id", safe(offices.update(customerService)));
+    router.put("/:id", ...middleware, safe(customer.update(customerService)));
 
-    router.delete("/:id", safe(offices.deleteById(customerService)));
+    router.delete("/:id", ...middleware, safe(customer.deleteById(customerService)));
 
     return router;
 };
