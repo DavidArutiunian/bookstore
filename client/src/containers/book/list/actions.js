@@ -11,7 +11,7 @@ import {
 export const fetchBooks = () => async dispatch => {
     try {
         dispatch(doOnBooksFetchStart());
-        const books = await ky.get(`${process.env.REACT_APP_API}/books`).json();
+        const books = await ky.get(`${process.env.REACT_APP_API}/book`).json();
         dispatch(doOnBooksFetchSuccess(books));
     } catch (error) {
         dispatch(donOnBooksFetchFail(error));
@@ -44,7 +44,7 @@ const donOnBooksFetchFail = error => ({
 export const deleteBook = id => async dispatch => {
     try {
         dispatch(doOnBookProfileDeleteStart());
-        await ky.delete(`${process.env.REACT_APP_API}/books/${id}`);
+        await ky.delete(`${process.env.REACT_APP_API}/book/${id}`);
         dispatch(doOnBookProfileDeleteSuccess());
         dispatch(fetchBooks());
     } catch (error) {

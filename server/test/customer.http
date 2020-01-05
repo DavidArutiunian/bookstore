@@ -6,41 +6,41 @@
 # * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
 # * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
 
-POST http://localhost:9000/api/books
+POST http://localhost:9000/api/customer
 Content-Type: application/json
 
 {
-    "title": "title",
-    "year": 2000,
-    "cost": 2000
+    "name": "name",
+    "date_of_birth": "date_of_birth",
+    "email": "email@email.com"
 }
 
 ###
 
-GET http://localhost:9000/api/books
+GET http://localhost:9000/api/customer
 Accept: application/json
 
 ###
 
-GET http://localhost:9000/api/books?scroll=5&limit=2
+GET http://localhost:9000/api/customer?scroll=5&limit=2
 Accept: application/json
 
 ###
 
-GET http://localhost:9000/api/books/10
+GET http://localhost:9000/api/customer/10
 Accept: application/json
 
 ###
 
-PUT http://localhost:9000/api/books/1
+PUT http://localhost:9000/api/customer/1
 Content-Type: application/json
 
 {
-    "cost": 5000
+    "email": "new@email.com"
 }
 
 ###
 
-DELETE http://localhost:9000/api/books/1
+DELETE http://localhost:9000/api/customer/1
 
 ###

@@ -18,7 +18,7 @@ describe("books", () => {
 
     test("create book", () => {
         return request(app)
-            .post("/api/books")
+            .post("/api/book")
             .send({
                 title: "title",
                 year: 2000,
@@ -36,7 +36,7 @@ describe("books", () => {
 
     test("get list of books", () => {
         return request(app)
-            .get("/api/books")
+            .get("/api/book")
             .expect(200)
             .then(response => {
                 expect(response.body.length).toEqual(1);
@@ -53,7 +53,7 @@ describe("books", () => {
         await Promise.all(
             [1, 2, 3].map(async i => {
                 return request(app)
-                    .post("/api/books")
+                    .post("/api/book")
                     .send({
                         title: `title ${i + 1}`,
                         year: 2000,
@@ -63,7 +63,7 @@ describe("books", () => {
             }),
         );
         return request(app)
-            .get("/api/books?scroll=2&limit=2")
+            .get("/api/book?scroll=2&limit=2")
             .expect(200)
             .then(response => {
                 expect(response.body.length).toEqual(2);
@@ -84,7 +84,7 @@ describe("books", () => {
 
     test("get book by id = 1", () => {
         return request(app)
-            .get("/api/books/1")
+            .get("/api/book/1")
             .expect(200)
             .then(response => {
                 expect(response.body).toEqual({
@@ -101,24 +101,24 @@ describe("books", () => {
 
         beforeAll(async () => {
             const response = await request(app)
-                .post("/api/books")
+                .post("/api/book")
                 .send({ title: "title", year: 2010, cost: 1500 })
                 .expect(200);
             id = response.body.id;
         });
 
-        afterAll(async () => request(app).delete(`/api/books/${id}`));
+        afterAll(async () => request(app).delete(`/api/book/${id}`));
 
         test("update book", async () => {
             return request(app)
-                .put(`/api/books/${id}`)
+                .put(`/api/book/${id}`)
                 .send({ year: 2008, cost: 1000 })
                 .expect(200);
         });
 
         test("ensure book updated", async () => {
             const response = await request(app)
-                .get(`/api/books/${id}`)
+                .get(`/api/book/${id}`)
                 .expect(200);
             const { year, cost } = response.body;
             expect(year).toBe(2008);
@@ -131,7 +131,7 @@ describe("books", () => {
 
         beforeAll(async () => {
             const response = await request(app)
-                .post("/api/books")
+                .post("/api/book")
                 .send({ title: "title", year: 2010, cost: 1500 })
                 .expect(200);
             id = response.body.id;
@@ -139,13 +139,13 @@ describe("books", () => {
 
         test("delete book", async () => {
             return request(app)
-                .delete(`/api/books/${id}`)
+                .delete(`/api/book/${id}`)
                 .expect(200);
         });
 
         test("ensure book deleted", async () => {
             const response = await request(app)
-                .get(`/api/books/${id}`)
+                .get(`/api/book/${id}`)
                 .expect(404);
             const error = response.body;
             expect(error).toStrictEqual({
