@@ -1,4 +1,4 @@
-import ky from "ky";
+import api from "services/api";
 import {
     BOOK_LIST_FETCH,
     BOOK_LIST_FETCH_FAIL,
@@ -12,7 +12,7 @@ export const fetchBooks = () => async (dispatch, getState) => {
     try {
         dispatch(doOnBooksFetchStart());
         const headers = { authorization: getState().auth.token };
-        const books = await ky.get(`${process.env.REACT_APP_API}/book`, { headers }).json();
+        const books = await api.get("book", { headers }).json();
         dispatch(doOnBooksFetchSuccess(books));
     } catch (error) {
         console.error(error);
@@ -47,7 +47,7 @@ export const deleteBook = id => async (dispatch, getState) => {
     try {
         dispatch(doOnBookProfileDeleteStart());
         const headers = { authorization: getState().auth.token };
-        await ky.delete(`${process.env.REACT_APP_API}/book/${id}`, { headers });
+        await api.delete(`book/${id}`, { headers });
         dispatch(doOnBookProfileDeleteSuccess());
         dispatch(fetchBooks());
     } catch (error) {

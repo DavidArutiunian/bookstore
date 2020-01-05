@@ -1,5 +1,5 @@
 import slice from "./slice";
-import ky from "ky";
+import api from "services/api";
 
 const { loadingUserFail, loginUserStart, loginUserSuccess } = slice.actions;
 
@@ -10,9 +10,7 @@ export const loginUser = (login, password) => async dispatch => {
             login,
             password,
         };
-        const response = await ky
-            .post(`${process.env.REACT_APP_API}/employee/login`, { json: credentials })
-            .json();
+        const response = await api.post("employee/login", { json: credentials }).json();
         dispatch(
             loginUserSuccess({
                 user: credentials,

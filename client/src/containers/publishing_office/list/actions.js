@@ -1,4 +1,4 @@
-import ky from "ky";
+import api from "services/api";
 import {
     PUBLISHING_OFFICE_LIST_FETCH,
     PUBLISHING_OFFICE_LIST_FETCH_FAIL,
@@ -12,9 +12,7 @@ export const fetchPublishingOfficeList = () => async (dispatch, getState) => {
     try {
         dispatch(fetchPublishingOfficeListStart());
         const headers = { authorization: getState().auth.token };
-        const offices = await ky
-            .get(`${process.env.REACT_APP_API}/publishing_office`, { headers })
-            .json();
+        const offices = await api.get("publishing_office", { headers }).json();
         dispatch(fetchPublishingOfficeListSuccess(offices));
     } catch (error) {
         console.error(error);
@@ -49,7 +47,7 @@ export const deletePublishingOffice = id => async (dispatch, getState) => {
     try {
         dispatch(deletePublishingOfficeStart());
         const headers = { authorization: getState().auth.token };
-        await ky.delete(`${process.env.REACT_APP_API}/publishing_office/${id}`, { headers });
+        await api.delete(`publishing_office/${id}`, { headers });
         dispatch(deletePublishingOfficeSuccess());
         dispatch(fetchPublishingOfficeList());
     } catch (error) {

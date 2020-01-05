@@ -1,7 +1,7 @@
 import { format, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
 import slice from "./slice";
-import ky from "ky";
+import api from "services/api";
 
 const {
     fetchCustomersFail,
@@ -16,7 +16,7 @@ export const fetchCustomers = () => async (dispatch, getState) => {
     try {
         dispatch(fetchCustomersStart());
         const headers = { authorization: getState().auth.token };
-        const customers = await ky.get(`${process.env.REACT_APP_API}/customer`, { headers }).json();
+        const customers = await api.get("customer", { headers }).json();
         const transformed = customers.map(row => ({
             ...row,
             date_of_birth: format(parseISO(row.date_of_birth), "dd MMMM yyyy", { locale: ru }),
@@ -32,7 +32,7 @@ export const deleteCustomer = id => async (dispatch, getState) => {
     try {
         dispatch(deleteCustomerStart());
         const headers = { authorization: getState().auth.token };
-        await ky.delete(`${process.env.REACT_APP_API}/customer/${id}`, { headers });
+        await api.delete(`customer/${id}`, { headers });
         dispatch(deleteCustomerSuccess());
         dispatch(fetchCustomers());
     } catch (error) {

@@ -1,5 +1,5 @@
 import slice from "./slice";
-import ky from "ky";
+import api from "services/api";
 import { fetchAuthors } from "containers/author/list/actions";
 import { format, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
@@ -20,9 +20,7 @@ export const fetchAuthor = id => async (dispatch, getState) => {
     try {
         dispatch(fetchAuthorStart());
         const headers = { authorization: getState().auth.token };
-        const author = await ky
-            .get(`${process.env.REACT_APP_API}/author/${id}`, { headers })
-            .json();
+        const author = await api.get(`author/${id}`, { headers }).json();
         dispatch(
             fetchAuthorSuccess({
                 author: {
@@ -42,7 +40,7 @@ export const fetchAuthor = id => async (dispatch, getState) => {
 export const saveAuthor = (id, change) => async dispatch => {
     try {
         dispatch(saveAuthorStart());
-        await ky.put(`${process.env.REACT_APP_API}/author/${id}`, { json: change });
+        await api.put(`author/${id}`, { json: change });
         dispatch(saveAuthorSuccess());
         dispatch(fetchAuthors());
     } catch (error) {
@@ -54,7 +52,7 @@ export const saveAuthor = (id, change) => async dispatch => {
 export const createAuthor = author => async dispatch => {
     try {
         dispatch(createAuthorStart());
-        await ky.post(`${process.env.REACT_APP_API}/author`, { json: author });
+        await api.post("author", { json: author });
         dispatch(createAuthorSuccess());
         dispatch(fetchAuthors());
     } catch (error) {

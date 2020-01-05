@@ -11,16 +11,14 @@ import {
     PUBLISHING_OFFICE_PROFILE_CREATE_FAIL,
     PUBLISHING_OFFICE_PROFILE_CREATE_SUCCESS,
 } from "./constants";
-import ky from "ky";
+import api from "services/api";
 import { fetchPublishingOfficeList } from "containers/publishing_office/list/actions";
 
 export const fetchPublishingOffice = id => async (dispatch, getState) => {
     try {
         dispatch(fetchPublishingOfficeStart());
         const headers = { authorization: getState().auth.token };
-        const office = await ky
-            .get(`${process.env.REACT_APP_API}/publishing_office/${id}`, { headers })
-            .json();
+        const office = await api.get(`publishing_office/${id}`, { headers }).json();
         dispatch(fetchPublishingOfficeSuccess(office));
     } catch (error) {
         console.error(error);
@@ -69,7 +67,7 @@ export const savePublishingOffice = (id, change) => async (dispatch, getState) =
     try {
         dispatch(savePublishingOfficeStart());
         const headers = { authorization: getState().auth.token };
-        await ky.put(`${process.env.REACT_APP_API}/publishing_office/${id}`, {
+        await api.put(`publishing_office/${id}`, {
             json: change,
             headers,
         });
@@ -111,7 +109,7 @@ export const createPublishingOffice = office => async (dispatch, getState) => {
     try {
         dispatch(createPublishingOfficeStart());
         const headers = { authorization: getState().auth.token };
-        await ky.post(`${process.env.REACT_APP_API}/publishing_office`, { json: office, headers });
+        await api.post("publishing_office", { json: office, headers });
         dispatch(createPublishingOfficeSuccess());
         dispatch(fetchPublishingOfficeList());
     } catch (error) {

@@ -1,5 +1,5 @@
 import slice from "./slice";
-import ky from "ky";
+import api from "services/api";
 import { fetchCustomers } from "containers/customer/list/actions";
 import { format, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
@@ -20,9 +20,7 @@ export const fetchCustomer = id => async (dispatch, getState) => {
     try {
         dispatch(fetchCustomerStart());
         const headers = { authorization: getState().auth.token };
-        const customer = await ky
-            .get(`${process.env.REACT_APP_API}/customer/${id}`, { headers })
-            .json();
+        const customer = await api.get(`customer/${id}`, { headers }).json();
         dispatch(
             fetchCustomerSuccess({
                 customer: {
@@ -43,7 +41,7 @@ export const saveCustomer = (id, change) => async (dispatch, getState) => {
     try {
         dispatch(saveCustomerStart());
         const headers = { authorization: getState().auth.token };
-        await ky.put(`${process.env.REACT_APP_API}/customer/${id}`, { json: change, headers });
+        await api.put(`customer/${id}`, { json: change, headers });
         dispatch(saveCustomerSuccess());
         dispatch(fetchCustomers());
     } catch (error) {
@@ -56,7 +54,7 @@ export const createCustomer = customer => async (dispatch, getState) => {
     try {
         dispatch(createCustomerStart());
         const headers = { authorization: getState().auth.token };
-        await ky.post(`${process.env.REACT_APP_API}/customer`, { json: customer, headers });
+        await api.post("customer", { json: customer, headers });
         dispatch(createCustomerSuccess());
         dispatch(fetchCustomers());
     } catch (error) {

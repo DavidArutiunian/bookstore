@@ -1,4 +1,4 @@
-import ky from "ky";
+import api from "services/api";
 import {
     BOOK_PROFILE_CHANGE,
     BOOK_PROFILE_EDIT,
@@ -18,7 +18,7 @@ export const fetchBook = id => async (dispatch, getState) => {
     try {
         dispatch(fetchBookStart());
         const headers = { authorization: getState().auth.token };
-        const book = await ky.get(`${process.env.REACT_APP_API}/books/${id}`, { headers }).json();
+        const book = await api.get(`books/${id}`, { headers }).json();
         dispatch(fetchBookSuccess(book));
     } catch (error) {
         console.error(error);
@@ -60,7 +60,7 @@ export const saveBook = (id, change) => async (dispatch, getState) => {
     try {
         dispatch(saveBookStart());
         const headers = { authorization: getState().auth.token };
-        await ky.put(`${process.env.REACT_APP_API}/books/${id}`, { json: change, headers });
+        await api.put(`books/${id}`, { json: change, headers });
         dispatch(saveBookSuccess());
         dispatch(fetchBooks());
     } catch (error) {
@@ -106,7 +106,7 @@ export const createBook = book => async (dispatch, getState) => {
     try {
         dispatch(createBookStart());
         const headers = { authorization: getState().auth.token };
-        await ky.post(`${process.env.REACT_APP_API}/books`, { json: book, headers });
+        await api.post("books", { json: book, headers });
         dispatch(createBookSuccess());
         dispatch(fetchBooks());
     } catch (error) {
