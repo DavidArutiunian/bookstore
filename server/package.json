@@ -16,8 +16,11 @@
         "@types/jest": "^24.0.25",
         "@types/mysql": "^2.15.8",
         "@types/node": "^13.1.1",
+        "@types/passport": "^1.0.2",
+        "@types/passport-jwt": "^3.0.3",
         "@types/pino": "^5.15.1",
         "@types/supertest": "^2.0.8",
+        "argon2": "^0.25.1",
         "body-parser": "^1.19.0",
         "cors": "^2.8.5",
         "express": "^4.17.1",
@@ -26,10 +29,11 @@
         "jest": "^24.9.0",
         "mysql2": "^2.1.0",
         "nodemon": "^2.0.2",
+        "passport": "^0.4.1",
+        "passport-jwt": "^4.0.0",
         "pino": "^5.15.0",
         "pino-pretty": "^3.5.0",
         "pretty-error": "^2.1.1",
         "supertest": "^4.0.2"
-    },
-    "devDependencies": {}
+    }
 }
