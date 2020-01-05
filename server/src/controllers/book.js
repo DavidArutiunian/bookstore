@@ -1,3 +1,5 @@
+const errors = require("../errors");
+
 module.exports = {
     create: bookService => async (req, res) => {
         const { title, year, cost } = req.body;
@@ -15,12 +17,9 @@ module.exports = {
         const { id } = req.params;
         const book = await bookService.findBookById(id);
         if (!book) {
-            res.status(404);
-            res.json({
-                status: "Not Found",
-                message: `Book with id ${id} not found`,
-                statusCode: 404,
-            });
+            const error = errors.NotFound(`Book with id ${id} not found`);
+            res.status(error.statusCode);
+            res.json(error);
             return;
         }
         res.json(book);

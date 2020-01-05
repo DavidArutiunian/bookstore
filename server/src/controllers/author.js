@@ -1,3 +1,5 @@
+const errors = require("../errors");
+
 module.exports = {
     create: authorService => async (req, res) => {
         const { name, surname, date_of_birth, id_publishing_office } = req.body;
@@ -20,12 +22,9 @@ module.exports = {
         const { id } = req.params;
         const author = await authorService.findAuthorById(id);
         if (!author) {
-            res.status(404);
-            res.json({
-                status: "Not Found",
-                message: `Author with id ${id} not found`,
-                statusCode: 404,
-            });
+            const error = errors.NotFound(`Author with id ${id} not found`);
+            res.status(error.statusCode);
+            res.json(error);
             return;
         }
         res.json(author);

@@ -1,3 +1,4 @@
+const errors = require("../errors");
 const jwt = require("jsonwebtoken");
 
 module.exports = {
@@ -21,12 +22,9 @@ module.exports = {
             const token = jwt.sign({ ...employee }, process.env.AUTH_SECRET, options);
             res.json({ token });
         } else {
-            res.status(403);
-            res.json({
-                status: "Not Authorized",
-                message: "Authorization error",
-                statusCode: 403,
-            });
+            const error = errors.NotAuthorized();
+            res.status(error.statusCode);
+            res.json(error);
         }
     },
 
@@ -40,12 +38,9 @@ module.exports = {
         const { id } = req.params;
         const employee = await employeeService.findEmployeeById(id);
         if (!employee) {
-            res.status(404);
-            res.json({
-                status: "Not Found",
-                message: `Employee with id ${id} not found`,
-                statusCode: 404,
-            });
+            const error = errors.NotFound(`Employee with id ${id} not found`);
+            res.status(error.statusCode);
+            res.json(error);
             return;
         }
         res.json(employee);

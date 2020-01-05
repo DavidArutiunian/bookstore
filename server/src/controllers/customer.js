@@ -1,3 +1,5 @@
+const errors = require("../errors");
+
 module.exports = {
     create: customerService => async (req, res) => {
         const { name, date_of_birth, email } = req.body;
@@ -19,12 +21,9 @@ module.exports = {
         const { id } = req.params;
         const customer = await customerService.findCustomerById(id);
         if (!customer) {
-            res.status(404);
-            res.json({
-                status: "Not Found",
-                message: `Customer with id ${id} not found`,
-                statusCode: 404,
-            });
+            const error = errors.NotFound(`Customer with id ${id} not found`);
+            res.status(error.statusCode);
+            res.json(error);
             return;
         }
         res.json(customer);

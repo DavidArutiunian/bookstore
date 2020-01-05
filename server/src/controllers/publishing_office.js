@@ -1,3 +1,5 @@
+const errors = require("../errors");
+
 module.exports = {
     create: publishingOfficeService => async (req, res) => {
         const { name, address, email } = req.body;
@@ -19,12 +21,9 @@ module.exports = {
         const { id } = req.params;
         const office = await publishingOfficeService.findPublishingOfficeById(id);
         if (!office) {
-            res.status(404);
-            res.json({
-                status: "Not Found",
-                message: `Publishing Office with id ${id} not found`,
-                statusCode: 404,
-            });
+            const error = errors.NotFound(`Publishing Office with id ${id} not found`);
+            res.status(error.statusCode);
+            res.json(error);
             return;
         }
         res.json(office);
