@@ -1,6 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
 const getConnection = require("../db");
+const errors = require("../errors");
 
 describe("books", () => {
     let token;
@@ -68,7 +69,7 @@ describe("books", () => {
                     .post("/api/book")
                     .set("authorization", token)
                     .send({
-                        title: `title ${i + 1}`,
+                        title: `title_${i + 1}`,
                         year: 2000,
                         cost: 2000 * (i + 1),
                     })
@@ -83,13 +84,13 @@ describe("books", () => {
                 expect(response.body.length).toEqual(2);
                 expect(response.body[0]).toEqual({
                     id_book: 2,
-                    title: "title 2",
+                    title: "title_2",
                     year: 2000,
                     cost: "4000.00",
                 });
                 expect(response.body[1]).toEqual({
                     id_book: 3,
-                    title: "title 3",
+                    title: "title_3",
                     year: 2000,
                     cost: "6000.00",
                 });
@@ -164,16 +165,13 @@ describe("books", () => {
         });
 
         test("ensure book deleted", async () => {
+            const expected = errors.NotFound(`Book with id ${id} not found`);
             const response = await request(app)
                 .get(`/api/book/${id}`)
                 .set("authorization", token)
-                .expect(404);
+                .expect(expected.statusCode);
             const error = response.body;
-            expect(error).toStrictEqual({
-                status: "Not Found",
-                message: `Book with id ${id} not found`,
-                statusCode: 404,
-            });
+            expect(error).toStrictEqual(expected);
         });
     });
 });

@@ -1,6 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
 const getConnection = require("../db");
+const errors = require("../errors");
 
 describe("publishing office", () => {
     let token;
@@ -68,7 +69,7 @@ describe("publishing office", () => {
                     .post("/api/publishing_office")
                     .set("authorization", token)
                     .send({
-                        name: `name ${i + 1}`,
+                        name: `name_${i + 1}`,
                         address: "address",
                         email: "email@email.com",
                     })
@@ -83,13 +84,13 @@ describe("publishing office", () => {
                 expect(response.body.length).toEqual(2);
                 expect(response.body[0]).toEqual({
                     id_publishing_office: 2,
-                    name: "name 2",
+                    name: "name_2",
                     address: "address",
                     email: "email@email.com",
                 });
                 expect(response.body[1]).toEqual({
                     id_publishing_office: 3,
-                    name: "name 3",
+                    name: "name_3",
                     address: "address",
                     email: "email@email.com",
                 });
@@ -164,16 +165,13 @@ describe("publishing office", () => {
         });
 
         test("ensure publishing office deleted", async () => {
+            const expected = errors.NotFound(`Publishing Office with id ${id} not found`);
             const response = await request(app)
                 .get(`/api/publishing_office/${id}`)
                 .set("authorization", token)
-                .expect(404);
+                .expect(expected.statusCode);
             const error = response.body;
-            expect(error).toStrictEqual({
-                status: "Not Found",
-                message: `Publishing Office with id ${id} not found`,
-                statusCode: 404,
-            });
+            expect(error).toStrictEqual(expected);
         });
     });
 });

@@ -1,6 +1,7 @@
 const request = require("supertest");
 const app = require("../app");
 const getConnection = require("../db");
+const errors = require("../errors");
 
 describe("customers", () => {
     let token;
@@ -68,7 +69,7 @@ describe("customers", () => {
                     .post("/api/customer")
                     .set("authorization", token)
                     .send({
-                        name: `name ${i + 1}`,
+                        name: `name_${i + 1}`,
                         date_of_birth: "1980-01-01",
                         email: "email@email.com",
                     })
@@ -83,13 +84,13 @@ describe("customers", () => {
                 expect(response.body.length).toEqual(2);
                 expect(response.body[0]).toEqual({
                     id_customer: 2,
-                    name: "name 2",
+                    name: "name_2",
                     date_of_birth: "1979-12-31T21:00:00.000Z",
                     email: "email@email.com",
                 });
                 expect(response.body[1]).toEqual({
                     id_customer: 3,
-                    name: "name 3",
+                    name: "name_3",
                     date_of_birth: "1979-12-31T21:00:00.000Z",
                     email: "email@email.com",
                 });
@@ -164,16 +165,13 @@ describe("customers", () => {
         });
 
         test("ensure customer deleted", async () => {
+            const expected = errors.NotFound(`Customer with id ${id} not found`);
             const response = await request(app)
                 .get(`/api/customer/${id}`)
                 .set("authorization", token)
-                .expect(404);
+                .expect(expected.statusCode);
             const error = response.body;
-            expect(error).toStrictEqual({
-                status: "Not Found",
-                message: `Customer with id ${id} not found`,
-                statusCode: 404,
-            });
+            expect(error).toStrictEqual(expected);
         });
     });
 });
