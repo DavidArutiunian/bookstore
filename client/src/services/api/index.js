@@ -1,4 +1,7 @@
 import ky from "ky";
+import auth from "../../containers/auth/slice";
+import store from "../../store";
+import { navigate } from "@reach/router";
 
 export default ky.create({
     prefixUrl: process.env.REACT_APP_API,
@@ -8,8 +11,8 @@ export default ky.create({
                 // clear local storage & reload page
                 // if unauthorized error
                 if (res.status === 403) {
-                    localStorage.clear();
-                    window.location.reload();
+                    store.dispatch(auth.actions.logoutUser());
+                    await navigate("/");
                 }
             },
         ],

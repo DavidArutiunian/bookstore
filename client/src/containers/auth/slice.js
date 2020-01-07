@@ -23,5 +23,10 @@ export default createSlice({
             state.error = payload.error;
             state.loading = false;
         },
+
+        logoutUser: (state) => {
+            state.user = null;
+            state.token = null;
+        }
     },
 });
