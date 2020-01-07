@@ -6,7 +6,8 @@
         "build": "react-app-rewired build",
         "eject": "react-scripts eject",
         "start": "react-app-rewired start",
-        "test": "react-app-rewired test"
+        "test": "react-app-rewired test",
+        "clean": "rimraf build node_modules/.cache"
     },
     "browserslist": {
         "production": [
@@ -54,6 +55,7 @@
         "customize-cra": "^0.9.1",
         "hard-source-webpack-plugin": "^0.13.1",
         "react-app-rewired": "^2.1.5",
+        "rimraf": "^3.0.0",
         "webpack-bundle-analyzer": "^3.6.0"
     }
 }
