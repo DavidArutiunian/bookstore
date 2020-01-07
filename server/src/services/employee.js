@@ -17,6 +17,9 @@ module.exports = repository => ({
 
     loginEmployee: async (login, password) => {
         const employee = await repository.findByLogin(login);
+        if (!employee) {
+            return false;
+        }
         const logged = await argon2.verify(employee.password, password);
         return logged && employee;
     },

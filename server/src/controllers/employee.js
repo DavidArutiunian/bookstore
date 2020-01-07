@@ -31,7 +31,8 @@ module.exports = {
     findAll: employeeService => async (req, res) => {
         const { scroll, limit = 25 } = req.query;
         const list = await employeeService.findAllEmployees({ scroll, limit });
-        res.json(list);
+        // return all except current user
+        res.json(list.filter(employee => employee.id_employee !== req.user.id_employee));
     },
 
     findById: employeeService => async (req, res) => {
@@ -55,6 +56,12 @@ module.exports = {
 
     deleteById: employeeService => async (req, res) => {
         const { id } = req.params;
+        if (id === req.user.id_employee.toString()) {
+            const error = errors.BadRequest("Cannot delete myself");
+            res.status(error.statusCode);
+            res.json(error);
+            return;
+        }
         await employeeService.deleteEmployee(id);
         res.send();
     },

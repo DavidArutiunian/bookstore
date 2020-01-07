@@ -14,4 +14,9 @@ module.exports = {
         message,
         statusCode: 500,
     }),
+    BadRequest: (message = "Bad Request") => ({
+        status: "Bad Request",
+        message,
+        statusCode: 400,
+    }),
 };

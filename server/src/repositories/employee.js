@@ -25,7 +25,10 @@ module.exports = {
         const conn = await getConnection();
         const result = await conn.execute(
             `
-                SELECT password
+                SELECT
+                    id_employee,
+                    login,
+                    password
                 FROM employee
                 WHERE login = ?
             `,
@@ -66,7 +69,7 @@ module.exports = {
         const result = await conn.execute(
             `
                 INSERT INTO employee(name, login, password, date_of_birth, address)
-                VALUES(?, ?, ?, ?, ?, ?, ?)
+                VALUES(?, ?, ?, ?, ?)
             `,
             [values.name, values.login, values.password, values.date_of_birth, values.address],
         );
