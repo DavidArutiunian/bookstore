@@ -12,7 +12,7 @@ export default ky.create({
                 // if unauthorized error
                 if (res.status === 403) {
                     store.dispatch(auth.actions.logoutUser());
-                    await navigate("/");
+                    setTimeout(() => navigate("/"));
                 }
             },
         ],

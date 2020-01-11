@@ -37,10 +37,11 @@ export const fetchAuthor = id => async (dispatch, getState) => {
     }
 };
 
-export const saveAuthor = (id, change) => async dispatch => {
+export const saveAuthor = (id, change) => async (dispatch, getState) => {
     try {
         dispatch(saveAuthorStart());
-        await api.put(`author/${id}`, { json: change });
+        const headers = { authorization: getState().auth.token };
+        await api.put(`author/${id}`, { json: change, headers });
         dispatch(saveAuthorSuccess());
         dispatch(fetchAuthors());
     } catch (error) {
@@ -49,10 +50,11 @@ export const saveAuthor = (id, change) => async dispatch => {
     }
 };
 
-export const createAuthor = author => async dispatch => {
+export const createAuthor = author => async (dispatch, getState) => {
     try {
         dispatch(createAuthorStart());
-        await api.post("author", { json: author });
+        const headers = { authorization: getState().auth.token };
+        await api.post("author", { json: author, headers });
         dispatch(createAuthorSuccess());
         dispatch(fetchAuthors());
     } catch (error) {
