@@ -2,7 +2,7 @@ create table if not exists book
 (
     id_book int auto_increment
         primary key,
-    title   varchar(50)    null,
+    title   varchar(255)    null,
     year    year           null,
     cost    decimal(15, 2) null
 );
@@ -11,9 +11,9 @@ create table if not exists customer
 (
     id_customer   int auto_increment
         primary key,
-    name          varchar(50) null,
+    name          varchar(255) null,
     date_of_birth date        null,
-    email         varchar(50) null
+    email         varchar(255) null
 );
 
 create table if not exists employee
@@ -57,17 +57,17 @@ create table if not exists publishing_office
 (
     id_publishing_office int auto_increment
         primary key,
-    name                 varchar(50) null,
-    address              varchar(50) null,
-    email                varchar(50) null
+    name                 varchar(255) null,
+    address              varchar(255) null,
+    email                varchar(255) null
 );
 
 create table if not exists author
 (
     id_author            int auto_increment
         primary key,
-    name                 varchar(25) null,
-    surname              varchar(25) null,
+    name                 varchar(255) null,
+    surname              varchar(255) null,
     date_of_birth        date        null,
     id_publishing_office int         null,
     constraint author_publishing_office_id_publishing_office_fk

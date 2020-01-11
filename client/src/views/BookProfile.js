@@ -46,7 +46,7 @@ function BookProfile(props) {
                         ...props,
                         rules: {
                             required: "Обязательно для заполнения",
-                            pattern: /^\d{4}$/,
+                            pattern: /^\d+(.\d{1,2})?$/,
                         },
                         name: "cost",
                         title: "Цена",

@@ -18,7 +18,7 @@ export const fetchBook = id => async (dispatch, getState) => {
     try {
         dispatch(fetchBookStart());
         const headers = { authorization: getState().auth.token };
-        const book = await api.get(`books/${id}`, { headers }).json();
+        const book = await api.get(`book/${id}`, { headers }).json();
         dispatch(fetchBookSuccess(book));
     } catch (error) {
         console.error(error);
@@ -60,7 +60,7 @@ export const saveBook = (id, change) => async (dispatch, getState) => {
     try {
         dispatch(saveBookStart());
         const headers = { authorization: getState().auth.token };
-        await api.put(`books/${id}`, { json: change, headers });
+        await api.put(`book/${id}`, { json: change, headers });
         dispatch(saveBookSuccess());
         dispatch(fetchBooks());
     } catch (error) {
@@ -106,7 +106,7 @@ export const createBook = book => async (dispatch, getState) => {
     try {
         dispatch(createBookStart());
         const headers = { authorization: getState().auth.token };
-        await api.post("books", { json: book, headers });
+        await api.post("book", { json: book, headers });
         dispatch(createBookSuccess());
         dispatch(fetchBooks());
     } catch (error) {
