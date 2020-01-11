@@ -18,7 +18,7 @@ function EmployeeList(props) {
         <BaseList
             loading={loading}
             error={error}
-            columns={["Имя", "Логин", "Дата рождения", "Адрес", "Администратор?"]}
+            columns={["Имя", "Логин", "Дата рождения", "Адрес"]}
             items={employees}
             deleteItem={deleteEmployee}
             fetchList={fetchEmployees}
@@ -45,7 +45,6 @@ function EmployeeList(props) {
                     <TableCell>{employee.login}</TableCell>
                     <TableCell>{employee.date_of_birth}</TableCell>
                     <TableCell>{employee.address}</TableCell>
-                    <TableCell>{employee.is_admin}</TableCell>
                     <DeleteTableCell>
                         <IconButton onClick={onDelete(employee.id_employee)}>
                             <DeleteIcon />
