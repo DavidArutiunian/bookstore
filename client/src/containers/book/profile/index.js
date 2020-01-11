@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { startBookEditing, changeBook, saveBook, fetchBook, createBook, saveBookSuccess } from "./actions";
+import { editBook, changeBook, saveBook, fetchBook, createBook, saveBookSuccess } from "./actions";
 import BookProfile from "views/BookProfile";
 import { hot } from "react-hot-loader/root";
 
@@ -13,7 +13,7 @@ const mapStateToProps = ({ bookProfile, authorList }) => ({
 
 const mapDispatchToProps = dispatch => ({
     fetchBook: id => dispatch(fetchBook(id)),
-    startEditing: () => dispatch(startBookEditing()),
+    startEditing: () => dispatch(editBook()),
     stopEditingAndSave: (id, change) => dispatch(saveBook(id, change)),
     stopEditingAndCreate: book => dispatch(createBook(book)),
     justStopEditing: () => dispatch(saveBookSuccess()),

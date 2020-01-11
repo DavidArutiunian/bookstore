@@ -7,6 +7,7 @@ import {
     BOOK_PROFILE_DELETE_FAIL,
     BOOK_PROFILE_DELETE,
 } from "./constants";
+import { fetchAuthors } from "containers/author/list/actions";
 
 export const fetchBooks = () => async (dispatch, getState) => {
     try {
@@ -14,6 +15,7 @@ export const fetchBooks = () => async (dispatch, getState) => {
         const headers = { authorization: getState().auth.token };
         const books = await api.get("book", { headers }).json();
         dispatch(doOnBooksFetchSuccess(books));
+        dispatch(fetchAuthors());
     } catch (error) {
         console.error(error);
         dispatch(donOnBooksFetchFail(error));
