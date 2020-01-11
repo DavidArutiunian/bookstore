@@ -17,3 +17,9 @@ Content-Type: application/json
 > {% client.global.set("auth_token", response.body.token); %}
 
 ###
+
+GET http://localhost:9000/api/employee/me
+Accept: application/json
+Authorization: {{auth_token}}
+
+###

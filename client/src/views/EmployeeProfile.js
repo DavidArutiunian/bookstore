@@ -41,13 +41,14 @@ function EmployeeProfile(props) {
                         title: "Логин",
                         value: employee?.login,
                     })}
-                    {ProfileFieldFactory.create({
-                        ...props,
-                        rules: { required: "Обязательно для заполнения" },
-                        name: "password",
-                        title: "Пароль",
-                        value: employee?.password,
-                    })}
+                    {shouldCreate &&
+                        ProfileFieldFactory.create({
+                            ...props,
+                            rules: { required: "Обязательно для заполнения" },
+                            name: "password",
+                            title: "Пароль",
+                            value: employee?.password,
+                        })}
                     {ProfileFieldFactory.create({
                         ...props,
                         rules: { required: "Обязательно для заполнения" },
@@ -64,7 +65,13 @@ function EmployeeProfile(props) {
                     })}
                 </>
             )}
-            skeleton={["name", "login", "password", "date_of_birth", "address"]}
+            skeleton={[
+                "name",
+                "login",
+                shouldCreate && "password",
+                "date_of_birth",
+                "address",
+            ].filter(Boolean)}
             id={id}
             item={employee}
             editing={editing}

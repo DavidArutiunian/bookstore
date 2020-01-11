@@ -30,6 +30,7 @@ import styled from "@emotion/styled";
 import AuthorList from "containers/author/list";
 import CustomerList from "containers/customer/list";
 import EmployeeList from "containers/employee/list";
+import Auth from "containers/auth";
 
 const styles = {
     chip: css`
@@ -100,12 +101,19 @@ function Dashboard(props) {
                             <ListItemText>Авторы</ListItemText>
                         </ListItem>
                         <Divider />
-                        <ListItem button component={Link} to="employee" onClick={handleDrawerClose}>
-                            <ListItemIcon>
-                                <Shop />
-                            </ListItemIcon>
-                            <ListItemText>Продавцы</ListItemText>
-                        </ListItem>
+                        <Auth.AdminView>
+                            <ListItem
+                                button
+                                component={Link}
+                                to="employee"
+                                onClick={handleDrawerClose}
+                            >
+                                <ListItemIcon>
+                                    <Shop />
+                                </ListItemIcon>
+                                <ListItemText>Продавцы</ListItemText>
+                            </ListItem>
+                        </Auth.AdminView>
                         <ListItem button component={Link} to="customer" onClick={handleDrawerClose}>
                             <ListItemIcon>
                                 <Group />
@@ -118,7 +126,9 @@ function Dashboard(props) {
                     <BookList path="book/*" />
                     <PublishingOfficeList path="publishing_office/*" />
                     <AuthorList path="author/*" />
-                    <EmployeeList path="employee/*" />
+                    <Auth.AdminView path="employee">
+                        <EmployeeList path="/*" />
+                    </Auth.AdminView>
                     <CustomerList path="customer/*" />
                 </Router>
             </Layout>

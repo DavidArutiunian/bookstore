@@ -65,4 +65,10 @@ module.exports = {
         await employeeService.deleteEmployee(id);
         res.send();
     },
+
+    me: employeeService => async (req, res) => {
+        const { id_employee } = req.user;
+        const me = await employeeService.findEmployeeById(id_employee);
+        res.json(me);
+    },
 };

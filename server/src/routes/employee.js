@@ -9,6 +9,8 @@ module.exports = (employeeService, ...middleware) => {
 
     router.get("/", ...middleware, safe(employee.findAll(employeeService)));
 
+    router.get("/me", ...middleware, safe(employee.me(employeeService)));
+
     router.get("/:id", ...middleware, safe(employee.findById(employeeService)));
 
     router.put("/:id", ...middleware, safe(employee.update(employeeService)));

@@ -11,9 +11,11 @@ export const loginUser = (login, password) => async dispatch => {
             password,
         };
         const response = await api.post("employee/login", { json: credentials }).json();
+        const headers = { authorization: response.token };
+        const me = await api.get("employee/me", { headers }).json();
         dispatch(
             loginUserSuccess({
-                user: credentials,
+                user: me,
                 token: response.token,
             }),
         );

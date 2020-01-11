@@ -1,7 +1,7 @@
 import { CssBaseline } from "@material-ui/core";
 import { css, Global } from "@emotion/core";
 import { Router } from "@reach/router";
-import Login from "containers/auth";
+import Auth from "containers/auth";
 import PropTypes from "prop-types";
 import Container from "@material-ui/core/Container";
 import Dashboard from "containers/dashboard";
@@ -30,7 +30,7 @@ function App(props) {
             <Global styles={styles.global} />
             <AppContainer>
                 <Router>
-                    <Login path="login" />
+                    <Auth.Login path="login" />
                     <PrivateRoute
                         authorized={logged}
                         path="*"
