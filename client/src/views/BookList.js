@@ -12,13 +12,13 @@ import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
 
 function BookList(props) {
-    const { fetchBooks, books, loading, deleteBook, startEditing, error } = props;
+    const { fetchBooks, books, loading, deleteBook, startEditing, error, authors } = props;
 
     return (
         <BaseList
             loading={loading}
             error={error}
-            columns={["Номер", "Название", "Год", "Цена"]}
+            columns={["Номер", "Название", "Год", "Автор(ы)", "Цена"]}
             items={books}
             deleteItem={deleteBook}
             fetchList={fetchBooks}
@@ -41,6 +41,16 @@ function BookList(props) {
                     <TableCell>{book.id_book}</TableCell>
                     <TableCell>{book.title}</TableCell>
                     <TableCell>{book.year}</TableCell>
+                    <TableCell>
+                        {authors
+                            ?.filter(author => book?.authors?.includes(author.id_author))
+                            ?.map(author => (
+                                <>
+                                    {author.name} {author.surname}
+                                    <br />
+                                </>
+                            ))}
+                    </TableCell>
                     <TableCell>{book.cost}</TableCell>
                     <DeleteTableCell>
                         <IconButton onClick={onDelete(book.id_book)}>
@@ -67,6 +77,7 @@ BookList.propTypes = {
     loading: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     books: PropTypes.array.isRequired,
+    authors: PropTypes.array,
     fetchBooks: PropTypes.func.isRequired,
     deleteBook: PropTypes.func.isRequired,
     startEditing: PropTypes.func.isRequired,

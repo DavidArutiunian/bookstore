@@ -28,18 +28,24 @@ module.exports = {
         const params = [];
         let sql = `
             SELECT
-                id_book,
-                title,
-                year,
-                cost
-            FROM book
+                b.id_book,
+                b.title,
+                b.year,
+                b.cost,
+                json_arrayagg(a.id_author) AS authors
+            FROM book b
+            LEFT JOIN book_x_author ba ON ba.id_book = b.id_book
+            LEFT JOIN author a ON a.id_author = ba.id_author
             WHERE 1 = 1
         `;
         if (condition.scroll) {
-            sql += ` AND id_book >= ? `;
+            sql += ` AND b.id_book >= ? `;
             params.push(condition.scroll);
         }
-        sql += ` ORDER BY id_book `;
+        sql += `
+            GROUP BY b.id_book, b.title, b.year, b.cost
+            ORDER BY b.id_book
+        `;
         if (condition.limit) {
             sql += ` LIMIT ? `;
             params.push(condition.limit);

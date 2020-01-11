@@ -91,10 +91,11 @@ function BookProfile(props) {
                                 })}
                             </ChipWrapper>
                         ),
-                        options: authors.map(author => ({
-                            label: `${author?.name} ${author?.surname}`,
-                            value: author.id_author,
-                        })),
+                        options:
+                            authors?.map(author => ({
+                                label: `${author?.name} ${author?.surname}`,
+                                value: author.id_author,
+                            })) ?? [],
                     })}
                 </>
             )}

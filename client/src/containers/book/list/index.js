@@ -4,10 +4,11 @@ import BookList from "views/BookList";
 import { hot } from "react-hot-loader/root";
 import { editBook } from "containers/book/profile/actions";
 
-const mapStateToProps = ({ bookList }) => ({
+const mapStateToProps = ({ bookList, authorList }) => ({
     loading: bookList.loading,
     error: bookList.error,
     books: bookList.books,
+    authors: authorList.authors,
 });
 
 const mapDispatchToProps = dispatch => ({
