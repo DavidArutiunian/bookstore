@@ -11,8 +11,9 @@ import {
     BOOK_PROFILE_CREATE,
     BOOK_PROFILE_CREATE_FAIL,
     BOOK_PROFILE_CREATE_SUCCESS,
-} from "containers/book/profile/constants";
+} from "./constants";
 import { fetchBooks } from "containers/book/list/actions";
+import { fetchAuthors } from "../../author/list/actions";
 
 export const fetchBook = id => async (dispatch, getState) => {
     try {
@@ -20,6 +21,7 @@ export const fetchBook = id => async (dispatch, getState) => {
         const headers = { authorization: getState().auth.token };
         const book = await api.get(`book/${id}`, { headers }).json();
         dispatch(fetchBookSuccess(book));
+        dispatch(fetchAuthors());
     } catch (error) {
         console.error(error);
         dispatch(fetchBookFail(error));
@@ -49,7 +51,14 @@ const fetchBookFail = error => ({
     },
 });
 
-export const editBook = () => ({
+export const startBookEditing = () => {
+    return dispatch => {
+        dispatch(fetchAuthors());
+        dispatch(editBook());
+    };
+};
+
+const editBook = () => ({
     type: BOOK_PROFILE_EDIT,
     payload: {
         editing: true,

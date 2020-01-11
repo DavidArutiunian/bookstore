@@ -11,7 +11,20 @@ import MenuItem from "@material-ui/core/MenuItem";
 import InputErrorFactory from "factory/InputErrorFactory";
 
 const ProfileSelect = props => {
-    const { value, options, onChange, errors, title, name, register, rules, setValue } = props;
+    const {
+        value,
+        options,
+        onChange,
+        errors,
+        title,
+        name,
+        register,
+        rules,
+        setValue,
+        multiple,
+        renderValue,
+        readOnly,
+    } = props;
 
     const handleChange = event => onChange(event.target.value);
 
@@ -24,10 +37,15 @@ const ProfileSelect = props => {
                             <InputLabel id={`label-${name}`}>{title}</InputLabel>
                             <RHFInput
                                 name={name}
-                                value={`${value}`}
+                                value={multiple ? value : `${value}`}
                                 register={register}
                                 as={
-                                    <Select labelId={`label-${name}`}>
+                                    <Select
+                                        readOnly={readOnly}
+                                        multiple={multiple}
+                                        {...(multiple ? { renderValue } : {})}
+                                        labelId={`label-${name}`}
+                                    >
                                         {options.map(({ label, value }) => (
                                             <MenuItem key={label} value={value}>
                                                 {label}
@@ -53,10 +71,13 @@ const ProfileSelect = props => {
 ProfileSelect.propTypes = {
     errors: PropTypes.object,
     rules: PropTypes.object,
+    multiple: PropTypes.bool,
+    renderValue: PropTypes.func,
     register: PropTypes.func.isRequired,
     title: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
-    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    readOnly: PropTypes.bool.isRequired,
+    value: PropTypes.oneOfType([PropTypes.string, PropTypes.number, PropTypes.array]),
     options: PropTypes.arrayOf(
         PropTypes.shape({
             label: PropTypes.string.isRequired,

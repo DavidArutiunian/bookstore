@@ -10,7 +10,16 @@ module.exports = repository => ({
     },
 
     createNewBook: async values => {
-        return repository.insert(values);
+        const conn = await getConnection();
+        await conn.query("START TRANSACTION");
+        try {
+            const result = repository.insert(values);
+            await conn.query("COMMIT");
+            return result;
+        } catch (e) {
+            await conn.query("ROLLBACK");
+            throw e;
+        }
     },
 
     updateBook: async (id, change) => {
@@ -20,11 +29,10 @@ module.exports = repository => ({
             const book = await repository.findById(id);
             const payload = { ...book, ...change };
             await repository.update(id, payload);
+            await conn.query("COMMIT");
         } catch (e) {
             await conn.query("ROLLBACK");
             throw e;
-        } finally {
-            await conn.query("COMMIT");
         }
     },
 

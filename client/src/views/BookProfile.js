@@ -3,11 +3,22 @@ import * as PropTypes from "prop-types";
 import { hot } from "react-hot-loader/root";
 import BaseProfile from "components/BaseProfile";
 import ProfileFieldFactory from "factory/ProfileFieldFactory";
+import ProfileSelectFactory from "factory/ProfileSelectFactory";
+import Chip from "@material-ui/core/Chip";
+import { css } from "@emotion/core";
+import styled from "@emotion/styled";
+
+const styles = {
+    chip: css`
+        margin: 2px;
+    `,
+};
 
 function BookProfile(props) {
     const {
         id,
         book,
+        authors,
         editing,
         fetchBook,
         loading,
@@ -32,6 +43,7 @@ function BookProfile(props) {
                         rules: { required: "Обязательно для заполнения" },
                         name: "title",
                         title: "Название",
+                        value: book?.title,
                     })}
                     {ProfileFieldFactory.create({
                         ...props,
@@ -41,6 +53,7 @@ function BookProfile(props) {
                         },
                         name: "year",
                         title: "Год",
+                        value: book?.year,
                     })}
                     {ProfileFieldFactory.create({
                         ...props,
@@ -50,10 +63,42 @@ function BookProfile(props) {
                         },
                         name: "cost",
                         title: "Цена",
+                        value: book?.cost,
+                    })}
+                    {ProfileSelectFactory.create({
+                        ...props,
+                        multiple: true,
+                        rules: {
+                            validate: value =>
+                                value?.length >= 1 || "Необходимо выбрать хотя бы одного автора",
+                        },
+                        name: "authors",
+                        title: "Автор(ы)",
+                        value: authors?.length ? book?.authors : null,
+                        renderValue: selected => (
+                            <ChipWrapper>
+                                {selected.map(id_author => {
+                                    const author = authors?.find(
+                                        author => author.id_author === id_author,
+                                    );
+                                    return (
+                                        <Chip
+                                            key={id_author}
+                                            label={`${author?.name} ${author?.surname}`}
+                                            css={styles.chip}
+                                        />
+                                    );
+                                })}
+                            </ChipWrapper>
+                        ),
+                        options: authors.map(author => ({
+                            label: `${author?.name} ${author?.surname}`,
+                            value: author.id_author,
+                        })),
                     })}
                 </>
             )}
-            skeleton={["title", "year", "cost"]}
+            skeleton={["title", "year", "cost", "authors"]}
             id={id}
             item={book}
             editing={editing}
@@ -90,7 +135,9 @@ BookProfile.propTypes = {
         title: PropTypes.string,
         cost: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
         year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+        authors: PropTypes.array,
     }),
+    authors: PropTypes.array.isRequired,
     shouldCreate: PropTypes.bool,
     customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     showOptions: PropTypes.bool,
@@ -107,3 +154,8 @@ BookProfile.propTypes = {
 };
 
 export default hot(BookProfile);
+
+const ChipWrapper = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+`;

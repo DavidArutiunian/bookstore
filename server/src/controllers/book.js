@@ -2,8 +2,8 @@ const errors = require("../errors");
 
 module.exports = {
     create: bookService => async (req, res) => {
-        const { title, year, cost } = req.body;
-        const id = await bookService.createNewBook({ title, year, cost });
+        const { title, year, cost, authors } = req.body;
+        const id = await bookService.createNewBook({ title, year, cost, authors });
         res.json({ id });
     },
 

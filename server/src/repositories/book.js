@@ -7,12 +7,16 @@ module.exports = {
         const result = await conn.execute(
             `
             SELECT
-                id_book,
-                title,
-                year,
-                cost
-            FROM book
-            WHERE id_book = ?
+                b.id_book,
+                b.title,
+                b.year,
+                b.cost,
+                json_arrayagg(a.id_author) AS authors
+            FROM book b
+            LEFT JOIN book_x_author ba ON ba.id_book = b.id_book
+            LEFT JOIN author a ON a.id_author = ba.id_author
+            WHERE b.id_book = ?
+            GROUP BY b.id_book, b.title, b.year, b.cost;
         `,
             [id],
         );
@@ -53,7 +57,16 @@ module.exports = {
             `,
             [values.title, values.year, values.cost],
         );
-        return result[0].insertId;
+        const id = result[0].insertId;
+        await conn.execute(
+            `
+                INSERT INTO book_x_author(id_book, id_author)
+                VALUES
+                ${values.authors.map(() => "(?, ?)")}
+            `,
+            [...values.authors.flatMap(author => [id, author])],
+        );
+        return id;
     },
 
     update: async (id = MissingArgument("Missing Book id"), change = {}) => {
@@ -76,6 +89,17 @@ module.exports = {
         params.push(id);
         sql = sql.replace(/(?<!WHERE )\?\W(?!(\W*)WHERE)/gim, "?,");
         await conn.execute(sql, params);
+        await conn.execute(`DELETE FROM book_x_author WHERE id_book = ?`, [id]);
+        if (change.authors) {
+            await conn.execute(
+                `
+                    INSERT INTO book_x_author(id_book, id_author)
+                    VALUES
+                    ${change.authors.map(() => "(?, ?)")}
+                `,
+                [...change.authors.flatMap(author => [id, author])],
+            );
+        }
     },
 
     deleteById: async (id = MissingArgument("Missing Book id")) => {

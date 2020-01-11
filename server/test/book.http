@@ -30,7 +30,7 @@ Authorization: {{auth_token}}
 
 ###
 
-GET http://localhost:9000/api/book/10
+GET http://localhost:9000/api/book/1
 Accept: application/json
 Authorization: {{auth_token}}
 

@@ -1,18 +1,19 @@
 import { connect } from "react-redux";
-import { editBook, changeBook, saveBook, fetchBook, createBook, saveBookSuccess } from "./actions";
+import { startBookEditing, changeBook, saveBook, fetchBook, createBook, saveBookSuccess } from "./actions";
 import BookProfile from "views/BookProfile";
 import { hot } from "react-hot-loader/root";
 
-const mapStateToProps = ({ bookProfile }) => ({
+const mapStateToProps = ({ bookProfile, authorList }) => ({
     loading: bookProfile.loading,
     error: bookProfile.error,
     editing: bookProfile.editing,
     book: bookProfile.book,
+    authors: authorList.authors,
 });
 
 const mapDispatchToProps = dispatch => ({
     fetchBook: id => dispatch(fetchBook(id)),
-    startEditing: () => dispatch(editBook()),
+    startEditing: () => dispatch(startBookEditing()),
     stopEditingAndSave: (id, change) => dispatch(saveBook(id, change)),
     stopEditingAndCreate: book => dispatch(createBook(book)),
     justStopEditing: () => dispatch(saveBookSuccess()),

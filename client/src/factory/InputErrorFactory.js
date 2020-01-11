@@ -7,11 +7,11 @@ export default {
             <InputError
                 message={
                     errors[name].type === "minLength"
-                        ? "Недостаточно символов"
+                        ? errors[name].message ?? "Недостаточно символов"
                         : errors[name].type === "maxLength"
-                        ? "Превышено максимальное количество символов"
+                        ? errors[name].message ?? "Превышено максимальное количество символов"
                         : errors[name].type === "pattern"
-                        ? "Неверный формат поля"
+                        ? errors[name].message ?? "Неверный формат поля"
                         : errors[name].message
                 }
             />

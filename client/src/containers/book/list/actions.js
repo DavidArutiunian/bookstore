@@ -6,7 +6,7 @@ import {
     BOOK_PROFILE_DELETE_SUCCESS,
     BOOK_PROFILE_DELETE_FAIL,
     BOOK_PROFILE_DELETE,
-} from "containers/book/list/constants";
+} from "./constants";
 
 export const fetchBooks = () => async (dispatch, getState) => {
     try {
