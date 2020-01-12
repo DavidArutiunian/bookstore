@@ -1,6 +1,9 @@
 import api from "services/api";
 import {
     BOOK_PROFILE_CHANGE,
+    BOOK_PROFILE_CREATE,
+    BOOK_PROFILE_CREATE_FAIL,
+    BOOK_PROFILE_CREATE_SUCCESS,
     BOOK_PROFILE_EDIT,
     BOOK_PROFILE_FETCH,
     BOOK_PROFILE_FETCH_FAIL,
@@ -8,9 +11,6 @@ import {
     BOOK_PROFILE_SAVE,
     BOOK_PROFILE_SAVE_FAIL,
     BOOK_PROFILE_SAVE_SUCCESS,
-    BOOK_PROFILE_CREATE,
-    BOOK_PROFILE_CREATE_FAIL,
-    BOOK_PROFILE_CREATE_SUCCESS,
 } from "./constants";
 import { fetchBooks } from "containers/book/list/actions";
 

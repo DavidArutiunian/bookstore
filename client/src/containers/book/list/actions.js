@@ -3,9 +3,9 @@ import {
     BOOK_LIST_FETCH,
     BOOK_LIST_FETCH_FAIL,
     BOOK_LIST_FETCH_SUCCESS,
-    BOOK_PROFILE_DELETE_SUCCESS,
-    BOOK_PROFILE_DELETE_FAIL,
     BOOK_PROFILE_DELETE,
+    BOOK_PROFILE_DELETE_FAIL,
+    BOOK_PROFILE_DELETE_SUCCESS,
 } from "./constants";
 import { fetchAuthors } from "containers/author/list/actions";
 

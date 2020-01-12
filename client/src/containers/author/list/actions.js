@@ -1,8 +1,7 @@
-import { format, parseISO } from "date-fns";
-import { ru } from "date-fns/locale";
 import slice from "./slice";
 import api from "services/api";
 import { fetchPublishingOfficeList } from "containers/publishing_office/list/actions";
+import date from "services/date";
 
 const {
     fetchAuthorsFail,
@@ -20,7 +19,7 @@ export const fetchAuthors = () => async (dispatch, getState) => {
         const authors = await api.get("author", { headers }).json();
         const transformed = authors.rows.map(row => ({
             ...row,
-            date_of_birth: format(parseISO(row.date_of_birth), "dd MMMM yyyy", { locale: ru }),
+            date_of_birth: date.format(row.date_of_birth),
             publishing_office: authors.relations.publishing_office.find(
                 relation => relation.id_publishing_office === row.id_publishing_office,
             )?.name,

@@ -29,13 +29,13 @@ module.exports = {
     },
 
     findAll: employeeService => async (req, res) => {
-        const { scroll, extended = false, limit = 25 } = req.query;
+        const { scroll, extended, limit = 25 } = req.query;
         const list = await employeeService.findAllEmployees({ scroll, limit });
-        if (!extended) {
+        if (extended === "true") {
+            res.json(list);
+        } else {
             // return all except current user
             res.json(list.filter(employee => employee.id_employee !== req.user.id_employee));
-        } else {
-            res.json(list)
         }
     },
 

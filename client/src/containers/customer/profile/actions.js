@@ -1,8 +1,7 @@
 import slice from "./slice";
 import api from "services/api";
+import date from "services/date";
 import { fetchCustomers } from "containers/customer/list/actions";
-import { format, parseISO } from "date-fns";
-import { ru } from "date-fns/locale";
 
 const {
     fetchCustomerStart,
@@ -25,9 +24,7 @@ export const fetchCustomer = id => async (dispatch, getState) => {
             fetchCustomerSuccess({
                 customer: {
                     ...customer,
-                    date_of_birth: format(parseISO(customer.date_of_birth), "dd MMMM yyyy", {
-                        locale: ru,
-                    }),
+                    date_of_birth: date.format(customer.date_of_birth),
                 },
             }),
         );

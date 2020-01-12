@@ -1,8 +1,7 @@
 import slice from "./slice";
 import api from "services/api";
 import { fetchOrders } from "containers/order/list/actions";
-import { format, parseISO } from "date-fns";
-import { ru } from "date-fns/locale";
+import date from "services/date";
 
 const {
     fetchOrderStart,
@@ -25,9 +24,7 @@ export const fetchOrder = id => async (dispatch, getState) => {
             fetchOrderSuccess({
                 order: {
                     ...order,
-                    date: format(parseISO(order.date), "dd MMMM yyyy", {
-                        locale: ru,
-                    }),
+                    date: date.format(order.date),
                 },
             }),
         );

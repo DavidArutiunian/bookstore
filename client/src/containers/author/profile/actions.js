@@ -1,8 +1,7 @@
 import slice from "./slice";
 import api from "services/api";
+import date from "services/date";
 import { fetchAuthors } from "containers/author/list/actions";
-import { format, parseISO } from "date-fns";
-import { ru } from "date-fns/locale";
 
 const {
     fetchAuthorStart,
@@ -25,9 +24,7 @@ export const fetchAuthor = id => async (dispatch, getState) => {
             fetchAuthorSuccess({
                 author: {
                     ...author.row,
-                    date_of_birth: format(parseISO(author.row.date_of_birth), "dd MMMM yyyy", {
-                        locale: ru,
-                    }),
+                    date_of_birth: date.format(author.row.date_of_birth),
                 },
             }),
         );

@@ -1,6 +1,5 @@
-import { format, parseISO } from "date-fns";
-import { ru } from "date-fns/locale";
 import slice from "./slice";
+import date from "services/date";
 import api from "services/api";
 
 const {
@@ -19,7 +18,7 @@ export const fetchCustomers = () => async (dispatch, getState) => {
         const customers = await api.get("customer", { headers }).json();
         const transformed = customers.map(row => ({
             ...row,
-            date_of_birth: format(parseISO(row.date_of_birth), "dd MMMM yyyy", { locale: ru }),
+            date_of_birth: date.format(row.date_of_birth),
         }));
         dispatch(fetchCustomersSuccess({ customers: transformed }));
     } catch (error) {

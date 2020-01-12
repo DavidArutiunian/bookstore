@@ -1,8 +1,7 @@
 import slice from "./slice";
 import api from "services/api";
 import { fetchEmployees } from "containers/employee/list/actions";
-import { format, parseISO } from "date-fns";
-import { ru } from "date-fns/locale";
+import date from "services/date";
 
 const {
     fetchEmployeeStart,
@@ -25,9 +24,7 @@ export const fetchEmployee = id => async (dispatch, getState) => {
             fetchEmployeeSuccess({
                 employee: {
                     ...employee,
-                    date_of_birth: format(parseISO(employee.date_of_birth), "dd MMMM yyyy", {
-                        locale: ru,
-                    }),
+                    date_of_birth: date.format(employee.date_of_birth),
                 },
             }),
         );
