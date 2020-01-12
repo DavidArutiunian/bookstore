@@ -1,7 +1,6 @@
 import AuthBase from "components/AuthBase";
 import React, { useEffect } from "react";
-import { Link, navigate } from "@reach/router";
-import Button from "@material-ui/core/Button";
+import { navigate } from "@reach/router";
 import CenteredLayout from "components/CenteredLayout";
 import BaseHeader from "components/BaseHeader";
 import PropTypes from "prop-types";
@@ -18,11 +17,7 @@ function Login(props) {
 
     return (
         <>
-            <BaseHeader>
-                <Button color="inherit" component={Link} to="/register">
-                    На регистрацию
-                </Button>
-            </BaseHeader>
+            <BaseHeader />
             <CenteredLayout>
                 <AuthBase onSubmit={login}>Вход</AuthBase>
             </CenteredLayout>
