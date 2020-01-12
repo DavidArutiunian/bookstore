@@ -54,6 +54,22 @@ module.exports = {
         return result[0];
     },
 
+    findTopMostPopular: async (limit = MissingArgument("Missing limit")) => {
+        const conn = await getConnection();
+        const result = await conn.execute(
+            `
+                SELECT b.id_book, b.title, COUNT(bxo.id_book) as orders_count
+                FROM book b
+                LEFT JOIN book_x_order bxo ON b.id_book = bxo.id_book
+                GROUP BY b.id_book, b.title
+                ORDER BY orders_count DESC
+                LIMIT ?
+            `,
+            [limit],
+        );
+        return result[0];
+    },
+
     insert: async (values = MissingArgument("Missing Book values")) => {
         const conn = await getConnection();
         const result = await conn.execute(

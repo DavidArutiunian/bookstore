@@ -27,6 +27,10 @@ module.exports = repository => ({
         }
     },
 
+    findTopMostActiveCustomers: async (limit) => {
+        return repository.findTopMostActive(limit);
+    },
+
     deleteCustomer: async id => {
         return repository.deleteById(id);
     },

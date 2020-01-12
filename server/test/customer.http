@@ -49,3 +49,9 @@ DELETE http://localhost:9000/api/customer/1
 Authorization: {{auth_token}}
 
 ###
+
+GET http://localhost:9000/api/customer/top
+Authorization: {{auth_token}}
+Accept: application/json
+
+###

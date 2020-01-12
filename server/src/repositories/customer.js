@@ -44,6 +44,22 @@ module.exports = {
         return result[0];
     },
 
+    findTopMostActive: async (limit = MissingArgument("Missing limit")) => {
+        const conn = await getConnection();
+        const result = await conn.execute(
+            `
+                SELECT c.id_customer, c.name, COUNT(o.id_order) AS orders_count
+                FROM customer c
+                LEFT JOIN \`order\` o ON c.id_customer = o.id_customer
+                GROUP BY c.id_customer, c.name
+                ORDER BY orders_count DESC
+                LIMIT ?
+            `,
+            [limit],
+        );
+        return result[0];
+    },
+
     insert: async (values = MissingArgument("Missing Customer values")) => {
         const conn = await getConnection();
         const result = await conn.execute(

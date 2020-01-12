@@ -25,6 +25,12 @@ module.exports = {
         res.json(book);
     },
 
+    findTopMostPopular: bookService => async (req, res) => {
+        const { limit = 10 } = req.query;
+        const result = await bookService.findTopMostPopularBooks(limit);
+        res.json(result);
+    },
+
     update: bookService => async (req, res) => {
         const change = req.body;
         const { id } = req.params;

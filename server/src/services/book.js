@@ -9,6 +9,10 @@ module.exports = repository => ({
         return repository.findAll(condition);
     },
 
+    findTopMostPopularBooks: async limit => {
+        return repository.findTopMostPopular(limit);
+    },
+
     createNewBook: async values => {
         const conn = await getConnection();
         await conn.query("START TRANSACTION");

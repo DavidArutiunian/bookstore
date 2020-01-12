@@ -9,6 +9,8 @@ module.exports = (customerService, ...middleware) => {
 
     router.get("/", ...middleware, safe(customer.findAll(customerService)));
 
+    router.get("/top", ...middleware, safe(customer.findTopMostActive(customerService)));
+
     router.get("/:id", ...middleware, safe(customer.findById(customerService)));
 
     router.put("/:id", ...middleware, safe(customer.update(customerService)));

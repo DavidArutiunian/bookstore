@@ -9,6 +9,8 @@ module.exports = (bookService, ...middleware) => {
 
     router.get("/", ...middleware, safe(book.findAll(bookService)));
 
+    router.get("/top", ...middleware, safe(book.findTopMostPopular(bookService)));
+
     router.get("/:id", ...middleware, safe(book.findById(bookService)));
 
     router.put("/:id", ...middleware, safe(book.update(bookService)));

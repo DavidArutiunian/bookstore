@@ -29,6 +29,12 @@ module.exports = {
         res.json(customer);
     },
 
+    findTopMostActive: customerService => async (req, res) => {
+        const { limit = 10 } = req.query;
+        const result = await customerService.findTopMostActiveCustomers(limit);
+        res.json(result);
+    },
+
     update: customerService => async (req, res) => {
         const change = req.body;
         const { id } = req.params;

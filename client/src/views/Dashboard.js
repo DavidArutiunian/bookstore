@@ -38,6 +38,7 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Typography from "@material-ui/core/Typography";
 import DashboardContent from "views/DashboardContent";
+import { useMount } from "react-use";
 
 const styles = {
     chip: css`
@@ -45,11 +46,18 @@ const styles = {
     `,
     drawer: css`
         width: 250px;
-    `
+    `,
 };
 
 function Dashboard(props) {
-    const { user, logout } = props;
+    const {
+        user,
+        logout,
+        topMostActiveUsers,
+        topMostPopularBooks,
+        fetchTopMostActiveUsers,
+        fetchTopMostPopularBooks,
+    } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -75,6 +83,11 @@ function Dashboard(props) {
         logout();
         navigate("/login");
     };
+
+    useMount(() => {
+        fetchTopMostActiveUsers();
+        fetchTopMostPopularBooks();
+    });
 
     return (
         <>
@@ -170,7 +183,11 @@ function Dashboard(props) {
                     </List>
                 </Drawer>
                 <Router>
-                    <DashboardContent path="/" />
+                    <DashboardContent
+                        topMostActiveUsers={topMostActiveUsers}
+                        topMostPopularBooks={topMostPopularBooks}
+                        path="/"
+                    />
                     <BookList path="book/*" />
                     <PublishingOfficeList path="publishing_office/*" />
                     <AuthorList path="author/*" />
@@ -190,6 +207,12 @@ Dashboard.propTypes = {
         login: PropTypes.string.isRequired,
     }).isRequired,
     logout: PropTypes.func.isRequired,
+    loading: PropTypes.bool.isRequired,
+    error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
+    topMostActiveUsers: PropTypes.array.isRequired,
+    topMostPopularBooks: PropTypes.array.isRequired,
+    fetchTopMostActiveUsers: PropTypes.func.isRequired,
+    fetchTopMostPopularBooks: PropTypes.func.isRequired,
 };
 
 const HeaderWhitespace = styled(Grid)`

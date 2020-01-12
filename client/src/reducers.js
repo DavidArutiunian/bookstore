@@ -12,6 +12,7 @@ import employeeListSlice from "containers/employee/list/slice";
 import employeeProfileSlice from "containers/employee/profile/slice";
 import orderListSlice from "containers/order/list/slice";
 import orderProfileSlice from "containers/order/profile/slice";
+import dashboardSlice from "containers/dashboard/slice";
 
 export default function createReducer() {
     return combineReducers({
@@ -34,6 +35,8 @@ export default function createReducer() {
         employeeProfile: employeeProfileSlice.reducer,
         // order
         orderList: orderListSlice.reducer,
-        orderProfile: orderProfileSlice.reducer
+        orderProfile: orderProfileSlice.reducer,
+        // dashboard
+        dashboard: dashboardSlice.reducer,
     });
 }

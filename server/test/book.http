@@ -50,3 +50,9 @@ DELETE http://localhost:9000/api/book/1
 Authorization: {{auth_token}}
 
 ###
+
+GET http://localhost:9000/api/book/top
+Authorization: {{auth_token}}
+Accept: application/json
+
+###
