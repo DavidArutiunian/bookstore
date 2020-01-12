@@ -86,11 +86,10 @@ function DashboardContent() {
                                     legendOffset: -48,
                                     legendPosition: "middle",
                                 }}
-                                colors={{ scheme: "nivo" }}
                                 pointSize={8}
                                 pointColor={{ from: "color" }}
                                 pointBorderWidth={2}
-                                pointBorderColor={{ from: "serieColor" }}
+                                pointBorderColor={{ from: "color" }}
                                 pointLabel="y"
                                 pointLabelYOffset={-12}
                                 useMesh={true}
