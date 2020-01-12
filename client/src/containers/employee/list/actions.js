@@ -12,14 +12,16 @@ const {
     deleteEmployeeSuccess,
 } = slice.actions;
 
-export const fetchEmployees = () => async (dispatch, getState) => {
+export const fetchEmployees = (extended = false) => async (dispatch, getState) => {
     try {
         dispatch(fetchEmployeesStart());
         const headers = { authorization: getState().auth.token };
-        const employees = await api.get("employee", { headers }).json();
+        const employees = await api.get(`employee?extended=${extended}`, { headers }).json();
         const transformed = employees.map(row => ({
             ...row,
-            date_of_birth: format(parseISO(row.date_of_birth), "dd MMMM yyyy", { locale: ru }),
+            date_of_birth: row.date_of_birth
+                ? format(parseISO(row.date_of_birth), "dd MMMM yyyy", { locale: ru })
+                : null,
         }));
         dispatch(fetchEmployeesSuccess({ employees: transformed }));
     } catch (error) {

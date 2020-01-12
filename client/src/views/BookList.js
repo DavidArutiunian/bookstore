@@ -45,10 +45,10 @@ function BookList(props) {
                         {authors
                             ?.filter(author => book?.authors?.includes(author.id_author))
                             ?.map(author => (
-                                <>
+                                <React.Fragment key={author.id_author}>
                                     {author.name} {author.surname}
                                     <br />
-                                </>
+                                </React.Fragment>
                             ))}
                     </TableCell>
                     <TableCell>{book.cost}</TableCell>

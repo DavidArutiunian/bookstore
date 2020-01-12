@@ -14,24 +14,26 @@ const styles = {
     `,
 };
 
-function BookProfile(props) {
+function OrderProfile(props) {
     const {
         id,
-        book,
-        authors,
+        order,
         editing,
-        fetchBook,
+        fetchOrder,
         loading,
         startEditing,
         stopEditingAndSave,
         handleChange,
         customTitle,
-        shouldFetchBook = true,
+        shouldFetchOrder = true,
         showOptions = true,
         stopEditingAndCreate,
         shouldCreate = false,
         justStopEditing,
         error,
+        customers,
+        employees,
+        books,
     } = props;
 
     return (
@@ -41,69 +43,67 @@ function BookProfile(props) {
                     {ProfileFieldFactory.create({
                         ...props,
                         rules: { required: "Обязательно для заполнения" },
-                        name: "title",
-                        title: "Название",
-                        value: book?.title,
+                        name: "date",
+                        title: "Дата заказа",
+                        value: order?.date,
                     })}
-                    {ProfileFieldFactory.create({
+                    {ProfileSelectFactory.create({
                         ...props,
-                        rules: {
-                            required: "Обязательно для заполнения",
-                            pattern: /^\d{4}$/,
-                        },
-                        name: "year",
-                        title: "Год",
-                        value: book?.year,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "id_customer",
+                        title: "Покупатель",
+                        value: customers?.length ? order?.id_customer : null,
+                        options:
+                            customers?.map(customer => ({
+                                label: customer.name,
+                                value: customer.id_customer,
+                            })) ?? [],
                     })}
-                    {ProfileFieldFactory.create({
+                    {ProfileSelectFactory.create({
                         ...props,
-                        rules: {
-                            required: "Обязательно для заполнения",
-                            pattern: /^\d+(.\d{1,2})?$/,
-                        },
-                        name: "cost",
-                        title: "Цена",
-                        value: book?.cost,
+                        rules: { required: "Обязательно для заполнения" },
+                        name: "id_employee",
+                        title: "Продавец",
+                        value: employees?.length ? order?.id_employee : null,
+                        options:
+                            employees?.map(employee => ({
+                                label: employee.name,
+                                value: employee.id_employee,
+                            })) ?? [],
                     })}
                     {ProfileSelectFactory.create({
                         ...props,
                         multiple: true,
                         rules: {
                             validate: value =>
-                                value?.length >= 1 || "Необходимо выбрать хотя бы одного автора",
+                                value?.length >= 1 || "Необходимо выбрать хотя бы одну книгу",
                         },
-                        name: "authors",
-                        title: "Автор(ы)",
-                        value: authors?.length ? book?.authors : null,
+                        name: "books",
+                        title: "Книга(и)",
+                        value: books?.length ? order?.books : null,
                         renderValue: selected => (
                             <ChipWrapper>
-                                {selected.map(id_author => {
-                                    const author = authors?.find(
-                                        author => author.id_author === id_author,
-                                    );
+                                {selected.map(id_book => {
+                                    const book = books?.find(book => book.id_book === id_book);
                                     return (
-                                        <Chip
-                                            key={id_author}
-                                            label={`${author?.name} ${author?.surname}`}
-                                            css={styles.chip}
-                                        />
+                                        <Chip key={id_book} label={book?.title} css={styles.chip} />
                                     );
                                 })}
                             </ChipWrapper>
                         ),
                         options:
-                            authors?.map(author => ({
-                                label: `${author?.name} ${author?.surname}`,
-                                value: author.id_author,
+                            books?.map(book => ({
+                                label: book.title,
+                                value: book.id_book,
                             })) ?? [],
                     })}
                 </>
             )}
-            skeleton={["title", "year", "cost", "authors"]}
+            skeleton={["date", "id_customer", "id_employee", "books"]}
             id={id}
-            item={book}
+            item={order}
             editing={editing}
-            fetchItem={fetchBook}
+            fetchItem={fetchOrder}
             loading={loading}
             startEditing={startEditing}
             stopEditingAndSave={stopEditingAndSave}
@@ -116,10 +116,10 @@ function BookProfile(props) {
                         customTitle
                     )
                 ) : (
-                    <>Книга №{book?.id_book}</>
+                    <>Заказ №{order?.id_order}</>
                 )
             }
-            shouldFetchItem={shouldFetchBook}
+            shouldFetchItem={shouldFetchOrder}
             showOptions={showOptions}
             stopEditingAndCreate={stopEditingAndCreate}
             shouldCreate={shouldCreate}
@@ -129,24 +129,26 @@ function BookProfile(props) {
     );
 }
 
-BookProfile.propTypes = {
+OrderProfile.propTypes = {
     id: PropTypes.string,
-    book: PropTypes.shape({
-        id_book: PropTypes.number,
-        title: PropTypes.string,
-        cost: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        year: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-        authors: PropTypes.array,
+    order: PropTypes.shape({
+        id_order: PropTypes.number,
+        date: PropTypes.string,
+        id_customer: PropTypes.number,
+        id_employee: PropTypes.number,
+        books: PropTypes.array,
     }),
-    authors: PropTypes.array,
+    customers: PropTypes.array,
+    employees: PropTypes.array,
+    books: PropTypes.array,
     shouldCreate: PropTypes.bool,
     customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     showOptions: PropTypes.bool,
-    shouldFetchBook: PropTypes.bool,
+    shouldFetchOrder: PropTypes.bool,
     loading: PropTypes.bool.isRequired,
     editing: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
-    fetchBook: PropTypes.func.isRequired,
+    fetchOrder: PropTypes.func.isRequired,
     startEditing: PropTypes.func.isRequired,
     stopEditingAndSave: PropTypes.func.isRequired,
     stopEditingAndCreate: PropTypes.func.isRequired,
@@ -154,7 +156,7 @@ BookProfile.propTypes = {
     handleChange: PropTypes.func.isRequired,
 };
 
-export default hot(BookProfile);
+export default hot(OrderProfile);
 
 const ChipWrapper = styled.div`
     display: flex;

@@ -8,9 +8,9 @@ module.exports = {
             `
                 SELECT o.id_order,
                        o.date,
-                       json_arrayagg(b.id_book)                                                                        AS books,
-                       json_array((SELECT DISTINCT c.id_customer FROM customer c WHERE c.id_customer = o.id_customer)) AS customers,
-                       json_array((SELECT DISTINCT e.id_employee FROM employee e WHERE e.id_employee = o.id_employee)) AS employees
+                       json_arrayagg(b.id_book) AS books,
+                       o.id_customer,
+                       o.id_employee
                 FROM \`order\` o
                          LEFT JOIN book_x_order bo ON bo.id_order = o.id_order
                          LEFT JOIN book b ON b.id_book = bo.id_book
@@ -29,9 +29,9 @@ module.exports = {
         let sql = `
             SELECT o.id_order,
                    o.date,
-                   json_arrayagg(b.id_book)                                                                        AS books,
-                   json_array((SELECT DISTINCT c.id_customer FROM customer c WHERE c.id_customer = o.id_customer)) AS customers,
-                   json_array((SELECT DISTINCT e.id_employee FROM employee e WHERE e.id_employee = o.id_employee)) AS employees
+                   json_arrayagg(b.id_book) AS books,
+                   o.id_customer,
+                   o.id_employee
             FROM \`order\` o
                      LEFT JOIN book_x_order bo ON bo.id_order = o.id_order
                      LEFT JOIN book b ON b.id_book = bo.id_book

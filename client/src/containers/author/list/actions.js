@@ -2,6 +2,7 @@ import { format, parseISO } from "date-fns";
 import { ru } from "date-fns/locale";
 import slice from "./slice";
 import api from "services/api";
+import { fetchPublishingOfficeList } from "containers/publishing_office/list/actions";
 
 const {
     fetchAuthorsFail,
@@ -25,6 +26,7 @@ export const fetchAuthors = () => async (dispatch, getState) => {
             )?.name,
         }));
         dispatch(fetchAuthorsSuccess({ authors: transformed }));
+        dispatch(fetchPublishingOfficeList());
     } catch (error) {
         console.error(error);
         dispatch(fetchAuthorsFail({ error }));

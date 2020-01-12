@@ -4,7 +4,6 @@ import { hot } from "react-hot-loader/root";
 import BaseProfile from "components/BaseProfile";
 import ProfileFieldFactory from "factory/ProfileFieldFactory";
 import ProfileSelectFactory from "factory/ProfileSelectFactory";
-import { useMount } from "react-use";
 
 function AuthorProfile(props) {
     const {
@@ -24,10 +23,7 @@ function AuthorProfile(props) {
         justStopEditing,
         error,
         offices,
-        fetchOffices,
     } = props;
-
-    useMount(() => fetchOffices());
 
     return (
         <BaseProfile
@@ -59,11 +55,11 @@ function AuthorProfile(props) {
                         rules: { required: "Обязательно для заполнения" },
                         name: "id_publishing_office",
                         title: "Издательский дом",
-                        value: offices.length ? author?.id_publishing_office : null,
-                        options: offices.map(office => ({
+                        value: offices?.length ? author?.id_publishing_office : null,
+                        options: offices?.map(office => ({
                             label: office.name,
                             value: office.id_publishing_office,
-                        })),
+                        })) ?? [],
                     })}
                 </>
             )}
@@ -106,7 +102,7 @@ AuthorProfile.propTypes = {
         date_of_birth: PropTypes.string,
         id_publishing_office: PropTypes.number,
     }),
-    offices: PropTypes.array.isRequired,
+    offices: PropTypes.array,
     shouldCreate: PropTypes.bool,
     customTitle: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     showOptions: PropTypes.bool,
@@ -115,7 +111,6 @@ AuthorProfile.propTypes = {
     editing: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     fetchAuthor: PropTypes.func.isRequired,
-    fetchOffices: PropTypes.func.isRequired,
     startEditing: PropTypes.func.isRequired,
     stopEditingAndSave: PropTypes.func.isRequired,
     stopEditingAndCreate: PropTypes.func.isRequired,

@@ -18,6 +18,7 @@ import Button from "@material-ui/core/Button";
 import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
 import { useForm } from "react-hook-form";
+import { useToggle } from "react-use";
 
 const styles = {
     global: css`
@@ -51,8 +52,16 @@ function BaseProfile(props) {
     } = props;
 
     const [anchorEl, setAnchorEl] = useState(null);
+    const [initialized, toggle] = useToggle(false);
 
-    const { handleSubmit, register, errors, setValue } = useForm();
+    const { handleSubmit, register, errors, setValue, reset } = useForm();
+
+    useEffect(() => {
+        if (item && !initialized) {
+            reset(item);
+            toggle();
+        }
+    }, [item, reset, initialized, toggle]);
 
     useEffect(() => {
         if (shouldFetchItem) {

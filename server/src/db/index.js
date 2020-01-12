@@ -36,10 +36,10 @@ module.exports = async () => {
             const hash = await argon2.hash(password);
             await connection.execute(
                 `
-                    INSERT INTO employee(login, password, is_admin)
+                    INSERT INTO employee(name, login, password, is_admin)
                     VALUES(?, ?, ?)
                 `,
-                [login, hash, true],
+                [login, login, hash, true],
             );
         } catch {}
         initialized = true;

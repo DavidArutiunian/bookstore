@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import { createAuthor, fetchAuthor, saveAuthor } from "./actions";
 import slice from "./slice";
 import AuthorProfile from "views/AuthorProfile";
-import { fetchPublishingOfficeList } from "containers/publishing_office/list/actions";
 
 const { editAuthor, saveAuthorSuccess, changeAuthor } = slice.actions;
 
@@ -16,7 +15,6 @@ const mapStateToProps = ({ authorProfile, publishingOfficeList }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchOffices: () => dispatch(fetchPublishingOfficeList()),
     fetchAuthor: id => dispatch(fetchAuthor(id)),
     startEditing: () => dispatch(editAuthor()),
     stopEditingAndSave: (id, change) => dispatch(saveAuthor(id, change)),
