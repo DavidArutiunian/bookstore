@@ -68,7 +68,7 @@ module.exports = {
             `
                 INSERT INTO book_x_author(id_book, id_author)
                 VALUES
-                ${values.authors.map(() => "(?, ?)")}
+                ${values.authors.map(() => "(?, ?)").join(",")}
             `,
             [...values.authors.flatMap(author => [id, author])],
         );
@@ -101,7 +101,7 @@ module.exports = {
                 `
                     INSERT INTO book_x_author(id_book, id_author)
                     VALUES
-                    ${change.authors.map(() => "(?, ?)")}
+                    ${change.authors.map(() => "(?, ?)").join(",")}
                 `,
                 [...change.authors.flatMap(author => [id, author])],
             );

@@ -8,8 +8,28 @@ describe("books", () => {
 
     beforeAll(async () => {
         const conn = await getConnection();
+        await conn.query("DELETE FROM book_x_author");
+        await conn.query("ALTER TABLE book_x_author AUTO_INCREMENT = 1");
+        await conn.query("DELETE FROM author");
+        await conn.query("ALTER TABLE author AUTO_INCREMENT = 1");
+        await conn.query("DELETE FROM publishing_office");
+        await conn.query("ALTER TABLE publishing_office AUTO_INCREMENT = 1");
         await conn.query("DELETE FROM book");
         await conn.query("ALTER TABLE book AUTO_INCREMENT = 1");
+        await conn.execute(
+            `
+                INSERT INTO publishing_office(name, address, email)
+                VALUES(?, ?, ?)
+            `,
+            ["name", "address", "email@email.com"],
+        );
+        await conn.execute(
+            `
+                INSERT INTO author(name, surname, date_of_birth, id_publishing_office)
+                VALUES(?, ?, ?, ?)
+            `,
+            ["name", "surname", "1970-01-01", 1],
+        );
 
         const response = await request(app)
             .post("/api/employee/login")
@@ -22,6 +42,12 @@ describe("books", () => {
 
     afterAll(async () => {
         const conn = await getConnection();
+        await conn.query("DELETE FROM book_x_author");
+        await conn.query("ALTER TABLE book_x_author AUTO_INCREMENT = 1");
+        await conn.query("DELETE FROM author");
+        await conn.query("ALTER TABLE author AUTO_INCREMENT = 1");
+        await conn.query("DELETE FROM publishing_office");
+        await conn.query("ALTER TABLE publishing_office AUTO_INCREMENT = 1");
         await conn.query("DELETE FROM book");
         await conn.query("ALTER TABLE book AUTO_INCREMENT = 1");
         await conn.close();
@@ -35,6 +61,7 @@ describe("books", () => {
                 title: "title",
                 year: 2000,
                 cost: 2000,
+                authors: [1],
             })
             .expect(200)
             .then(response => {
@@ -58,6 +85,7 @@ describe("books", () => {
                     title: "title",
                     year: 2000,
                     cost: "2000.00",
+                    authors: [1],
                 });
             });
     });
@@ -72,6 +100,7 @@ describe("books", () => {
                         title: `title_${i + 1}`,
                         year: 2000,
                         cost: 2000 * (i + 1),
+                        authors: [1],
                     })
                     .expect(200);
             }),
@@ -87,12 +116,14 @@ describe("books", () => {
                     title: "title_2",
                     year: 2000,
                     cost: "4000.00",
+                    authors: [1],
                 });
                 expect(response.body[1]).toEqual({
                     id_book: 3,
                     title: "title_3",
                     year: 2000,
                     cost: "6000.00",
+                    authors: [1],
                 });
             });
     });
@@ -108,6 +139,7 @@ describe("books", () => {
                     title: "title",
                     year: 2000,
                     cost: "2000.00",
+                    authors: [1],
                 });
             });
     });
@@ -119,7 +151,12 @@ describe("books", () => {
             const response = await request(app)
                 .post("/api/book")
                 .set("authorization", token)
-                .send({ title: "title", year: 2010, cost: 1500 })
+                .send({
+                    title: "title",
+                    year: 2010,
+                    cost: 1500,
+                    authors: [1],
+                })
                 .expect(200);
             id = response.body.id;
         });
@@ -152,7 +189,12 @@ describe("books", () => {
             const response = await request(app)
                 .post("/api/book")
                 .set("authorization", token)
-                .send({ title: "title", year: 2010, cost: 1500 })
+                .send({
+                    title: "title",
+                    year: 2010,
+                    cost: 1500,
+                    authors: [1],
+                })
                 .expect(200);
             id = response.body.id;
         });

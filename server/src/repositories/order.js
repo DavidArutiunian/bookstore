@@ -67,7 +67,7 @@ module.exports = {
             `
                 INSERT INTO book_x_order(id_order, id_book)
                 VALUES
-                ${values.books.map(() => "(?, ?)")}
+                ${values.books.map(() => "(?, ?)").join(",")}
             `,
             [...values.books.flatMap(book => [id, book])],
         );
@@ -76,7 +76,7 @@ module.exports = {
 
     update: async (id = MissingArgument("Missing Order id"), change = {}) => {
         const conn = await getConnection();
-        let sql = "UPDATE \`order\` SET";
+        let sql = "UPDATE `order` SET";
         const params = [];
         if (change.id_customer) {
             sql += " id_customer = ? ";
@@ -101,7 +101,7 @@ module.exports = {
                     `
                     INSERT INTO book_x_order(id_order, id_book)
                     VALUES
-                    ${change.books.map(() => "(?, ?)")}
+                    ${change.books.map(() => "(?, ?)").join(",")}
                 `,
                     [...change.books.flatMap(book => [id, book])],
                 );
@@ -112,6 +112,6 @@ module.exports = {
     deleteById: async (id = MissingArgument("Missing Order id")) => {
         const conn = await getConnection();
         await conn.execute("DELETE FROM book_x_order WHERE id_order = ?", [id]);
-        await conn.execute("DELETE FROM \`order\` WHERE id_order = ?", [id]);
+        await conn.execute("DELETE FROM `order` WHERE id_order = ?", [id]);
     },
 };

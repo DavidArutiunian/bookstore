@@ -37,11 +37,13 @@ module.exports = async () => {
             await connection.execute(
                 `
                     INSERT INTO employee(name, login, password, is_admin)
-                    VALUES(?, ?, ?)
+                    VALUES(?, ?, ?, ?)
                 `,
                 [login, login, hash, true],
             );
-        } catch {}
+        } catch (err) {
+            console.error(err);
+        }
         initialized = true;
     }
     return connection;
