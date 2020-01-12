@@ -1,0 +1,51 @@
+# For a quick start check out our HTTP Requests collection (Tools|HTTP Client|Open HTTP Requests Collection) or
+# paste cURL into the file and request will be converted to HTTP Request format.
+#
+# Following HTTP Request Live Templates are available:
+# * 'gtrp' and 'gtr' create a GET request with or without query parameters;
+# * 'ptr' and 'ptrp' create a POST request with a simple or parameter-like body;
+# * 'mptr' and 'fptr' create a POST request to submit a form with a text or file field (multipart/form-data);
+
+POST http://localhost:9000/api/order
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+    "id_customer": 1,
+    "id_employee": 1,
+    "date": "2020-01-01",
+    "books": [
+        4,
+        5
+    ]
+}
+
+###
+
+GET http://localhost:9000/api/order/4
+Accept: application/json
+Authorization: {{auth_token}}
+
+###
+
+GET http://localhost:9000/api/order
+Accept: application/json
+Authorization: {{auth_token}}
+
+###
+
+DELETE http://localhost:9000/api/order/4
+Accept: application/json
+Authorization: {{auth_token}}
+
+###
+
+PUT http://localhost:9000/api/order/4
+Content-Type: application/json
+Authorization: {{auth_token}}
+
+{
+    "books": [4, 5]
+}
+
+###

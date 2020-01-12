@@ -52,6 +52,12 @@ const employeeRepository = require("./repositories/employee");
 const employeeService = require("./services/employee")(employeeRepository);
 app.use("/api/employee", employeeRouter(employeeService, auth));
 
+// Order API
+const orderRouter = require("./routes/order");
+const orderRepository = require("./repositories/order");
+const orderService = require("./services/order")(orderRepository);
+app.use("/api/order", orderRouter(orderService, auth));
+
 if (process.env.NODE_ENV !== "test") {
     // Pretty errors
     const pe = new PrettyError();

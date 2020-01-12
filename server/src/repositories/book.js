@@ -110,6 +110,7 @@ module.exports = {
 
     deleteById: async (id = MissingArgument("Missing Book id")) => {
         const conn = await getConnection();
+        await conn.execute("DELETE FROM book_x_author WHERE id_book = ?", [id]);
         await conn.execute("DELETE FROM book WHERE id_book = ?", [id]);
     },
 };

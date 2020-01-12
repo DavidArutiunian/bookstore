@@ -37,6 +37,14 @@ module.exports = repository => ({
     },
 
     deleteBook: async id => {
-        return repository.deleteById(id);
+        const conn = await getConnection();
+        await conn.query("START TRANSACTION");
+        try {
+            await repository.deleteById(id);
+            await conn.query("COMMIT");
+        } catch (e) {
+            await conn.query("ROLLBACK");
+            throw e;
+        }
     },
 });

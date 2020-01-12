@@ -20,11 +20,10 @@ module.exports = repository => ({
             const office = await repository.findById(id);
             const payload = { ...office, ...change };
             await repository.update(id, payload);
+            await conn.query("COMMIT");
         } catch (e) {
             await conn.query("ROLLBACK");
             throw e;
-        } finally {
-            await conn.query("COMMIT");
         }
     },
 
