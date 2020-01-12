@@ -37,6 +37,7 @@ import OrderList from "containers/order/list";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Typography from "@material-ui/core/Typography";
+import DashboardContent from "views/DashboardContent";
 
 const styles = {
     chip: css`
@@ -44,7 +45,7 @@ const styles = {
     `,
     drawer: css`
         width: 250px;
-    `,
+    `
 };
 
 function Dashboard(props) {
@@ -169,6 +170,7 @@ function Dashboard(props) {
                     </List>
                 </Drawer>
                 <Router>
+                    <DashboardContent path="/" />
                     <BookList path="book/*" />
                     <PublishingOfficeList path="publishing_office/*" />
                     <AuthorList path="author/*" />

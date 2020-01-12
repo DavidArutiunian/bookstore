@@ -22,7 +22,7 @@ const styles = {
         height: max-content;
         width: 100%;
     `,
-    speedDial: css`
+    menu: css`
         right: 24px;
         bottom: 24px;
         position: fixed;
@@ -94,7 +94,7 @@ function BaseList(props) {
             )}
             {renderRouter()}
             <SpeedDial
-                css={styles.speedDial}
+                css={styles.menu}
                 ariaLabel=""
                 direction="up"
                 icon={<SpeedDialIcon />}

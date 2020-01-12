@@ -29,6 +29,8 @@
         "@material-ui/icons": "^4.5.1",
         "@material-ui/lab": "^4.0.0-alpha.37",
         "@material-ui/styles": "^4.7.1",
+        "@nivo/bar": "^0.61.1",
+        "@nivo/line": "^0.61.1",
         "@reach/router": "^1.2.1",
         "@reduxjs/toolkit": "^1.2.1",
         "date-fns": "^2.8.1",
