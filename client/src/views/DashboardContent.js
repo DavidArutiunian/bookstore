@@ -35,7 +35,7 @@ const users = [
 
 const styles = {
     title: css`
-        margin: 24px 24px -48px;
+        margin: 24px 24px 16px;
     `,
     paper: css`
         height: 600px;
@@ -57,7 +57,7 @@ function DashboardContent() {
                         <Grid item xs={12} css={styles.paper}>
                             <ResponsiveLine
                                 data={offers}
-                                margin={{ top: 64, right: 64, bottom: 64, left: 96 }}
+                                margin={{ top: 0, right: 32, bottom: 64, left: 72 }}
                                 xScale={{ type: "point" }}
                                 yScale={{
                                     type: "linear",
@@ -110,7 +110,7 @@ function DashboardContent() {
                         <Grid item xs={12} css={styles.paper}>
                             <ResponsiveBar
                                 data={users}
-                                margin={{ top: 64, right: 64, bottom: 64, left: 96 }}
+                                margin={{ top: 0, right: 32, bottom: 64, left: 72 }}
                                 axisTop={null}
                                 axisRight={null}
                                 axisBottom={{
