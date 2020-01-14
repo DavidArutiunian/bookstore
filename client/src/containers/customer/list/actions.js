@@ -1,6 +1,7 @@
 import slice from "./slice";
 import date from "services/date";
 import api from "services/api";
+import QueryService from "services/query";
 
 const {
     fetchCustomersFail,
@@ -11,11 +12,12 @@ const {
     deleteCustomerSuccess,
 } = slice.actions;
 
-export const fetchCustomers = () => async (dispatch, getState) => {
+export const fetchCustomers = order => async (dispatch, getState) => {
     try {
         dispatch(fetchCustomersStart());
         const headers = { authorization: getState().auth.token };
-        const customers = await api.get("customer", { headers }).json();
+        const query = QueryService.orderToQuery(order);
+        const customers = await api.get(`customer?${query}`, { headers }).json();
         const transformed = customers.map(row => ({
             ...row,
             date_of_birth: date.format(row.date_of_birth),

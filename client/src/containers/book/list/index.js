@@ -12,7 +12,7 @@ const mapStateToProps = ({ bookList, authorList }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchBooks: () => dispatch(fetchBooks()),
+    fetchBooks: (order) => dispatch(fetchBooks(order)),
     deleteBook: id => dispatch(deleteBook(id)),
     startEditing: () => dispatch(editBook()),
 });

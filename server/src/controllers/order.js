@@ -8,8 +8,8 @@ module.exports = {
     },
 
     findAll: orderService => async (req, res) => {
-        const { scroll, limit = 25 } = req.query;
-        const list = await orderService.findAllOrders({ scroll, limit });
+        const { scroll, limit = 25, ...order } = req.query;
+        const list = await orderService.findAllOrders({ scroll, limit }, order);
         res.json(list);
     },
 

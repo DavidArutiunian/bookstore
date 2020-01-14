@@ -13,7 +13,7 @@ const mapStateToProps = ({ customerList }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchCustomers: () => dispatch(fetchCustomers()),
+    fetchCustomers: (order) => dispatch(fetchCustomers(order)),
     deleteCustomer: id => dispatch(deleteCustomer(id)),
     startEditing: () => dispatch(editCustomer()),
 });

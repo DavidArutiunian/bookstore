@@ -5,8 +5,8 @@ module.exports = repository => ({
         return repository.findById(id);
     },
 
-    findAllCustomers: async condition => {
-        return repository.findAll(condition);
+    findAllCustomers: async (condition, order) => {
+        return repository.findAll(condition, order);
     },
 
     createNewCustomer: async values => {
@@ -27,7 +27,7 @@ module.exports = repository => ({
         }
     },
 
-    findTopMostActiveCustomers: async (limit) => {
+    findTopMostActiveCustomers: async limit => {
         return repository.findTopMostActive(limit);
     },
 

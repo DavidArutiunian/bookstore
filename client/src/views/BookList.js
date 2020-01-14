@@ -10,15 +10,46 @@ import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import BaseList from "components/BaseList";
 import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
+import useOrder from "hooks/use-order";
 
 function BookList(props) {
     const { fetchBooks, books, loading, deleteBook, startEditing, error, authors } = props;
 
+    const [order, toggleOrder] = useOrder(fetchBooks);
+
     return (
         <BaseList
+            order={order}
+            onOrderToggle={toggleOrder}
             loading={loading}
             error={error}
-            columns={["Номер", "Название", "Год", "Автор(ы)", "Цена"]}
+            columns={[
+                {
+                    label: "Номер",
+                    value: "id_book",
+                    sortable: true,
+                },
+                {
+                    label: "Название",
+                    value: "title",
+                    sortable: true,
+                },
+                {
+                    label: "Год",
+                    value: "year",
+                    sortable: true,
+                },
+                {
+                    label: "Автор(ы)",
+                    value: "authors",
+                    sortable: false,
+                },
+                {
+                    label: "Цена",
+                    value: "cost",
+                    sortable: true,
+                },
+            ]}
             items={books}
             deleteItem={deleteBook}
             fetchList={fetchBooks}

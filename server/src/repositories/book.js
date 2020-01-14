@@ -1,7 +1,7 @@
 const getConnection = require("../db");
 const { MissingArgument } = require("../utils/validator");
 
-module.exports = {
+module.exports = orderService => ({
     findById: async (id = MissingArgument("Missing Book id")) => {
         const conn = await getConnection();
         const result = await conn.execute(
@@ -23,7 +23,7 @@ module.exports = {
         return result[0][0];
     },
 
-    findAll: async (condition = {}) => {
+    findAll: async (condition = {}, order = {}) => {
         const conn = await getConnection();
         const params = [];
         let sql = `
@@ -42,10 +42,8 @@ module.exports = {
             sql += ` AND b.id_book >= ? `;
             params.push(condition.scroll);
         }
-        sql += `
-            GROUP BY b.id_book, b.title, b.year, b.cost
-            ORDER BY b.id_book
-        `;
+        sql += " GROUP BY b.id_book, b.title, b.year, b.cost ";
+        sql += orderService.construct(order);
         if (condition.limit) {
             sql += ` LIMIT ? `;
             params.push(condition.limit);
@@ -129,4 +127,4 @@ module.exports = {
         await conn.execute("DELETE FROM book_x_author WHERE id_book = ?", [id]);
         await conn.execute("DELETE FROM book WHERE id_book = ?", [id]);
     },
-};
+});

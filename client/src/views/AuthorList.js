@@ -10,15 +10,40 @@ import BaseList from "components/BaseList";
 import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
 import AuthorProfile from "containers/author/profile";
+import useOrder from "hooks/use-order";
 
 function AuthorList(props) {
     const { fetchAuthors, authors, loading, deleteAuthor, startEditing, error } = props;
 
+    const [order, toggleOrder] = useOrder(fetchAuthors);
+
     return (
         <BaseList
+            order={order}
+            onOrderToggle={toggleOrder}
             loading={loading}
             error={error}
-            columns={["Имя", "Фамилия", "Дата рождения", "Издательский дом"]}
+            columns={[
+                {
+                    label: "Имя",
+                    value: "name",
+                    sortable: true,
+                },
+                {
+                    label: "Фамилия",
+                    value: "surname",
+                    sortable: true,
+                },
+                {
+                    label: "Дата рождения",
+                    value: "date_of_birth",
+                    sortable: true,
+                },
+                {
+                    label: "Издательский дом",
+                    value: "publishing_office",
+                    sortable: false,
+                }]}
             items={authors}
             deleteItem={deleteAuthor}
             fetchList={fetchAuthors}
@@ -33,7 +58,7 @@ function AuthorList(props) {
                         showOptions={false}
                         shouldCreate={true}
                     />
-                    <AuthorProfile path=":id" />
+                    <AuthorProfile path=":id"/>
                 </Router>
             )}
             renderTableRow={({ item: author, onDelete }) => (
@@ -47,7 +72,7 @@ function AuthorList(props) {
                     <TableCell>{author.publishing_office}</TableCell>
                     <DeleteTableCell>
                         <IconButton onClick={onDelete(author.id_author)}>
-                            <DeleteIcon />
+                            <DeleteIcon/>
                         </IconButton>
                     </DeleteTableCell>
                 </TableRow>
@@ -57,7 +82,7 @@ function AuthorList(props) {
                     component={Link}
                     to="new"
                     tooltipTitle="Добавить автора"
-                    icon={<AddIcon />}
+                    icon={<AddIcon/>}
                     onClick={onAdd}
                     title="Добавить автора"
                 />

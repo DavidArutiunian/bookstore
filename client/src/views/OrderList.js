@@ -10,15 +10,56 @@ import SpeedDialAction from "@material-ui/lab/SpeedDialAction";
 import BaseList from "components/BaseList";
 import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
+import useOrder from "hooks/use-order";
 
 function OrderList(props) {
-    const { fetchOrders, orders, loading, deleteOrder, startEditing, error, books, customers, employees } = props;
+    const {
+        fetchOrders,
+        orders,
+        loading,
+        deleteOrder,
+        startEditing,
+        error,
+        books,
+        customers,
+        employees,
+    } = props;
+
+    const [order, toggleOrder] = useOrder(fetchOrders);
 
     return (
         <BaseList
+            order={order}
+            onOrderToggle={toggleOrder}
             loading={loading}
             error={error}
-            columns={["Номер", "Дата заказа", "Покупатель", "Продавец", "Книга(и)"]}
+            columns={[
+                {
+                    label: "Номер",
+                    value: "id_order",
+                    sortable: true,
+                },
+                {
+                    label: "Дата заказа",
+                    value: "date",
+                    sortable: true,
+                },
+                {
+                    label: "Покупатель",
+                    value: "id_customer",
+                    sortable: false,
+                },
+                {
+                    label: "Продавец",
+                    value: "id_employee",
+                    sortable: false,
+                },
+                {
+                    label: "Книга(и)",
+                    value: "books",
+                    sortable: false,
+                },
+            ]}
             items={orders}
             deleteItem={deleteOrder}
             fetchList={fetchOrders}
@@ -33,28 +74,38 @@ function OrderList(props) {
                         showOptions={false}
                         shouldCreate={true}
                     />
-                    <OrderProfile path=":id"/>
+                    <OrderProfile path=":id" />
                 </Router>
             )}
             renderTableRow={({ item: order, onDelete }) => (
                 <TableRow key={order.id_order} onClick={() => navigate(`/order/${order.id_order}`)}>
                     <TableCell>{order.id_order}</TableCell>
                     <TableCell>{order.date}</TableCell>
-                    <TableCell>{customers?.find(customer => customer.id_customer === order.id_customer)?.name}</TableCell>
-                    <TableCell>{employees?.find(employee => employee.id_employee === order.id_employee)?.name}</TableCell>
+                    <TableCell>
+                        {
+                            customers?.find(customer => customer.id_customer === order.id_customer)
+                                ?.name
+                        }
+                    </TableCell>
+                    <TableCell>
+                        {
+                            employees?.find(employee => employee.id_employee === order.id_employee)
+                                ?.name
+                        }
+                    </TableCell>
                     <TableCell>
                         {books
                             ?.filter(book => order.books?.includes(book.id_book))
                             ?.map(book => (
                                 <React.Fragment key={book.id_book}>
                                     {book.title}
-                                    <br/>
+                                    <br />
                                 </React.Fragment>
                             ))}
                     </TableCell>
                     <DeleteTableCell>
                         <IconButton onClick={onDelete(order.id_order)}>
-                            <DeleteIcon/>
+                            <DeleteIcon />
                         </IconButton>
                     </DeleteTableCell>
                 </TableRow>
@@ -64,7 +115,7 @@ function OrderList(props) {
                     component={Link}
                     to="new"
                     tooltipTitle="Добавить заказ"
-                    icon={<AddIcon/>}
+                    icon={<AddIcon />}
                     onClick={onAdd}
                     title="Добавить заказ"
                 />

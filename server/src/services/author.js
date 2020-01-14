@@ -27,8 +27,8 @@ module.exports = repository => ({
         };
     },
 
-    findAllAuthors: async condition => {
-        const authors = await repository.findAll(condition);
+    findAllAuthors: async (condition, order) => {
+        const authors = await repository.findAll(condition, order);
         const rows = authors.map(author => ({
             id_author: author.id_author,
             name: author.author_name,

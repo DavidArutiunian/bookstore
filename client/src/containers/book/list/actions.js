@@ -8,12 +8,14 @@ import {
     BOOK_PROFILE_DELETE_SUCCESS,
 } from "./constants";
 import { fetchAuthors } from "containers/author/list/actions";
+import QueryService from "services/query";
 
-export const fetchBooks = () => async (dispatch, getState) => {
+export const fetchBooks = order => async (dispatch, getState) => {
     try {
         dispatch(doOnBooksFetchStart());
         const headers = { authorization: getState().auth.token };
-        const books = await api.get("book", { headers }).json();
+        const query = QueryService.orderToQuery(order);
+        const books = await api.get(`book?${query}`, { headers }).json();
         dispatch(doOnBooksFetchSuccess(books));
         dispatch(fetchAuthors());
     } catch (error) {

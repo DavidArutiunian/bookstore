@@ -10,15 +10,36 @@ import BaseList from "components/BaseList";
 import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
 import CustomerProfile from "containers/customer/profile";
+import useOrder from "hooks/use-order";
 
 function CustomerList(props) {
     const { fetchCustomers, customers, loading, deleteCustomer, startEditing, error } = props;
 
+    const [order, toggleOrder] = useOrder(fetchCustomers);
+
     return (
         <BaseList
+            order={order}
+            onOrderToggle={toggleOrder}
             loading={loading}
             error={error}
-            columns={["Имя", "Дата рождения", "Эл. почта"]}
+            columns={[
+                {
+                    label: "Имя",
+                    value: "name",
+                    sortable: true,
+                },
+                {
+                    label: "Дата рождения",
+                    value: "date_of_birth",
+                    sortable: true,
+                },
+                {
+                    label: "Эл. почта",
+                    value: "email",
+                    sortable: true,
+                },
+            ]}
             items={customers}
             deleteItem={deleteCustomer}
             fetchList={fetchCustomers}

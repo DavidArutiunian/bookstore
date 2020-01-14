@@ -29,8 +29,8 @@ module.exports = {
     },
 
     findAll: employeeService => async (req, res) => {
-        const { scroll, extended, limit = 25 } = req.query;
-        const list = await employeeService.findAllEmployees({ scroll, limit });
+        const { scroll, extended, limit = 25, ...order } = req.query;
+        const list = await employeeService.findAllEmployees({ scroll, limit }, order);
         if (extended === "true") {
             res.json(list);
         } else {

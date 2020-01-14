@@ -2,6 +2,7 @@ import slice from "./slice";
 import api from "services/api";
 import { fetchPublishingOfficeList } from "containers/publishing_office/list/actions";
 import date from "services/date";
+import QueryService from "services/query";
 
 const {
     fetchAuthorsFail,
@@ -12,11 +13,12 @@ const {
     deleteAuthorSuccess,
 } = slice.actions;
 
-export const fetchAuthors = () => async (dispatch, getState) => {
+export const fetchAuthors = order => async (dispatch, getState) => {
     try {
         dispatch(fetchAuthorsStart());
         const headers = { authorization: getState().auth.token };
-        const authors = await api.get("author", { headers }).json();
+        const query = QueryService.orderToQuery(order);
+        const authors = await api.get(`author?${query}`, { headers }).json();
         const transformed = authors.rows.map(row => ({
             ...row,
             date_of_birth: date.format(row.date_of_birth),

@@ -13,7 +13,7 @@ const mapStateToProps = ({ employeeList }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchEmployees: () => dispatch(fetchEmployees()),
+    fetchEmployees: order => dispatch(fetchEmployees(false, order)),
     deleteEmployee: id => dispatch(deleteEmployee(id)),
     startEditing: () => dispatch(editEmployee()),
 });

@@ -16,7 +16,7 @@ const mapStateToProps = ({ orderList, bookList, customerList, employeeList }) =>
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchOrders: () => dispatch(fetchOrders()),
+    fetchOrders: (order) => dispatch(fetchOrders(order)),
     deleteOrder: id => dispatch(deleteOrder(id)),
     startEditing: () => dispatch(editOrder()),
 });

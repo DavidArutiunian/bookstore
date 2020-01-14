@@ -7,12 +7,14 @@ import {
     PUBLISHING_OFFICE_LIST_DELETE_FAIL,
     PUBLISHING_OFFICE_LIST_DELETE_SUCCESS,
 } from "./constants";
+import QueryService from "services/query";
 
-export const fetchPublishingOfficeList = () => async (dispatch, getState) => {
+export const fetchPublishingOfficeList = order => async (dispatch, getState) => {
     try {
         dispatch(fetchPublishingOfficeListStart());
         const headers = { authorization: getState().auth.token };
-        const offices = await api.get("publishing_office", { headers }).json();
+        const query = QueryService.orderToQuery(order);
+        const offices = await api.get(`publishing_office?${query}`, { headers }).json();
         dispatch(fetchPublishingOfficeListSuccess(offices));
     } catch (error) {
         console.error(error);

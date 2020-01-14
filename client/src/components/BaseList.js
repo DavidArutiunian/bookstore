@@ -5,7 +5,7 @@ import TableRow from "@material-ui/core/TableRow";
 import TableCell from "@material-ui/core/TableCell";
 import TableBody from "@material-ui/core/TableBody";
 import Layout from "components/Layout";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
 import CircularProgress from "@material-ui/core/CircularProgress";
@@ -13,6 +13,9 @@ import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
 import SpeedDial from "@material-ui/lab/SpeedDial";
 import SpeedDialIcon from "@material-ui/lab/SpeedDialIcon";
+import { ArrowDropDown, ArrowDropUp } from "@material-ui/icons";
+import { useMount } from "react-use";
+import { Sort } from "hooks/use-order";
 
 const styles = {
     layout: css`
@@ -27,6 +30,10 @@ const styles = {
         bottom: 24px;
         position: fixed;
     `,
+    header: css`
+        display: flex;
+        align-items: center;
+    `,
 };
 
 function BaseList(props) {
@@ -40,13 +47,13 @@ function BaseList(props) {
         renderTableRow,
         renderRouter,
         renderSpeedDial,
+        order = {},
+        onOrderToggle,
     } = props;
 
     const [speedDialOpen, setSpeedDialOpen] = useState(false);
 
-    useEffect(() => {
-        fetchList();
-    }, [fetchList]);
+    useMount(() => fetchList());
 
     const handleDeleteClick = id => event => {
         event.preventDefault();
@@ -78,8 +85,17 @@ function BaseList(props) {
                     <Table>
                         <TableHead>
                             <TableRow>
-                                {columns.map(column => (
-                                    <HeaderTableCell key={column}>{column}</HeaderTableCell>
+                                {columns.map(({ label, value, sortable }) => (
+                                    <HeaderTableCell
+                                        key={value}
+                                        onClick={sortable ? onOrderToggle(value) : undefined}
+                                    >
+                                        <div css={styles.header}>
+                                            {label}
+                                            {order[value] === Sort.Asc && <ArrowDropUp />}
+                                            {order[value] === Sort.Desc && <ArrowDropDown />}
+                                        </div>
+                                    </HeaderTableCell>
                                 ))}
                                 <HeaderTableCell />
                             </TableRow>
@@ -109,7 +125,13 @@ function BaseList(props) {
 }
 
 BaseList.propTypes = {
-    columns: PropTypes.arrayOf(PropTypes.string).isRequired,
+    columns: PropTypes.arrayOf(
+        PropTypes.shape({
+            label: PropTypes.string.isRequired,
+            value: PropTypes.string.isRequired,
+            sortable: PropTypes.bool,
+        }),
+    ).isRequired,
     loading: PropTypes.bool.isRequired,
     error: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
     items: PropTypes.array.isRequired,
@@ -119,12 +141,16 @@ BaseList.propTypes = {
     renderTableRow: PropTypes.func.isRequired,
     renderRouter: PropTypes.func.isRequired,
     renderSpeedDial: PropTypes.func.isRequired,
+    order: PropTypes.object,
+    onOrderToggle: PropTypes.func,
 };
 
 export default hot(BaseList);
 
 const HeaderTableCell = styled(TableCell)`
     font-weight: 600;
+    cursor: pointer;
+    user-select: none;
 `;
 
 const ProgressLayout = styled(Layout)`

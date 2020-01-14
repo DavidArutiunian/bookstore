@@ -4,6 +4,7 @@ import api from "services/api";
 import { fetchBooks } from "containers/book/list/actions";
 import { fetchCustomers } from "containers/customer/list/actions";
 import { fetchEmployees } from "containers/employee/list/actions";
+import QueryService from "services/query";
 
 const {
     fetchOrdersFail,
@@ -14,11 +15,12 @@ const {
     deleteOrderSuccess,
 } = slice.actions;
 
-export const fetchOrders = () => async (dispatch, getState) => {
+export const fetchOrders = order => async (dispatch, getState) => {
     try {
         dispatch(fetchOrdersStart());
         const headers = { authorization: getState().auth.token };
-        const orders = await api.get("order", { headers }).json();
+        const query = QueryService.orderToQuery(order);
+        const orders = await api.get(`order?${query}`, { headers }).json();
         const transformed = orders.map(row => ({
             ...row,
             date: date.format(row.date),

@@ -1,7 +1,7 @@
 const getConnection = require("../db");
 const { MissingArgument } = require("../utils/validator");
 
-module.exports = {
+module.exports = sqlOrderService => ({
     findById: async (id = MissingArgument("Missing Employee id")) => {
         const conn = await getConnection();
         const result = await conn.execute(
@@ -37,25 +37,25 @@ module.exports = {
         return result[0][0];
     },
 
-    findAll: async (condition = {}) => {
+    findAll: async (condition = {}, order = {}) => {
         const conn = await getConnection();
         const params = [];
         let sql = `
             SELECT
-                id_employee,
-                name,
-                login,
-                date_of_birth,
-                address,
-                is_admin
-            FROM employee
+                e.id_employee,
+                e.name,
+                e.login,
+                e.date_of_birth,
+                e.address,
+                e.is_admin
+            FROM employee e
             WHERE 1 = 1
         `;
         if (condition.scroll) {
-            sql += ` AND id_employee >= ?`;
+            sql += ` AND e.id_employee >= ?`;
             params.push(condition.scroll);
         }
-        sql += ` ORDER BY id_employee `;
+        sql += sqlOrderService.construct(order);
         if (condition.limit) {
             sql += ` LIMIT ? `;
             params.push(condition.limit);
@@ -102,4 +102,4 @@ module.exports = {
         const conn = await getConnection();
         await conn.execute("DELETE FROM employee WHERE id_employee = ?", [id]);
     },
-};
+});

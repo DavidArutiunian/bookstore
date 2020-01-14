@@ -11,7 +11,7 @@ const mapStateToProps = ({ publishingOfficeList }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchOffices: () => dispatch(fetchPublishingOfficeList()),
+    fetchOffices: (order) => dispatch(fetchPublishingOfficeList(order)),
     deleteOffice: id => dispatch(deletePublishingOffice(id)),
     startEditing: () => dispatch(editPublishingOffice()),
 });

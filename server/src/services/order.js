@@ -5,8 +5,8 @@ module.exports = repository => ({
         return repository.findById(id);
     },
 
-    findAllOrders: async condition => {
-        return repository.findAll(condition);
+    findAllOrders: async (condition, order) => {
+        return repository.findAll(condition, order);
     },
 
     createNewOrder: async values => {

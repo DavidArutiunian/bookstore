@@ -13,7 +13,7 @@ const mapStateToProps = ({ authorList }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchAuthors: () => dispatch(fetchAuthors()),
+    fetchAuthors: (order) => dispatch(fetchAuthors(order)),
     deleteAuthor: id => dispatch(deleteAuthor(id)),
     startEditing: () => dispatch(editAuthor()),
 });

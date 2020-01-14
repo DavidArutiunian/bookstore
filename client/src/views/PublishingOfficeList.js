@@ -10,15 +10,40 @@ import BaseList from "components/BaseList";
 import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
 import PublishingOfficeProfile from "containers/publishing_office/profile";
+import useOrder from "hooks/use-order";
 
 function PublishingOfficeList(props) {
     const { fetchOffices, offices, loading, deleteOffice, startEditing, error } = props;
 
+    const [order, toggleOrder] = useOrder(fetchOffices);
+
     return (
         <BaseList
+            order={order}
+            onOrderToggle={toggleOrder}
             loading={loading}
             error={error}
-            columns={["Номер", "Название", "Адрес", "Эл. почта"]}
+            columns={[
+                {
+                    label: "Номер",
+                    value: "id",
+                    sortable: true
+                },
+                {
+                    label: "Название",
+                    value: "name",
+                    sortable: true
+                },
+                {
+                    label: "Адрес",
+                    value: "address",
+                    sortable: true
+                },
+                {
+                    label: "Эл. почта",
+                    value: "email",
+                    sortable: true
+                }]}
             items={offices}
             deleteItem={deleteOffice}
             fetchList={fetchOffices}

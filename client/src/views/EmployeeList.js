@@ -10,15 +10,41 @@ import BaseList from "components/BaseList";
 import TableRow from "components/TableRow";
 import DeleteTableCell from "components/DeleteTableCell";
 import EmployeeProfile from "containers/employee/profile";
+import useOrder from "hooks/use-order";
 
 function EmployeeList(props) {
     const { fetchEmployees, employees, loading, deleteEmployee, startEditing, error } = props;
 
+    const [order, toggleOrder] = useOrder(fetchEmployees);
+
     return (
         <BaseList
+            order={order}
+            onOrderToggle={toggleOrder}
             loading={loading}
             error={error}
-            columns={["Имя", "Логин", "Дата рождения", "Адрес"]}
+            columns={[
+                {
+                    label: "Имя",
+                    value: "name",
+                    sortable: true,
+                },
+                {
+                    label: "Логин",
+                    value: "login",
+                    sortable: true,
+                },
+                {
+                    label: "Дата рождения",
+                    value: "date_of_birth",
+                    sortable: true,
+                },
+                {
+                    label: "Адрес",
+                    value: "address",
+                    sortable: true,
+                },
+            ]}
             items={employees}
             deleteItem={deleteEmployee}
             fetchList={fetchEmployees}
