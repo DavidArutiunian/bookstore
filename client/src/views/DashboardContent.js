@@ -28,7 +28,7 @@ function DashboardContent(props) {
                     <Grid container>
                         <Grid item xs={12} css={styles.title}>
                             <Typography align="center" variant="body1">
-                                Самыe популярные книги
+                                Самые популярные книги
                             </Typography>
                         </Grid>
                         <Grid item xs={12} css={styles.paper}>

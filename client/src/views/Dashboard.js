@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { css } from "@emotion/core";
 import Layout from "components/Layout";
 import BaseHeader from "components/BaseHeader";
@@ -38,7 +38,6 @@ import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import Typography from "@material-ui/core/Typography";
 import DashboardContent from "views/DashboardContent";
-import { useMount } from "react-use";
 
 const styles = {
     chip: css`
@@ -57,7 +56,10 @@ function Dashboard(props) {
         topMostPopularBooks,
         fetchTopMostActiveUsers,
         fetchTopMostPopularBooks,
+        ...rest
     } = props;
+
+    const path = rest["*"];
 
     const [anchorEl, setAnchorEl] = useState(null);
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -84,10 +86,13 @@ function Dashboard(props) {
         navigate("/login");
     };
 
-    useMount(() => {
-        fetchTopMostActiveUsers();
-        fetchTopMostPopularBooks();
-    });
+    useEffect(() => {
+        // check if we are on dashboard with empty path
+        if (!path) {
+            fetchTopMostActiveUsers();
+            fetchTopMostPopularBooks();
+        }
+    }, [fetchTopMostPopularBooks, fetchTopMostActiveUsers, path]);
 
     return (
         <>
