@@ -5,8 +5,8 @@ module.exports = repository => ({
         return repository.findById(id);
     },
 
-    findAllBooks: async (condition, order) => {
-        return repository.findAll(condition, order);
+    findAllBooks: async (condition, order, filter) => {
+        return repository.findAll(condition, order, filter);
     },
 
     findTopMostPopularBooks: async limit => {

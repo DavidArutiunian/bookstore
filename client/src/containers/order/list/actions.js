@@ -15,7 +15,7 @@ const {
     deleteOrderSuccess,
 } = slice.actions;
 
-export const fetchOrders = order => async (dispatch, getState) => {
+export const fetchOrders = (order = "") => async (dispatch, getState) => {
     try {
         dispatch(fetchOrdersStart());
         const headers = { authorization: getState().auth.token };

@@ -8,8 +8,8 @@ module.exports = {
     },
 
     findAll: bookService => async (req, res) => {
-        const { scroll, limit = 25, ...order } = req.query;
-        const list = await bookService.findAllBooks({ scroll, limit }, order);
+        const { scroll, limit = 25, filter, ...order } = req.query;
+        const list = await bookService.findAllBooks({ scroll, limit }, order, filter);
         res.json(list);
     },
 

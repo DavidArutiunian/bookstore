@@ -10,18 +10,22 @@ import {
 import { fetchAuthors } from "containers/author/list/actions";
 import QueryService from "services/query";
 
-export const fetchBooks = order => async (dispatch, getState) => {
+export const fetchBooks = (order = "", filter = "") => async (dispatch, getState) => {
     try {
         dispatch(doOnBooksFetchStart());
         const headers = { authorization: getState().auth.token };
         const query = QueryService.orderToQuery(order);
-        const books = await api.get(`book?${query}`, { headers }).json();
+        const books = await api.get(`book?${query}&filter=${filter}`, { headers }).json();
         dispatch(doOnBooksFetchSuccess(books));
-        dispatch(fetchAuthors());
     } catch (error) {
         console.error(error);
         dispatch(donOnBooksFetchFail(error));
     }
+};
+
+export const fetchBooksAndAuthors = (order = "", filter = "") => async dispatch => {
+    dispatch(fetchBooks(order, filter));
+    dispatch(fetchAuthors());
 };
 
 const doOnBooksFetchStart = () => ({

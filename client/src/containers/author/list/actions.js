@@ -13,7 +13,7 @@ const {
     deleteAuthorSuccess,
 } = slice.actions;
 
-export const fetchAuthors = order => async (dispatch, getState) => {
+export const fetchAuthors = (order = "") => async (dispatch, getState) => {
     try {
         dispatch(fetchAuthorsStart());
         const headers = { authorization: getState().auth.token };

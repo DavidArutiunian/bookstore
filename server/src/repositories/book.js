@@ -23,7 +23,7 @@ module.exports = orderService => ({
         return result[0][0];
     },
 
-    findAll: async (condition = {}, order = {}) => {
+    findAll: async (condition = {}, order = {}, filter = "") => {
         const conn = await getConnection();
         const params = [];
         let sql = `
@@ -32,6 +32,7 @@ module.exports = orderService => ({
                 b.title,
                 b.year,
                 b.cost,
+                GROUP_CONCAT(a.name, a.surname) AS names,
                 json_arrayagg(a.id_author) AS authors
             FROM book b
             LEFT JOIN book_x_author ba ON ba.id_book = b.id_book
@@ -42,14 +43,33 @@ module.exports = orderService => ({
             sql += ` AND b.id_book >= ? `;
             params.push(condition.scroll);
         }
-        sql += " GROUP BY b.id_book, b.title, b.year, b.cost ";
+        sql += `
+            GROUP BY b.id_book, b.title, b.year, b.cost
+            HAVING 1 = 1
+        `;
+        if (filter) {
+            sql += `
+                AND (
+                    (b.title LIKE ?) OR
+                    (b.year LIKE ?) OR
+                    (b.cost LIKE ?) OR
+                    (names LIKE ?)
+                )
+            `;
+            const matcher = `%${filter}%`;
+            params.push(matcher, matcher, matcher, matcher);
+        }
         sql += orderService.construct(order);
         if (condition.limit) {
             sql += ` LIMIT ? `;
             params.push(condition.limit);
         }
         const result = await conn.execute(sql, params);
-        return result[0];
+        const books = result[0];
+        return books.map(book => {
+            delete book.names;
+            return { ...book };
+        });
     },
 
     findTopMostPopular: async (limit = MissingArgument("Missing limit")) => {

@@ -9,7 +9,7 @@ import {
 } from "./constants";
 import QueryService from "services/query";
 
-export const fetchPublishingOfficeList = order => async (dispatch, getState) => {
+export const fetchPublishingOfficeList = (order = "") => async (dispatch, getState) => {
     try {
         dispatch(fetchPublishingOfficeListStart());
         const headers = { authorization: getState().auth.token };

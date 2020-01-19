@@ -12,7 +12,7 @@ const {
     deleteCustomerSuccess,
 } = slice.actions;
 
-export const fetchCustomers = order => async (dispatch, getState) => {
+export const fetchCustomers = (order = "") => async (dispatch, getState) => {
     try {
         dispatch(fetchCustomersStart());
         const headers = { authorization: getState().auth.token };

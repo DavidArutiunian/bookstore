@@ -8,7 +8,6 @@ import Layout from "components/Layout";
 import React, { useState } from "react";
 import Paper from "@material-ui/core/Paper";
 import PropTypes from "prop-types";
-import CircularProgress from "@material-ui/core/CircularProgress";
 import { hot } from "react-hot-loader/root";
 import styled from "@emotion/styled";
 import SpeedDial from "@material-ui/lab/SpeedDial";
@@ -39,8 +38,7 @@ const styles = {
 function BaseList(props) {
     const {
         fetchList,
-        items,
-        loading,
+        items = [],
         deleteItem,
         startEditing,
         columns,
@@ -49,6 +47,7 @@ function BaseList(props) {
         renderSpeedDial,
         order = {},
         onOrderToggle,
+        renderTableToolbar,
     } = props;
 
     const [speedDialOpen, setSpeedDialOpen] = useState(false);
@@ -76,38 +75,31 @@ function BaseList(props) {
 
     return (
         <Layout css={styles.layout}>
-            {loading ? (
-                <ProgressLayout>
-                    <CircularProgress />
-                </ProgressLayout>
-            ) : (
-                <Paper css={styles.paper}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                {columns.map(({ label, value, sortable }) => (
-                                    <HeaderTableCell
-                                        key={value}
-                                        onClick={sortable ? onOrderToggle(value) : undefined}
-                                    >
-                                        <div css={styles.header}>
-                                            {label}
-                                            {order[value] === Sort.Asc && <ArrowDropUp />}
-                                            {order[value] === Sort.Desc && <ArrowDropDown />}
-                                        </div>
-                                    </HeaderTableCell>
-                                ))}
-                                <HeaderTableCell />
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {items.map(item =>
-                                renderTableRow({ item, onDelete: handleDeleteClick }),
-                            )}
-                        </TableBody>
-                    </Table>
-                </Paper>
-            )}
+            <Paper css={styles.paper}>
+                {renderTableToolbar && renderTableToolbar()}
+                <Table>
+                    <TableHead>
+                        <TableRow>
+                            {columns.map(({ label, value, sortable }) => (
+                                <HeaderTableCell
+                                    key={value}
+                                    onClick={sortable ? onOrderToggle(value) : undefined}
+                                >
+                                    <div css={styles.header}>
+                                        {label}
+                                        {order[value] === Sort.Asc && <ArrowDropUp />}
+                                        {order[value] === Sort.Desc && <ArrowDropDown />}
+                                    </div>
+                                </HeaderTableCell>
+                            ))}
+                            <HeaderTableCell />
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {items.map(item => renderTableRow({ item, onDelete: handleDeleteClick }))}
+                    </TableBody>
+                </Table>
+            </Paper>
             {renderRouter()}
             <SpeedDial
                 css={styles.menu}
@@ -143,6 +135,7 @@ BaseList.propTypes = {
     renderSpeedDial: PropTypes.func.isRequired,
     order: PropTypes.object,
     onOrderToggle: PropTypes.func,
+    renderTableToolbar: PropTypes.func,
 };
 
 export default hot(BaseList);
@@ -151,9 +144,4 @@ const HeaderTableCell = styled(TableCell)`
     font-weight: 600;
     cursor: pointer;
     user-select: none;
-`;
-
-const ProgressLayout = styled(Layout)`
-    justify-content: center;
-    align-items: center;
 `;

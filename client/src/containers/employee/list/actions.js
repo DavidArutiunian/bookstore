@@ -12,7 +12,7 @@ const {
     deleteEmployeeSuccess,
 } = slice.actions;
 
-export const fetchEmployees = (extended = false, order) => async (dispatch, getState) => {
+export const fetchEmployees = (extended = false, order = "") => async (dispatch, getState) => {
     try {
         dispatch(fetchEmployeesStart());
         const headers = { authorization: getState().auth.token };

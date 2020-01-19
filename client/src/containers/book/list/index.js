@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import { fetchBooks, deleteBook } from "./actions";
+import { fetchBooks, deleteBook, fetchBooksAndAuthors } from "./actions";
 import BookList from "views/BookList";
 import { hot } from "react-hot-loader/root";
 import { editBook } from "containers/book/profile/actions";
@@ -12,7 +12,8 @@ const mapStateToProps = ({ bookList, authorList }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    fetchBooks: (order) => dispatch(fetchBooks(order)),
+    fetchBooks: (order, filter) => dispatch(fetchBooks(order, filter)),
+    fetchBooksAndAuthors: (order, filter) => dispatch(fetchBooksAndAuthors(order, filter)),
     deleteBook: id => dispatch(deleteBook(id)),
     startEditing: () => dispatch(editBook()),
 });
