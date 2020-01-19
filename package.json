@@ -1,0 +1,11 @@
+{
+    "name": "bookstore",
+    "version": "1.0.0",
+    "main": "index.js",
+    "repository": "https://github.com/Dasha6elka/bookstore.git",
+    "author": "Dasha6elka <CB4kot@gmail.com>",
+    "license": "GNU",
+    "dependencies": {
+        "prettier": "^1.19.1"
+    }
+}
