@@ -6,13 +6,13 @@ module.exports = sqlOrderService => ({
         const conn = await getConnection();
         const result = await conn.execute(
             `
-            SELECT
-                id_publishing_office,
-                name,
-                address,
-                email
-            FROM publishing_office
-            WHERE id_publishing_office = ?
+                SELECT
+                    id_publishing_office,
+                    name,
+                    address,
+                    email
+                FROM publishing_office
+                WHERE id_publishing_office = ?
             `,
             [id],
         );
