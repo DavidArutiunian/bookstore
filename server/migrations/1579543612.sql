@@ -10,3 +10,8 @@ drop index employee_name_login_date_of_birth_address_is_admin_index on employee;
 drop index order_date_id_customer_id_employee_index on `order`;
 
 drop index publishing_office_name_address_email_index on publishing_office;
+
+create index book_title_index
+    on book (title);
+
+drop index author_name_surname_date_of_birth_id_publishing_office_index on author;
