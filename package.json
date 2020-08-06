@@ -6,6 +6,6 @@
     "author": "Dasha6elka <CB4kot@gmail.com>",
     "license": "GPLV3",
     "dependencies": {
-        "prettier": "^1.19.1"
+        "prettier": "^2.0.5"
     }
 }
